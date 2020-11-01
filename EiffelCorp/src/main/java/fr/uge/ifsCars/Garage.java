@@ -1,54 +1,75 @@
 package fr.uge.ifsCars;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 import fr.uge.database.DataBase;
 
-public class Garage {
+public class Garage extends UnicastRemoteObject implements IGarage {
 	private final DataBase db;
+	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des clients en attente pour le véhicule ou en cours de location (1er element de la file)
 	
-	public Garage() {
+	public Garage() throws RemoteException {
+		super();
 		this.db = DataBase.getDatabase();
+		this.rentalsQueues = new HashMap<>();
 	}
 	
-	/**
-	 * Tente de louer un véhicule au client, si le véhicule est disponible.
-	 * S'il ne l'est pas, le client est mis en file d'attente et notifié lorsque
-	 * le véhicule s'est libéré.
-	 * 
-	 * @param clientId L'identifiant du client
-	 * @param vehicleId L'identifiant du véhicule
-	 * @return True si la voiture a pu être loué, et False si le client est mis en liste d'attente.
-	 * @throws SQLException 
-	 * @throws IllegalArgumentException Si l'identifiant du client ou du véhicule est incorrect (n'existe pas dans la base).
-	 */
-	public boolean rent(long clientId, long vehicleId) throws SQLException, IllegalArgumentException {
-		if (!db.clientExists(clientId)) {
-			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le client " + clientId + " n'existe pas dans la base !");
+	@Override
+	public boolean rent(Tenant tenant, long vehicleId) throws SQLException, IllegalArgumentException, RemoteException {
+		if (!db.clientExists(tenant.getId())) {
+			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le client " + tenant.getId() + " n'existe pas dans la base !");
 		}
 		
 		if (!db.vehicleExists(vehicleId)) {
-			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le véhicule \" + vehicleId + \" n'existe pas dans la base !");
+			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le véhicule " + vehicleId + " n'existe pas dans la base !");
 		}
 		
-		return false;
+		if (rentalsQueues.containsKey(vehicleId)) {
+			// Le véhicule est déjà en cours de location par un autre client, on met clientId dans la file d'attente.
+			var queue = rentalsQueues.get(vehicleId);
+			for (Tenant t : queue) {
+				if (t.getId() == tenant.getId()) {
+					throw new IllegalArgumentException("Le client " + tenant.getId() + " loue déjà ou est dans la file d'attente pour louer ce véhicule");
+				}
+			}
+			
+			queue.add(tenant);
+			return false;
+		} else {
+			// Le véhicule est disponible, clientId en devient le locataire.
+			var queue = new LinkedList<Tenant>();
+			queue.add(tenant);
+			rentalsQueues.put(vehicleId, queue);
+			return true;
+		}
 	}
 	
-	/**
-	 * Note un véhicule que le client a loué.
-	 * 
-	 * @param clientId L'identifiant du client
-	 * @param vehicleId L'identifiant du véhicule
-	 * @param vehicleGrade Note du véhicule
-	 * @param conditionGrade Note de l'état du véhicule
-	 * @return False si un des arguments est incorrect (client ou vehicule non trouvé, ou note invalide (non comprise entre 0 et 10)).
-	 * @throws SQLException 
-	 * @throws IllegalArgumentException Si l'identifiant du client ou du véhicule est incorrect (n'existe pas dans la base), ou si les notes
-	 * 									ne sont pas comprises entre 0 et 10 inclus.
-	 */
-	public boolean grade(long clientId, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException {
-		if (!db.clientExists(clientId)) {
-			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le client " + clientId + " n'existe pas dans la base !");
+	@Override
+	public void endRent(long vehicleId) throws SQLException, IllegalArgumentException, RemoteException {		
+		if (!rentalsQueues.containsKey(vehicleId)) {
+			throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'est pas en cours de location");
+		}
+		
+		var queue = rentalsQueues.get(vehicleId);
+		queue.poll(); // Dernier locataire
+		if (queue.isEmpty()) {
+			rentalsQueues.remove(vehicleId);
+		} else {
+			var nextTenant = queue.peek();
+			nextTenant.notifyRented(vehicleId);
+		}
+	}
+	
+	@Override
+	public void grade(Tenant tenant, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException, IllegalArgumentException, RemoteException {
+		if (!db.clientExists(tenant.getId())) {
+			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le client " + tenant.getId() + " n'existe pas dans la base !");
 		}
 		
 		if (!db.vehicleExists(vehicleId)) {
@@ -63,7 +84,8 @@ public class Garage {
 			throw new IllegalArgumentException("La note de l'état du véhicule doit être comprise entre 0 et 10 inclus");
 		}
 		
-		db.addGrade(clientId, vehicleId, vehicleGrade, conditionGrade);
-		return true;
+		// TODO : Vérifier que le client ait le droit de noter le véhicule
+		
+		db.addGrade(tenant.getId(), vehicleId, vehicleGrade, conditionGrade);
 	}
 }
