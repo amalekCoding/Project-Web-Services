@@ -67,7 +67,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:portType name="Market">
+   <wsdl:portType name="IfsCarsService">
 
       <wsdl:operation name="isAvailable">
 
@@ -95,7 +95,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:portType>
 
-   <wsdl:binding name="MarketSoapBinding" type="impl:Market">
+   <wsdl:binding name="IfsCarsServiceSoapBinding" type="impl:IfsCarsService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
@@ -137,11 +137,11 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:binding>
 
-   <wsdl:service name="MarketService">
+   <wsdl:service name="IfsCarsServiceService">
 
-      <wsdl:port binding="impl:MarketSoapBinding" name="Market">
+      <wsdl:port binding="impl:IfsCarsServiceSoapBinding" name="IfsCarsService">
 
-         <wsdlsoap:address location="http://localhost:8080/EiffelCorp/services/Market"/>
+         <wsdlsoap:address location="http://localhost:8080/EiffelCorp/services/IfsCarsService"/>
 
       </wsdl:port>
 

@@ -1,8 +1,8 @@
 package fr.uge.eiffelCorp;
 
-public class Market {
+public class IfsCarsService {
 	
-	public Market() {
+	public IfsCarsService() {
 		
 	}
 	

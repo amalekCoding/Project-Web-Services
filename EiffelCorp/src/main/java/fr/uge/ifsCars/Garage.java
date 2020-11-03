@@ -12,7 +12,7 @@ import fr.uge.database.DataBase;
 
 public class Garage extends UnicastRemoteObject implements IGarage {
 	private final DataBase db;
-	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des clients en attente pour le v�hicule ou en cours de location (1er element de la file)
+	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des clients en attente pour le véhicule ou en cours de location (1er element de la file)
 	
 	public Garage() throws RemoteException {
 		super();

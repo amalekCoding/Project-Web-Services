@@ -9,7 +9,7 @@
 <undeployment
     xmlns="http://xml.apache.org/axis/wsdd/">
 
-  <!-- Services from MarketService WSDL service -->
+  <!-- Services from IfsCarsServiceService WSDL service -->
 
-  <service name="Market"/>
+  <service name="IfsCarsService"/>
 </undeployment>

@@ -32,7 +32,7 @@
   <ns1:parameter name="allowedMethods" value="getVersion"/>
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
- <ns1:service name="Market" provider="java:RPC" style="wrapped" use="literal">
+ <ns1:service name="IfsCarsService" provider="java:RPC" style="wrapped" use="literal">
   <ns2:operation name="isAvailable" qname="ns1:isAvailable" returnQName="ns1:isAvailableReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
    <ns2:parameter qname="ns1:vehicleId" type="xsd:long"/>
   </ns2:operation>
@@ -41,12 +41,12 @@
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="isAvailable getPrice"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlPortType" value="Market"/>
-  <ns1:parameter name="className" value="fr.uge.eiffelCorp.Market"/>
-  <ns1:parameter name="wsdlServicePort" value="Market"/>
+  <ns1:parameter name="wsdlPortType" value="IfsCarsService"/>
+  <ns1:parameter name="className" value="fr.uge.eiffelCorp.IfsCarsService"/>
+  <ns1:parameter name="wsdlServicePort" value="IfsCarsService"/>
   <ns1:parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
-  <ns1:parameter name="wsdlServiceElement" value="MarketService"/>
+  <ns1:parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

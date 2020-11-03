@@ -7,9 +7,9 @@ public interface Tenant extends Remote {
 	long getId() throws RemoteException;
 	
 	/**
-	 * Action à effectuer lorsque le client sort de la file d'attente et devient locataire du véhicule.
+	 * Action Ã  effectuer lorsque le client sort de la file d'attente et devient locataire du vÃ©hicule.
 	 * 
-	 * @param vehicleId Identifiant du véhicule nouvellement loué par le client
+	 * @param vehicleId Identifiant du vÃ©hicule nouvellement louÃ© par le client
 	 * @throws RemoteException
 	 */
 	void notifyRented(long vehicleId) throws RemoteException;

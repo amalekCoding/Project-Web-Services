@@ -1,10 +1,8 @@
 package fr.uge.eiffelCorp;
 
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import fr.uge.ifsCars.IGarage;
 import fr.uge.ifsCars.Tenant;
 
 public class Employee extends UnicastRemoteObject implements Tenant {

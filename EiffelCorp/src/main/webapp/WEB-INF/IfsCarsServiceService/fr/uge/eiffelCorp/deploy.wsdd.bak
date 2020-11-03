@@ -10,15 +10,15 @@
     xmlns="http://xml.apache.org/axis/wsdd/"
     xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
 
-  <!-- Services from MarketService WSDL service -->
+  <!-- Services from IfsCarsServiceService WSDL service -->
 
-  <service name="Market" provider="java:RPC" style="wrapped" use="literal">
+  <service name="IfsCarsService" provider="java:RPC" style="wrapped" use="literal">
       <parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
-      <parameter name="wsdlServiceElement" value="MarketService"/>
+      <parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
       <parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
-      <parameter name="wsdlServicePort" value="Market"/>
-      <parameter name="className" value="fr.uge.eiffelCorp.MarketSoapBindingImpl"/>
-      <parameter name="wsdlPortType" value="Market"/>
+      <parameter name="wsdlServicePort" value="IfsCarsService"/>
+      <parameter name="className" value="fr.uge.eiffelCorp.IfsCarsServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="IfsCarsService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
       <operation name="isAvailable" qname="operNS:isAvailable" xmlns:operNS="http://eiffelCorp.uge.fr" returnQName="retNS:isAvailableReturn" xmlns:retNS="http://eiffelCorp.uge.fr" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:vehicleId" xmlns:pns="http://eiffelCorp.uge.fr" type="tns:long" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
