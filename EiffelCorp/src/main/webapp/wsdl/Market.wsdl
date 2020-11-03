@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://eiffelCorp.uge.fr" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://eiffelCorp.uge.fr" xmlns:intf="http://eiffelCorp.uge.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://eiffelCorp.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="isAvailable">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isAvailableResponse">
+    <complexType>
+     <sequence>
+      <element name="isAvailableReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getPrice">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getPriceResponse">
+    <complexType>
+     <sequence>
+      <element name="getPriceReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="isAvailableRequest">
+
+      <wsdl:part element="impl:isAvailable" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPriceRequest">
+
+      <wsdl:part element="impl:getPrice" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPriceResponse">
+
+      <wsdl:part element="impl:getPriceResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isAvailableResponse">
+
+      <wsdl:part element="impl:isAvailableResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Market">
+
+      <wsdl:operation name="isAvailable">
+
+         <wsdl:input message="impl:isAvailableRequest" name="isAvailableRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:isAvailableResponse" name="isAvailableResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrice">
+
+         <wsdl:input message="impl:getPriceRequest" name="getPriceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getPriceResponse" name="getPriceResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="MarketSoapBinding" type="impl:Market">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="isAvailable">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isAvailableRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isAvailableResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrice">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPriceRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPriceResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="MarketService">
+
+      <wsdl:port binding="impl:MarketSoapBinding" name="Market">
+
+         <wsdlsoap:address location="http://localhost:8080/EiffelCorp/services/Market"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

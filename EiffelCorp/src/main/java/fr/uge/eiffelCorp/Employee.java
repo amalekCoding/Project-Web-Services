@@ -1,8 +1,10 @@
 package fr.uge.eiffelCorp;
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import fr.uge.ifsCars.IGarage;
 import fr.uge.ifsCars.Tenant;
 
 public class Employee extends UnicastRemoteObject implements Tenant {
@@ -20,6 +22,6 @@ public class Employee extends UnicastRemoteObject implements Tenant {
 	
 	@Override
 	public void notifyRented(long vehicleId) {
-		System.out.println("Le client " + id + " est maintenant locataire du véhicule " + vehicleId);
+		System.out.println("Le client " + id + " est maintenant locataire du vÃ©hicule " + vehicleId);
 	}
 }

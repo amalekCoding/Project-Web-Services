@@ -51,7 +51,7 @@ public class DataBase {
 			pgConnection.close();
 			pgConnection = null;
 		} catch (SQLException e) {
-			System.err.println("Erreur lors de la fermeture de la base de données");
+			System.err.println("Erreur lors de la fermeture de la base de donnÃ©es");
 			System.err.format("SQL State: %s\n%s\n", e.getSQLState(), e.getMessage());
 		}
 	}
