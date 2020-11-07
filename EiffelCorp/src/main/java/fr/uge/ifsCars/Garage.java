@@ -3,10 +3,10 @@ package fr.uge.ifsCars;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import fr.uge.database.DataBase;
 
@@ -17,7 +17,7 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 	public Garage() throws RemoteException {
 		super();
 		this.db = DataBase.getDatabase();
-		this.rentalsQueues = new HashMap<>();
+		this.rentalsQueues = new ConcurrentHashMap<>();
 	}
 	
 	@Override
@@ -33,17 +33,43 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		if (rentalsQueues.containsKey(vehicleId)) {
 			// Le véhicule est déjà en cours de location par un autre client, on met clientId dans la file d'attente.
 			var queue = rentalsQueues.get(vehicleId);
-			for (Tenant t : queue) {
-				if (t.getId() == tenant.getId()) {
-					throw new IllegalArgumentException("Le client " + tenant.getId() + " loue déjà ou est dans la file d'attente pour louer ce véhicule");
+			
+			// On parcours la file d'attente pour vérifier si `tenant` n'est pas déjà dans la file voir déjà en location avec ce véhicule.
+			// On vérifie également que les remoteObject dans cette file existe toujours (non déconnecté du serveur), sinon on les retire de la file.
+			var it = queue.iterator();
+			int i = 0;
+			boolean endRent = false;
+			while (it.hasNext()) {
+				try {
+					var currentTenantId = it.next().getId();
+					if (currentTenantId == tenant.getId()) {
+						throw new IllegalArgumentException("Le client " + currentTenantId + " loue déjà ou est dans la file d'attente pour louer ce véhicule");
+					}
+				} catch (RemoteException re) {
+					if (i == 0) {
+						// La référence avec le locataire courant du véhicule est perdu, on va appeler endRent() plutôt que de le retirer ici
+						// pour pouvoir notifier le prochain locataire dans la file qu'il est le nouveau locataire
+						System.err.println("La référence avec l'actuel locataire du véhicule " + vehicleId + " est perdu, on met fin à sa location");
+						endRent = true;
+					} else {
+						System.err.println("La référence avec le " + (i+1) + "ème locataire de la file du véhicule " + vehicleId + " est perdu, on le retire de la file");
+						it.remove();
+					}
 				}
+				
+				i++;
 			}
 			
 			queue.add(tenant);
+			
+			if (endRent) {
+				endRent(vehicleId);
+			}
+			
 			return false;
 		} else {
 			// Le véhicule est disponible, clientId en devient le locataire.
-			var queue = new LinkedList<Tenant>();
+			var queue = new ConcurrentLinkedQueue<Tenant>();
 			queue.add(tenant);
 			rentalsQueues.put(vehicleId, queue);
 			return true;
@@ -51,19 +77,33 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 	}
 	
 	@Override
-	public void endRent(long vehicleId) throws SQLException, IllegalArgumentException, RemoteException {
+	public void endRent(long vehicleId) throws SQLException, IllegalArgumentException {
 		if (!rentalsQueues.containsKey(vehicleId)) {
 			throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'est pas en cours de location");
 		}
 		
 		var queue = rentalsQueues.get(vehicleId);
-		queue.poll(); // Dernier locataire
+		queue.poll(); // Locataire sortant
 		if (queue.isEmpty()) {
 			rentalsQueues.remove(vehicleId);
 		} else {
 			var nextTenant = queue.peek();
-			nextTenant.notifyRented(vehicleId);
+			try {
+				nextTenant.notifyRented(vehicleId);
+			} catch (RemoteException e) {
+				System.err.println("Le nouveau locataire du véhicule " + vehicleId + " n'est plus référencé, on passe au suivant dans la file ...");
+				try {
+					endRent(vehicleId);
+				} catch (IllegalArgumentException iae) {
+					// La file était constituée de locataire(s) déconnecté(s), la file est maintenant libérée et le véhicule disponible
+				}
+			}
 		}
+	}
+	
+	@Override
+	public boolean isRented(long vehicleId) throws RemoteException {
+		return rentalsQueues.containsKey(vehicleId);
 	}
 	
 	@Override

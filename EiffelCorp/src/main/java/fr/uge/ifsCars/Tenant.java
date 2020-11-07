@@ -4,6 +4,12 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Tenant extends Remote {
+	/**
+	 * Récupère l'identifiant du locataire
+	 * 
+	 * @return L'identifiant du locataire
+	 * @throws RemoteException
+	 */
 	long getId() throws RemoteException;
 	
 	/**
