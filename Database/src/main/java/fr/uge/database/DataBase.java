@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DataBase {
@@ -195,5 +196,30 @@ public class DataBase {
 		}
 		
 		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Récupère la liste des identifiants de tous les véhicules de la base.
+	 * 
+	 * @return Un tableau contenant les identifiants des véhicules de la base
+	 * @throws SQLException
+	 */
+	public long[] getVehiclesId() throws SQLException {
+		var query = String.format("SELECT id FROM " + VEHICLES_TABLE + ";");
+		var lst = new ArrayList<Long>();
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			while (result.next()) {
+				lst.add((long)result.getInt("id"));
+			}
+		}
+		
+		var array = new long[lst.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = lst.get(i);
+		}
+		
+		return array;
 	}
 }

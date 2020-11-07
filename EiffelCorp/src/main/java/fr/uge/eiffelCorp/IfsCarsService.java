@@ -108,4 +108,14 @@ public class IfsCarsService {
 		
 		return bank.makePurchase(clientId, totalPrice);
 	}
+	
+	/**
+	 * Récupère la liste des identifiants de tous les véhicules (achetable ou louable seulement).
+	 * 
+	 * @return Un tableau contenant les identifiants des véhicules de la base
+	 * @throws RemoteException
+	 */
+	public long[] getVehiclesList() throws RemoteException {
+		return db.getVehiclesId();
+	}
 }
