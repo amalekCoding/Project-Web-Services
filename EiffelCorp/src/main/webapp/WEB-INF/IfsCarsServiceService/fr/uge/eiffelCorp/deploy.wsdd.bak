@@ -26,7 +26,12 @@
       <operation name="getPrice" qname="operNS:getPrice" xmlns:operNS="http://eiffelCorp.uge.fr" returnQName="retNS:getPriceReturn" xmlns:retNS="http://eiffelCorp.uge.fr" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="pns:vehicleId" xmlns:pns="http://eiffelCorp.uge.fr" type="tns:long" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <parameter name="allowedMethods" value="isAvailable getPrice"/>
+      <operation name="addToBasket" qname="operNS:addToBasket" xmlns:operNS="http://eiffelCorp.uge.fr" soapAction="" >
+        <parameter qname="pns:vehicleId" xmlns:pns="http://eiffelCorp.uge.fr" type="tns:long" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="purchase" qname="operNS:purchase" xmlns:operNS="http://eiffelCorp.uge.fr" soapAction="" >
+      </operation>
+      <parameter name="allowedMethods" value="isAvailable addToBasket purchase getPrice"/>
 
   </service>
 </deployment>
