@@ -8,6 +8,9 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
+import fr.uge.banque.BanqueService;
+import fr.uge.banque.BanqueServiceServiceLocator;
+import fr.uge.banque.BanqueServiceSoapBindingStub;
 import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
@@ -15,6 +18,7 @@ import fr.uge.ifsCars.IGarage;
 
 public class IfsCarsService {
 	private final DataBase db;
+	private final BanqueService bank;
 	private IGarage garage;
 	
 	private final List<Long> basket;
@@ -22,6 +26,9 @@ public class IfsCarsService {
 	public IfsCarsService() throws ServiceException {
 		this.db = new DataBaseServiceLocator().getDataBase();
 		((DataBaseSoapBindingStub) this.db).setMaintainSession(true);
+		
+		this.bank = new BanqueServiceServiceLocator().getBanqueService();
+		((BanqueServiceSoapBindingStub) this.bank).setMaintainSession(true);
 		
 		try {
 			this.garage = (IGarage) Naming.lookup("Garage");
@@ -39,7 +46,7 @@ public class IfsCarsService {
 	 * @return Le prix du véhicule
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
-	 * @throws RemoteException 
+	 * @throws RemoteException Si la connexion avec la base de donnée a été interrompue
 	 */
 	public int getPrice(long vehicleId) throws IllegalArgumentException, SQLException, RemoteException {
 		int price = db.getVehiclePrice(vehicleId);
@@ -69,7 +76,7 @@ public class IfsCarsService {
 	 * @param vehicleId L'identifiant du véhicule.
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
-	 * @throws RemoteException 
+	 * @throws RemoteException Si la connexion avec la base de donnée a été interrompue
 	 */
 	public void addToBasket(long vehicleId) throws SQLException, IllegalArgumentException, RemoteException {
 		if (!db.vehicleExists(vehicleId)) {
@@ -83,11 +90,12 @@ public class IfsCarsService {
 	 * Achète les véhicules placés dans le panier.
 	 * Vide le panier si l'achat a réussis (le client avait les fonds suffisants).
 	 * 
+	 * @param clientId L'identifiant du client
 	 * @return True si l'achat a réussis (c'est à dire si le client avait les fonds suffisants), False sinon.
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
-	 * @throws RemoteException 
+	 * @throws RemoteException Si la connexion avec la base de donnée ou la banque a été interrompue
 	 */
-	public boolean purchase() throws SQLException, RemoteException {
+	public boolean purchase(long clientId) throws SQLException, RemoteException {
 		int totalPrice = 0;
 		
 		for (Long vehicleId : basket) {
@@ -98,7 +106,6 @@ public class IfsCarsService {
 			}
 		}
 		
-		// TODO Vérifier auprès du web service Banque que le client a les fonds suffisants
-		return false;
+		return bank.makePurchase(clientId, totalPrice);
 	}
 }

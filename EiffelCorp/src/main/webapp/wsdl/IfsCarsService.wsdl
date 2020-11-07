@@ -32,6 +32,20 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="purchase">
+    <complexType>
+     <sequence>
+      <element name="clientId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="purchaseResponse">
+    <complexType>
+     <sequence>
+      <element name="purchaseReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="addToBasket">
     <complexType>
      <sequence>
@@ -40,12 +54,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     </complexType>
    </element>
    <element name="addToBasketResponse">
-    <complexType/>
-   </element>
-   <element name="purchase">
-    <complexType/>
-   </element>
-   <element name="purchaseResponse">
     <complexType/>
    </element>
   </schema>
@@ -141,18 +149,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addToBasket">
-
-         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="purchase">
 
          <wsdl:input message="impl:purchaseRequest" name="purchaseRequest">
@@ -160,6 +156,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:purchaseResponse" name="purchaseResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addToBasket">
+
+         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
 
        </wsdl:output>
 
@@ -207,24 +215,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addToBasket">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="addToBasketRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="addToBasketResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="purchase">
 
          <wsdlsoap:operation soapAction=""/>
@@ -236,6 +226,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="purchaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addToBasket">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addToBasketRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addToBasketResponse">
 
             <wsdlsoap:body use="literal"/>
 

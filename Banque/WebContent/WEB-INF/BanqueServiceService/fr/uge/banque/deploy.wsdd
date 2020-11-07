@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from BanqueServiceService WSDL service -->
+
+  <service name="BanqueService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://banque.uge.fr"/>
+      <parameter name="wsdlServiceElement" value="BanqueServiceService"/>
+      <parameter name="schemaQualified" value="http://banque.uge.fr"/>
+      <parameter name="wsdlServicePort" value="BanqueService"/>
+      <parameter name="className" value="fr.uge.banque.BanqueService"/>
+      <parameter name="wsdlPortType" value="BanqueService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://banque.uge.fr" xmlns:retNS="http://banque.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="makePurchase" qname="operNS:makePurchase" returnQName="retNS:makePurchaseReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:int"/>
+      </operation>
+      <parameter name="allowedMethods" value="makePurchase"/>
+
+  </service>
+</deployment>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://banque.uge.fr" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://banque.uge.fr" xmlns:intf="http://banque.uge.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://banque.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="makePurchase">
+    <complexType>
+     <sequence>
+      <element name="clientId" type="xsd:long"/>
+      <element name="amount" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="makePurchaseResponse">
+    <complexType>
+     <sequence>
+      <element name="makePurchaseReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="makePurchaseRequest">
+
+      <wsdl:part element="impl:makePurchase" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="makePurchaseResponse">
+
+      <wsdl:part element="impl:makePurchaseResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="BanqueService">
+
+      <wsdl:operation name="makePurchase">
+
+         <wsdl:input message="impl:makePurchaseRequest" name="makePurchaseRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:makePurchaseResponse" name="makePurchaseResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="BanqueServiceSoapBinding" type="impl:BanqueService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="makePurchase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="makePurchaseRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="makePurchaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="BanqueServiceService">
+
+      <wsdl:port binding="impl:BanqueServiceSoapBinding" name="BanqueService">
+
+         <wsdlsoap:address location="http://localhost:8080/Banque/services/BanqueService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

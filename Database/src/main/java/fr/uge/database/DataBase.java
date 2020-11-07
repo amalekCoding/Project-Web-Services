@@ -17,6 +17,7 @@ public class DataBase {
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
 	private final static String VEHICLES_TABLE = "public.\"Vehicles\"";
 	private final static String GRADES_TABLE = "public.\"Grades\"";
+	private final static String CLIENTS_TABLE = "public.\"Clients\"";
 	
 	private Connection pgConnection;
 
@@ -60,14 +61,14 @@ public class DataBase {
 	}
 	
 	/**
-	 * Determines if a client exists in the database.
+	 * Determines if a employee exists in the database.
 	 * 
-	 * @param clientId The client ID
+	 * @param employeeId The client ID
 	 * @return True if the client exists, False otherwise
 	 * @throws SQLException 
 	 */
-	public boolean clientExists(long clientId) throws SQLException {
-		var query = String.format("SELECT COUNT(*) FROM " + EMPLOYEES_TABLE + " WHERE id=%d;", clientId);
+	public boolean employeeExists(long employeeId) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + EMPLOYEES_TABLE + " WHERE id=%d;", employeeId);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result) && result.next()) {
@@ -98,14 +99,14 @@ public class DataBase {
 	/**
 	 * Ajoute une note au véhicule par le client.
 	 * 
-	 * @param clientId L'identifiant du client donnant la note
+	 * @param employeeId L'identifiant de l'employé donnant la note
 	 * @param vehicleId L'identifiant du véhicule à noter
 	 * @param vehicleGrade La note du véhicule
 	 * @param conditionGrade La note sur l'état du véhicule
 	 * @throws SQLException
 	 */
-	public void addGrade(long clientId, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException {
-		var query = String.format("INSERT INTO " + GRADES_TABLE + " VALUES (%d, %d, %d, %d)", clientId, vehicleId, vehicleGrade, conditionGrade);
+	public void addGrade(long employeeId, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException {
+		var query = String.format("INSERT INTO " + GRADES_TABLE + " VALUES (%d, %d, %d, %d);", employeeId, vehicleId, vehicleGrade, conditionGrade);
 		executeUpdate(query);
 	}
 	
@@ -127,6 +128,70 @@ public class DataBase {
 			}
 			
 			return result.getInt("price");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Récupère le solde bancaire du client donné en paramètre.
+	 * 
+	 * @param clientId L'identifiant du client
+	 * @return Le solde bancaire du client
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du client n'est pas renseigné dans la base
+	 */
+	public int getClientBankBalance(long clientId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT bank_balance FROM " + CLIENTS_TABLE + " WHERE id=%d;", clientId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le client " + clientId + " n'existe pas dans la base !");
+			}
+			
+			return result.getInt("bank_balance");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Débite le client du montant donné en paramètre
+	 * 
+	 * @param clientId L'identifiant du client
+	 * @param amount Le montant à débiter
+	 * @throws SQLException 
+	 * @throws IllegalArgumentException Si l'identifiant du client n'est pas renseigné dans la base, ou si le montant à débiter est négatif
+	 */
+	public void debiteClient(long clientId, int amount) throws IllegalArgumentException, SQLException {
+		if (amount < 0) {
+			throw new IllegalArgumentException("La somme à débiter doit être positive");
+		}
+		
+		int currentAmount = getClientBankBalance(clientId);
+		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %d WHERE id = %d;", currentAmount - amount, clientId);
+		executeUpdate(query);
+	}
+	
+	/**
+	 * Récupère le nombre de fois auquel le véhicule a été loué par un employé
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return Le nombre de fois auquel le véhicule a été loué
+	 * @throws SQLException 
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public int getRentalsNumber(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT nb_rented FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
+			}
+			
+			return result.getInt("nb_rented");
 		}
 		
 		throw new IllegalStateException();

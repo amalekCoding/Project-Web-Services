@@ -6,22 +6,22 @@ import java.sql.SQLException;
 
 public interface IGarage extends Remote {
 	/**
-	 * Tente de louer un véhicule au client, si le véhicule est disponible.
-	 * S'il ne l'est pas, le client est mis en file d'attente et notifié lorsque
-	 * le vévéhicule s'est libéré.
+	 * Tente de louer un véhicule à l'employé, si le véhicule est disponible.
+	 * S'il ne l'est pas, l'employé est mis en file d'attente et notifié lorsque
+	 * le véhicule s'est libéré.
 	 * 
-	 * @param tenant Le client locataire
+	 * @param tenant L'employé souhaitant louer le véhicule
 	 * @param vehicleId L'identifiant du véhicule
-	 * @return True si la voiture a pu être loué, et False si le client est mis en liste d'attente.
+	 * @return True si la voiture a pu être loué, et False si l'employé est mis en liste d'attente.
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
-	 * @throws IllegalArgumentException Si l'identifiant du client ou du véhicule est incorrect (n'existe pas dans la base),
-	 * 									ou si le client est déjà en cours de location pour ce véhicule.
+	 * @throws IllegalArgumentException Si l'identifiant de l'employé ou du véhicule est incorrect (n'existe pas dans la base),
+	 * 									ou si l'employé est déjà en cours de location pour ce véhicule.
 	 * @throws RemoteException
 	 */
 	boolean rent(Tenant tenant, long vehicleId) throws SQLException, IllegalArgumentException, RemoteException;
 	
 	/**
-	 * Met fin à l'actuelle location du véhicule, et enchaine avec le client suivant sur la liste d'attente, en le notifiant.
+	 * Met fin à l'actuelle location du véhicule, et enchaine avec l'employé suivant sur la liste d'attente, en le notifiant.
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
@@ -40,14 +40,14 @@ public interface IGarage extends Remote {
 	boolean isRented(long vehicleId) throws RemoteException;
 	
 	/**
-	 * Note un véhicule que le client a loué.
+	 * Note un véhicule que l'employé a loué.
 	 * 
-	 * @param tenant Le client locataire
+	 * @param tenant L'employé locataire
 	 * @param vehicleId L'identifiant du véhicule
 	 * @param vehicleGrade Note du véhicule (entre 0 et 10 inclus)
 	 * @param conditionGrade Note de l'état du véhicule (entre 0 et 10 inclus)
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
-	 * @throws IllegalArgumentException Si l'identifiant du client ou du véhicule est incorrect (n'existe pas dans la base), ou si les notes
+	 * @throws IllegalArgumentException Si l'identifiant de l'employé ou du véhicule est incorrect (n'existe pas dans la base), ou si les notes
 	 * 									ne sont pas comprises entre 0 et 10 inclus.
 	 * @throws RemoteException
 	 */

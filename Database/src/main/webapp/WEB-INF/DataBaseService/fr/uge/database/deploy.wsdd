@@ -11,7 +11,7 @@
       <parameter name="wsdlPortType" value="DataBase"/>
       <parameter name="typeMappingVersion" value="1.2"/>
       <operation xmlns:operNS="http://database.uge.fr" name="addGrade" qname="operNS:addGrade" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleGrade" type="tns:int"/>
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:conditionGrade" type="tns:int"/>
@@ -19,13 +19,23 @@
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="vehicleExists" qname="operNS:vehicleExists" returnQName="retNS:vehicleExistsReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="clientExists" qname="operNS:clientExists" returnQName="retNS:clientExistsReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
-      </operation>
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehiclePrice" qname="operNS:getVehiclePrice" returnQName="retNS:getVehiclePriceReturn" returnType="rtns:int" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
-      <parameter name="allowedMethods" value="vehicleExists getVehiclePrice addGrade clientExists"/>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getClientBankBalance" qname="operNS:getClientBankBalance" returnQName="retNS:getClientBankBalanceReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" name="debiteClient" qname="operNS:debiteClient" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="employeeExists" qname="operNS:employeeExists" returnQName="retNS:employeeExistsReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRentalsNumber" qname="operNS:getRentalsNumber" returnQName="retNS:getRentalsNumberReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <parameter name="allowedMethods" value="getRentalsNumber vehicleExists getVehiclePrice addGrade getClientBankBalance debiteClient employeeExists"/>
 
   </service>
 </deployment>
