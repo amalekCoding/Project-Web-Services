@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.Objects;
 
 public class DataBase {
-	private static DataBase db = null; // Singleton
+	private static DataBase instance = null; // Singleton
 	
 	// Informations de connexion
 	private final static String SERVER_URL = "localhost/EiffelCorp";
@@ -23,11 +23,11 @@ public class DataBase {
 	private Connection pgConnection;
 
 	public static DataBase getDatabase() {
-		if (Objects.isNull(db)) {
-			db = new DataBase(SERVER_URL, USER, PASSWORD);
+		if (Objects.isNull(instance) || Objects.isNull(instance.pgConnection)) {
+			instance = new DataBase(SERVER_URL, USER, PASSWORD);
 		}
 		
-		return db;
+		return instance;
 	}
 	
 	private DataBase(String url, String user, String password) {
@@ -67,10 +67,10 @@ public class DataBase {
 	}
 	
 	/**
-	 * Determines if a client exists in the database
+	 * Determines if a client exists in the database.
 	 * 
 	 * @param clientId The client ID
-	 * @return True if the client exists, False otherwise.
+	 * @return True if the client exists, False otherwise
 	 * @throws SQLException 
 	 */
 	public boolean clientExists(long clientId) throws SQLException {
@@ -85,10 +85,10 @@ public class DataBase {
 	}
 	
 	/**
-	 * Determines if a vehicle exists in the database
+	 * Determines if a vehicle exists in the database.
 	 * 
 	 * @param vehicleId The vehicle ID
-	 * @return True if the vehicle exists, False otherwise.
+	 * @return True if the vehicle exists, False otherwise
 	 * @throws SQLException 
 	 */
 	public boolean vehicleExists(long vehicleId) throws SQLException {
@@ -102,8 +102,40 @@ public class DataBase {
 		throw new IllegalStateException();
 	}
 	
+	/**
+	 * Ajoute une note au véhicule par le client.
+	 * 
+	 * @param clientId L'identifiant du client donnant la note
+	 * @param vehicleId L'identifiant du véhicule à noter
+	 * @param vehicleGrade La note du véhicule
+	 * @param conditionGrade La note sur l'état du véhicule
+	 * @throws SQLException
+	 */
 	public void addGrade(long clientId, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException {
 		var query = String.format("INSERT INTO " + GRADES_TABLE + " VALUES (%d, %d, %d, %d)", clientId, vehicleId, vehicleGrade, conditionGrade);
 		executeUpdate(query);
+	}
+	
+	/**
+	 * Renvoie le prix en euros du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return Le prix du véhicule
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public int getVehiclePrice(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT price FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
+			}
+			
+			return result.getInt("price");
+		}
+		
+		throw new IllegalStateException();
 	}
 }
