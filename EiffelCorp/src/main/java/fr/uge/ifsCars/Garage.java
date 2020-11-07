@@ -16,7 +16,7 @@ import fr.uge.database.DataBaseSoapBindingStub;
 
 public class Garage extends UnicastRemoteObject implements IGarage {
 	private DataBase db;
-	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des clients en attente pour le véhicule ou en cours de location (1er element de la file)
+	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des employés en attente pour le véhicule ou en cours de location (1er element de la file)
 	
 	public Garage() throws RemoteException, ServiceException {
 		super();
@@ -29,8 +29,8 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 	
 	@Override
 	public boolean rent(Tenant tenant, long vehicleId) throws SQLException, IllegalArgumentException, RemoteException {
-		if (!db.clientExists(tenant.getId())) {
-			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le client " + tenant.getId() + " n'existe pas dans la base !");
+		if (!db.employeeExists(tenant.getId())) {
+			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : L'employé " + tenant.getId() + " n'existe pas dans la base !");
 		}
 		
 		if (!db.vehicleExists(vehicleId)) {
@@ -38,7 +38,7 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		}
 		
 		if (rentalsQueues.containsKey(vehicleId)) {
-			// Le véhicule est déjà en cours de location par un autre client, on met clientId dans la file d'attente.
+			// Le véhicule est déjà en cours de location par un autre employé, on met clientId dans la file d'attente.
 			var queue = rentalsQueues.get(vehicleId);
 			
 			// On parcours la file d'attente pour vérifier si `tenant` n'est pas déjà dans la file voir déjà en location avec ce véhicule.
@@ -50,7 +50,7 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 				try {
 					var currentTenantId = it.next().getId();
 					if (currentTenantId == tenant.getId()) {
-						throw new IllegalArgumentException("Le client " + currentTenantId + " loue déjà ou est dans la file d'attente pour louer ce véhicule");
+						throw new IllegalArgumentException("L'employé " + currentTenantId + " loue déjà ou est dans la file d'attente pour louer ce véhicule");
 					}
 				} catch (RemoteException re) {
 					if (i == 0) {
@@ -75,7 +75,7 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 			
 			return false;
 		} else {
-			// Le véhicule est disponible, clientId en devient le locataire.
+			// Le véhicule est disponible, `tenant` en devient le locataire.
 			var queue = new ConcurrentLinkedQueue<Tenant>();
 			queue.add(tenant);
 			rentalsQueues.put(vehicleId, queue);
@@ -115,8 +115,8 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 	
 	@Override
 	public void grade(Tenant tenant, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException, IllegalArgumentException, RemoteException {
-		if (!db.clientExists(tenant.getId())) {
-			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : Le client " + tenant.getId() + " n'existe pas dans la base !");
+		if (!db.employeeExists(tenant.getId())) {
+			throw new IllegalArgumentException("Erreur lors de la location d'un véhicule : L'employé " + tenant.getId() + " n'existe pas dans la base !");
 		}
 		
 		if (!db.vehicleExists(vehicleId)) {
@@ -131,7 +131,7 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 			throw new IllegalArgumentException("La note de l'état du véhicule doit être comprise entre 0 et 10 inclus");
 		}
 		
-		// TODO : Vérifier que le client ait le droit de noter le véhicule
+		// TODO : Vérifier que l'employé ait le droit de noter le véhicule
 		
 		db.addGrade(tenant.getId(), vehicleId, vehicleGrade, conditionGrade);
 	}
