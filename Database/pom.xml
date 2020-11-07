@@ -5,12 +5,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>fr.uge</groupId>
-	<artifactId>EiffelCorp</artifactId>
+	<groupId>fr.uge.webservices</groupId>
+	<artifactId>Database</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>EiffelCorp Maven Webapp</name>
+	<name>Database Maven Webapp</name>
+	<!-- FIXME change it to the project's website -->
+	<url>http://www.example.com</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,53 +35,16 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
 		<dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis</artifactId>
-			<version>1.4</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/javax.xml/jaxrpc-api -->
-		<dependency>
-			<groupId>javax.xml</groupId>
-			<artifactId>jaxrpc-api</artifactId>
-			<version>1.1</version>
-		</dependency>
-
-
-		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/commons-discovery/commons-discovery -->
-		<dependency>
-			<groupId>commons-discovery</groupId>
-			<artifactId>commons-discovery</artifactId>
-			<version>0.5</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/javax.xml.soap/javax.xml.soap-api -->
-		<dependency>
-			<groupId>javax.xml.soap</groupId>
-			<artifactId>javax.xml.soap-api</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-			<version>1.6.3</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.18</version>
 		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>EiffelCorp</finalName>
+		<finalName>Database</finalName>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
 			<plugins>

@@ -3,7 +3,7 @@
   <ns1:parameter name="sendMultiRefs" value="true"/>
   <ns1:parameter name="disablePrettyXML" value="true"/>
   <ns1:parameter name="adminPassword" value="admin"/>
-  <ns1:parameter name="attachments.Directory" value="C:\Users\theki\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\EiffelCorp\WEB-INF\attachments"/>
+  <ns1:parameter name="attachments.Directory" value="C:\Users\theki\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Database\WEB-INF\attachments"/>
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
@@ -32,26 +32,31 @@
   <ns1:parameter name="allowedMethods" value="getVersion"/>
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
- <ns1:service name="IfsCarsService" provider="java:RPC" style="wrapped" use="literal">
-  <ns2:operation name="isAvailable" qname="ns1:isAvailable" returnQName="ns1:isAvailableReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
-   <ns2:parameter qname="ns1:vehicleId" type="xsd:long"/>
+ <ns1:service name="DataBase" provider="java:RPC" style="wrapped" use="literal">
+  <ns2:operation name="addGrade" qname="ns1:addGrade" soapAction="" xmlns:ns1="http://database.uge.fr" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns2:parameter qname="ns1:clientId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns2:parameter qname="ns1:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns2:parameter qname="ns1:vehicleGrade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns2:parameter qname="ns1:conditionGrade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns2:operation>
-  <ns1:operation name="getPrice" qname="ns2:getPrice" returnQName="ns2:getPriceReturn" returnType="xsd:int" soapAction="" xmlns:ns2="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ns1:operation name="vehicleExists" qname="ns2:vehicleExists" returnQName="ns2:vehicleExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns2="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns2:vehicleId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="addToBasket" qname="ns3:addToBasket" soapAction="" xmlns:ns3="http://eiffelCorp.uge.fr">
-   <ns1:parameter qname="ns3:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="clientExists" qname="ns3:clientExists" returnQName="ns3:clientExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns3="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns3:clientId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="purchase" qname="ns4:purchase" soapAction="" xmlns:ns4="http://eiffelCorp.uge.fr"/>
-  <ns1:parameter name="allowedMethods" value="isAvailable addToBasket purchase getPrice"/>
+  <ns1:operation name="getVehiclePrice" qname="ns4:getVehiclePrice" returnQName="ns4:getVehiclePriceReturn" returnType="xsd:int" soapAction="" xmlns:ns4="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns4:vehicleId" type="xsd:long"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="vehicleExists getVehiclePrice addGrade clientExists"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlPortType" value="IfsCarsService"/>
-  <ns1:parameter name="className" value="fr.uge.eiffelCorp.IfsCarsService"/>
-  <ns1:parameter name="wsdlServicePort" value="IfsCarsService"/>
-  <ns1:parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
-  <ns1:parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
-  <ns1:parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
-  <ns1:parameter name="scope" value="session"/>
+  <ns1:parameter name="wsdlPortType" value="DataBase"/>
+  <ns1:parameter name="className" value="fr.uge.database.DataBase"/>
+  <ns1:parameter name="wsdlServicePort" value="DataBase"/>
+  <ns1:parameter name="schemaQualified" value="http://database.uge.fr"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://database.uge.fr"/>
+  <ns1:parameter name="wsdlServiceElement" value="DataBaseService"/>
+  <ns1:parameter name="scope" value="application"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

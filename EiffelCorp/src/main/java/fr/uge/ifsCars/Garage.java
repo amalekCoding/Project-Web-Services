@@ -8,15 +8,22 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.xml.rpc.ServiceException;
+
 import fr.uge.database.DataBase;
+import fr.uge.database.DataBaseServiceLocator;
+import fr.uge.database.DataBaseSoapBindingStub;
 
 public class Garage extends UnicastRemoteObject implements IGarage {
-	private final DataBase db;
+	private DataBase db;
 	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des clients en attente pour le véhicule ou en cours de location (1er element de la file)
 	
-	public Garage() throws RemoteException {
+	public Garage() throws RemoteException, ServiceException {
 		super();
-		this.db = DataBase.getDatabase();
+		
+		this.db = new DataBaseServiceLocator().getDataBase();
+		((DataBaseSoapBindingStub) this.db).setMaintainSession(true);
+		
 		this.rentalsQueues = new ConcurrentHashMap<>();
 	}
 	

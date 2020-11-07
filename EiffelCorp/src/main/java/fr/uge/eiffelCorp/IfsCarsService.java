@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.rpc.ServiceException;
+
 import fr.uge.database.DataBase;
+import fr.uge.database.DataBaseServiceLocator;
+import fr.uge.database.DataBaseSoapBindingStub;
 import fr.uge.ifsCars.IGarage;
 
 public class IfsCarsService {
@@ -15,8 +19,9 @@ public class IfsCarsService {
 	
 	private final List<Long> basket;
 	
-	public IfsCarsService() {
-		this.db = DataBase.getDatabase();
+	public IfsCarsService() throws ServiceException {
+		this.db = new DataBaseServiceLocator().getDataBase();
+		((DataBaseSoapBindingStub) this.db).setMaintainSession(true);
 		
 		try {
 			this.garage = (IGarage) Naming.lookup("Garage");
@@ -34,8 +39,9 @@ public class IfsCarsService {
 	 * @return Le prix du véhicule
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 * @throws RemoteException 
 	 */
-	public int getPrice(long vehicleId) throws IllegalArgumentException, SQLException {
+	public int getPrice(long vehicleId) throws IllegalArgumentException, SQLException, RemoteException {
 		int price = db.getVehiclePrice(vehicleId);
 		
 		// TODO : Faire la conversion (probablement créer nous meme le web service de change)
@@ -63,8 +69,9 @@ public class IfsCarsService {
 	 * @param vehicleId L'identifiant du véhicule.
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 * @throws RemoteException 
 	 */
-	public void addToBasket(long vehicleId) throws SQLException, IllegalArgumentException {
+	public void addToBasket(long vehicleId) throws SQLException, IllegalArgumentException, RemoteException {
 		if (!db.vehicleExists(vehicleId)) {
 			throw new IllegalArgumentException("Erreur lors de l'ajout d'un véhicule au panier : Le véhicule " + vehicleId + " n'existe pas dans la base !");
 		}
@@ -78,8 +85,9 @@ public class IfsCarsService {
 	 * 
 	 * @return True si l'achat a réussis (c'est à dire si le client avait les fonds suffisants), False sinon.
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
+	 * @throws RemoteException 
 	 */
-	public boolean purchase() throws SQLException {
+	public boolean purchase() throws SQLException, RemoteException {
 		int totalPrice = 0;
 		
 		for (Long vehicleId : basket) {
