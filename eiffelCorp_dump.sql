@@ -21,6 +21,47 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: Clients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Clients" (
+    id integer NOT NULL,
+    bank_balance integer DEFAULT 0
+);
+
+
+ALTER TABLE public."Clients" OWNER TO postgres;
+
+--
+-- Name: COLUMN "Clients".bank_balance; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Clients".bank_balance IS 'Solde bancaire';
+
+
+--
+-- Name: Clients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Clients_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Clients_id_seq" OWNER TO postgres;
+
+--
+-- Name: Clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Clients_id_seq" OWNED BY public."Clients".id;
+
+
+--
 -- Name: Employees; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -116,11 +157,27 @@ ALTER SEQUENCE public."Grades_vehicle_id_seq" OWNED BY public."Grades".vehicle_i
 --
 
 CREATE TABLE public."Vehicles" (
-    id integer NOT NULL
+    id integer NOT NULL,
+    price integer DEFAULT 0,
+    nb_rented integer DEFAULT 0
 );
 
 
 ALTER TABLE public."Vehicles" OWNER TO postgres;
+
+--
+-- Name: COLUMN "Vehicles".price; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Vehicles".price IS 'Prix du véhicule (en euros)';
+
+
+--
+-- Name: COLUMN "Vehicles".nb_rented; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Vehicles".nb_rented IS 'Nombre de fois que le véhicule a été loué';
+
 
 --
 -- Name: Vehicles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -142,6 +199,13 @@ ALTER TABLE public."Vehicles_id_seq" OWNER TO postgres;
 --
 
 ALTER SEQUENCE public."Vehicles_id_seq" OWNED BY public."Vehicles".id;
+
+
+--
+-- Name: Clients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Clients" ALTER COLUMN id SET DEFAULT nextval('public."Clients_id_seq"'::regclass);
 
 
 --
@@ -173,6 +237,12 @@ ALTER TABLE ONLY public."Vehicles" ALTER COLUMN id SET DEFAULT nextval('public."
 
 
 --
+-- Data for Name: Clients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
 -- Data for Name: Employees; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -191,7 +261,14 @@ INSERT INTO public."Employees" VALUES (3);
 -- Data for Name: Vehicles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."Vehicles" VALUES (1);
+INSERT INTO public."Vehicles" VALUES (1, 5000, 0);
+
+
+--
+-- Name: Clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Clients_id_seq"', 1, false);
 
 
 --
@@ -220,6 +297,14 @@ SELECT pg_catalog.setval('public."Grades_vehicle_id_seq"', 1, false);
 --
 
 SELECT pg_catalog.setval('public."Vehicles_id_seq"', 1, true);
+
+
+--
+-- Name: Clients Clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Clients"
+    ADD CONSTRAINT "Clients_pkey" PRIMARY KEY (id);
 
 
 --
