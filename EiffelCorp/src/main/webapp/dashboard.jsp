@@ -15,7 +15,10 @@
 <body>
 	<div class="page">
 	 <h1>Dashboard</h1>
-	 <input type="button" class="button-basket">
+	 
+
+	 <input type="button" class="button-basket"  onclick="window.location='mybasket.jsp';">
+
 	 
 	 <table class="layout display cars-table">
 		<thead> 

@@ -13,7 +13,8 @@ th, td {
 }
 
 
-
+input.button-grade,
+input.button-cancel,
 input.button-basket,
 input.button-rent,
 input.button-buy {
@@ -24,6 +25,13 @@ input.button-buy {
     
     width: 36px;
     height: 36px;
+}
+
+input.button-grade {
+	background-image: url(../logo/grade.png);
+}
+input.button-cancel {
+	background-image: url(../logo/cancel.png);
 }
 
 input.button-basket {
