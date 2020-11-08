@@ -1,0 +1,81 @@
+
+body {
+  font: normal medium/1.4 sans-serif;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  padding: 0.25rem;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+
+
+input.button-basket,
+input.button-rent,
+input.button-buy {
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    
+    width: 36px;
+    height: 36px;
+}
+
+input.button-basket {
+	background-image: url(../logo/basket.png);
+	float: right;
+	padding-right: 5em;
+	padding-bottom: 4em;
+}
+input.button-rent {
+    background-image: url(../logo/rent.png);
+}
+input.button-buy {
+    background-image: url(../logo/buy.png);
+}
+
+body{
+  padding: 1em;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAQElEQVQIW2P89OvDfwYo+PHjJ4zJwMHBzsAIk0SXAKkCS2KTAEu++vQSbizIKGQAl0SXAJkGlsQmAbcT2Shk+wH0sCzAEOZW1AAAAABJRU5ErkJggg==);
+}
+
+a{
+  color: #739931;
+}
+.page{
+  max-width: 60em;
+  margin: 0 auto;
+}
+table th,
+table td{
+  text-align: center;
+}
+
+
+table.layout{
+  width: 100%;
+  border-collapse: collapse;
+}
+table.display{
+  margin: 1em 0;
+}
+table.display th,
+table.display td{
+  border: 1px solid #B3BFAA;
+  padding: .5em 1em;
+}
+
+table.display th{ background: #D5E0CC; }
+table.display td{ background: #fff; }
+
+table.cars-table{
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
