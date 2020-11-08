@@ -3,7 +3,7 @@
   <ns1:parameter name="sendMultiRefs" value="true"/>
   <ns1:parameter name="disablePrettyXML" value="true"/>
   <ns1:parameter name="adminPassword" value="admin"/>
-  <ns1:parameter name="attachments.Directory" value="C:\Users\theki\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\EiffelCorp\WEB-INF\attachments"/>
+  <ns1:parameter name="attachments.Directory" value="C:\Users\theki\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CurrencyConverter\WEB-INF\attachments"/>
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
@@ -32,29 +32,19 @@
   <ns1:parameter name="allowedMethods" value="getVersion"/>
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
- <ns1:service name="IfsCarsService" provider="java:RPC" style="wrapped" use="literal">
-  <ns2:operation name="isAvailable" qname="ns1:isAvailable" returnQName="ns1:isAvailableReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
-   <ns2:parameter qname="ns1:vehicleId" type="xsd:long"/>
+ <ns1:service name="CurrencyConverter" provider="java:RPC" style="wrapped" use="literal">
+  <ns2:operation name="convertEuroTo" qname="ns1:convertEuroTo" returnQName="ns1:convertEuroToReturn" returnType="xsd:double" soapAction="" xmlns:ns1="http://currency.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns2:parameter qname="ns1:currency" type="xsd:string"/>
+   <ns2:parameter qname="ns1:amount" type="xsd:double"/>
   </ns2:operation>
-  <ns1:operation name="purchase" qname="ns2:purchase" returnQName="ns2:purchaseReturn" returnType="xsd:boolean" soapAction="" xmlns:ns2="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns2:clientId" type="xsd:long"/>
-  </ns1:operation>
-  <ns1:operation name="getVehiclesList" qname="ns3:getVehiclesList" returnQName="ns3:getVehiclesListReturn" returnType="xsd:long" soapAction="" xmlns:ns3="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  <ns1:operation name="getPrice" qname="ns4:getPrice" returnQName="ns4:getPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns4="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns4:vehicleId" type="xsd:long"/>
-   <ns1:parameter qname="ns4:currency" type="xsd:string"/>
-  </ns1:operation>
-  <ns1:operation name="addToBasket" qname="ns5:addToBasket" soapAction="" xmlns:ns5="http://eiffelCorp.uge.fr">
-   <ns1:parameter qname="ns5:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="isAvailable addToBasket getVehiclesList purchase getPrice"/>
+  <ns1:parameter name="allowedMethods" value="convertEuroTo"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlPortType" value="IfsCarsService"/>
-  <ns1:parameter name="className" value="fr.uge.eiffelCorp.IfsCarsService"/>
-  <ns1:parameter name="wsdlServicePort" value="IfsCarsService"/>
-  <ns1:parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
-  <ns1:parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
-  <ns1:parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
+  <ns1:parameter name="wsdlPortType" value="CurrencyConverter"/>
+  <ns1:parameter name="className" value="fr.uge.currency.CurrencyConverter"/>
+  <ns1:parameter name="wsdlServicePort" value="CurrencyConverter"/>
+  <ns1:parameter name="schemaQualified" value="http://currency.uge.fr"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://currency.uge.fr"/>
+  <ns1:parameter name="wsdlServiceElement" value="CurrencyConverterService"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

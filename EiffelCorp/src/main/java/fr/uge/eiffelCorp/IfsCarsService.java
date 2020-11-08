@@ -11,6 +11,9 @@ import javax.xml.rpc.ServiceException;
 import fr.uge.banque.BanqueService;
 import fr.uge.banque.BanqueServiceServiceLocator;
 import fr.uge.banque.BanqueServiceSoapBindingStub;
+import fr.uge.currency.CurrencyConverter;
+import fr.uge.currency.CurrencyConverterServiceLocator;
+import fr.uge.currency.CurrencyConverterSoapBindingStub;
 import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
@@ -19,6 +22,7 @@ import fr.uge.ifsCars.IGarage;
 public class IfsCarsService {
 	private final DataBase db;
 	private final BanqueService bank;
+	private final CurrencyConverter currencyConverter;
 	private IGarage garage;
 	
 	private final List<Long> basket;
@@ -29,6 +33,9 @@ public class IfsCarsService {
 		
 		this.bank = new BanqueServiceServiceLocator().getBanqueService();
 		((BanqueServiceSoapBindingStub) this.bank).setMaintainSession(true);
+		
+		this.currencyConverter = new CurrencyConverterServiceLocator().getCurrencyConverter();
+		((CurrencyConverterSoapBindingStub) this.currencyConverter).setMaintainSession(true);
 		
 		try {
 			this.garage = (IGarage) Naming.lookup("Garage");
@@ -43,17 +50,17 @@ public class IfsCarsService {
 	 * Renvoie le prix du véhicule donné en paramètre.
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
+	 * @param currency La devise du prix
 	 * @return Le prix du véhicule
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
-	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
-	 * @throws RemoteException Si la connexion avec la base de donnée a été interrompue
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base, ou si la devise donné n'est pas disponible
+	 * @throws RemoteException Si la connexion avec la base de donnée, ou le service de conversion de devise a été interrompue
 	 */
-	public int getPrice(long vehicleId) throws IllegalArgumentException, SQLException, RemoteException {
+	public double getPrice(long vehicleId, String currency) throws IllegalArgumentException, SQLException, RemoteException {
 		int price = db.getVehiclePrice(vehicleId);
 		
-		// TODO : Faire la conversion (probablement créer nous meme le web service de change)
-		
-		return price;
+		// TODO : Prix en double plutot qu'en int
+		return currencyConverter.convertEuroTo(currency, price);
 	}
 	
 	/**
@@ -100,7 +107,7 @@ public class IfsCarsService {
 		
 		for (Long vehicleId : basket) {
 			try {
-				totalPrice += getPrice(vehicleId);
+				totalPrice += getPrice(vehicleId, "EUR");
 			} catch (IllegalArgumentException e) {
 				throw new IllegalStateException("Panier invalide : Le véhicule " + vehicleId + " n'existe pas dans la base");
 			}
