@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import fr.uge.database.utils.Utils;
+
+import static fr.uge.database.utils.Utils.DATE_FORMAT;
+
 public class DataBase {
 	// Informations de connexion
 	private final static String SERVER_URL = "localhost/EiffelCorp";
@@ -17,7 +21,7 @@ public class DataBase {
 	// Nom des tables
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
 	private final static String VEHICLES_TABLE = "public.\"Vehicles\"";
-	private final static String GRADES_TABLE = "public.\"Grades\"";
+	private final static String RENTALS_TABLE = "public.\"Rentals\"";
 	private final static String CLIENTS_TABLE = "public.\"Clients\"";
 	
 	private Connection pgConnection;
@@ -100,14 +104,40 @@ public class DataBase {
 	/**
 	 * Ajoute une note au véhicule par le client.
 	 * 
+	 * @param date La date de début de location du véhicule, au format DATE_FORMAT
 	 * @param employeeId L'identifiant de l'employé donnant la note
 	 * @param vehicleId L'identifiant du véhicule à noter
 	 * @param vehicleGrade La note du véhicule
 	 * @param conditionGrade La note sur l'état du véhicule
 	 * @throws SQLException
+	 * @throws IllegalArgumentException Si la date donnée n'est pas au bon format
 	 */
-	public void addGrade(long employeeId, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException {
-		var query = String.format("INSERT INTO " + GRADES_TABLE + " VALUES (%d, %d, %d, %d);", employeeId, vehicleId, vehicleGrade, conditionGrade);
+	public void addGrade(String date, long employeeId, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException, IllegalArgumentException {
+		if (!Utils.isValidDate(date)) {
+			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
+		}
+		
+		var query = String.format("UPDATE " + RENTALS_TABLE
+								+ " SET vehicle_grade = %d, condition_grade = %d"
+								+ "WHERE date = %s AND vehicle_id = %d AND employee_id = %d;", vehicleGrade, conditionGrade, date, vehicleId, employeeId);
+		executeUpdate(query);
+	}
+	
+	/**
+	 * Enregistre dans la base de données le début d'une nouvelle location.
+	 * 
+	 * @param date La date de début de location du véhicule, au format DATE_FORMAT
+	 * @param employeeId L'identifiant de l'employé louant le véhicule
+	 * @param vehicleId L'identifiant du véhicule à louer
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si la date donnée n'est pas au bon format
+	 */
+	public void registerRental(String date, long employeeId, long vehicleId) throws SQLException, IllegalArgumentException {
+		if (!Utils.isValidDate(date)) {
+			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
+		}
+		
+		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES (%s, %d, %d);", date, employeeId, vehicleId);
 		executeUpdate(query);
 	}
 	
@@ -119,7 +149,7 @@ public class DataBase {
 	 * @throws SQLException
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
 	 */
-	public int getVehiclePrice(long vehicleId) throws SQLException, IllegalArgumentException {
+	public double getVehiclePrice(long vehicleId) throws SQLException, IllegalArgumentException {
 		var query = String.format("SELECT price FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
 		
 		var result = executeQuery(query);
@@ -128,7 +158,7 @@ public class DataBase {
 				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
 			}
 			
-			return result.getInt("price");
+			return result.getDouble("price");
 		}
 		
 		throw new IllegalStateException();
@@ -158,7 +188,7 @@ public class DataBase {
 	}
 	
 	/**
-	 * Débite le client du montant donné en paramètre
+	 * Débite le client du montant donné en paramètre.
 	 * 
 	 * @param clientId L'identifiant du client
 	 * @param amount Le montant à débiter
@@ -176,23 +206,37 @@ public class DataBase {
 	}
 	
 	/**
-	 * Récupère le nombre de fois auquel le véhicule a été loué par un employé
+	 * Récupère le nombre de fois auquel le véhicule a été loué par un employé.
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
 	 * @return Le nombre de fois auquel le véhicule a été loué
-	 * @throws SQLException 
-	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 * @throws SQLException
 	 */
-	public int getRentalsNumber(long vehicleId) throws SQLException, IllegalArgumentException {
-		var query = String.format("SELECT nb_rented FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+	public int getRentalsNumber(long vehicleId) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + RENTALS_TABLE + " WHERE vehicle_id=%d;", vehicleId);
 		
 		var result = executeQuery(query);
-		if (!Objects.isNull(result)) {
-			if (!result.next()) {
-				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
-			}
-			
-			return result.getInt("nb_rented");
+		if (!Objects.isNull(result) && result.next()) {
+			return result.getInt("count");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Détermine si l'employé a loué le véhicule donné en paramètre
+	 * 
+	 * @param employeeId L'identifiant de l'employé
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return True si l'employé a loué le véhicule, False sinon.
+	 * @throws SQLException
+	 */
+	public boolean hasRentedVehicle(long employeeId, long vehicleId) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + RENTALS_TABLE + " WHERE employee_id=%d AND vehicle_id=%d;", employeeId, vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result) && result.next()) {
+			return result.getInt("count") > 0;
 		}
 		
 		throw new IllegalStateException();
@@ -221,5 +265,14 @@ public class DataBase {
 		}
 		
 		return array;
+	}
+	
+	/**
+	 * Renvoie le format de date utilisé pour les timestamp postgreSQL.
+	 * 
+	 * @return Le format d'une date
+	 */
+	public String getDateFormat() {
+		return DATE_FORMAT;
 	}
 }
