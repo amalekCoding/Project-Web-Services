@@ -18,19 +18,15 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="purchase">
+   <element name="addToBasket">
     <complexType>
      <sequence>
-      <element name="clientId" type="xsd:long"/>
+      <element name="vehicleId" type="xsd:long"/>
      </sequence>
     </complexType>
    </element>
-   <element name="purchaseResponse">
-    <complexType>
-     <sequence>
-      <element name="purchaseReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
+   <element name="addToBasketResponse">
+    <complexType/>
    </element>
    <element name="getVehiclesList">
     <complexType/>
@@ -57,15 +53,19 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="addToBasket">
+   <element name="purchase">
     <complexType>
      <sequence>
-      <element name="vehicleId" type="xsd:long"/>
+      <element name="clientId" type="xsd:long"/>
      </sequence>
     </complexType>
    </element>
-   <element name="addToBasketResponse">
-    <complexType/>
+   <element name="purchaseResponse">
+    <complexType>
+     <sequence>
+      <element name="purchaseReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
    </element>
   </schema>
  </wsdl:types>
@@ -94,17 +94,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="purchaseResponse">
+   <wsdl:message name="getPriceRequest">
 
-      <wsdl:part element="impl:purchaseResponse" name="parameters">
+      <wsdl:part element="impl:getPrice" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="getPriceRequest">
+   <wsdl:message name="purchaseResponse">
 
-      <wsdl:part element="impl:getPrice" name="parameters">
+      <wsdl:part element="impl:purchaseResponse" name="parameters">
 
       </wsdl:part>
 
@@ -118,17 +118,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getPriceResponse">
+   <wsdl:message name="addToBasketRequest">
 
-      <wsdl:part element="impl:getPriceResponse" name="parameters">
+      <wsdl:part element="impl:addToBasket" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="addToBasketRequest">
+   <wsdl:message name="getPriceResponse">
 
-      <wsdl:part element="impl:addToBasket" name="parameters">
+      <wsdl:part element="impl:getPriceResponse" name="parameters">
 
       </wsdl:part>
 
@@ -164,13 +164,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="purchase">
+      <wsdl:operation name="addToBasket">
 
-         <wsdl:input message="impl:purchaseRequest" name="purchaseRequest">
+         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:purchaseResponse" name="purchaseResponse">
+         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
 
        </wsdl:output>
 
@@ -200,13 +200,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addToBasket">
+      <wsdl:operation name="purchase">
 
-         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
+         <wsdl:input message="impl:purchaseRequest" name="purchaseRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
+         <wsdl:output message="impl:purchaseResponse" name="purchaseResponse">
 
        </wsdl:output>
 
@@ -236,17 +236,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="purchase">
+      <wsdl:operation name="addToBasket">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="purchaseRequest">
+         <wsdl:input name="addToBasketRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="purchaseResponse">
+         <wsdl:output name="addToBasketResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -290,17 +290,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addToBasket">
+      <wsdl:operation name="purchase">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="addToBasketRequest">
+         <wsdl:input name="purchaseRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="addToBasketResponse">
+         <wsdl:output name="purchaseResponse">
 
             <wsdlsoap:body use="literal"/>
 

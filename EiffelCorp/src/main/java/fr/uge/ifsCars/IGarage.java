@@ -42,14 +42,17 @@ public interface IGarage extends Remote {
 	/**
 	 * Note un véhicule que l'employé a loué.
 	 * 
-	 * @param tenant L'employé locataire
+	 * @param rentalDate La date de début de la location, au format spécifié par le résultat de `DataBase.getDateFormat()`
+	 * @param tenant L'employé ayant loué le véhicule
 	 * @param vehicleId L'identifiant du véhicule
 	 * @param vehicleGrade Note du véhicule (entre 0 et 10 inclus)
 	 * @param conditionGrade Note de l'état du véhicule (entre 0 et 10 inclus)
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
-	 * @throws IllegalArgumentException Si l'identifiant de l'employé ou du véhicule est incorrect (n'existe pas dans la base), ou si les notes
-	 * 									ne sont pas comprises entre 0 et 10 inclus.
+	 * @throws IllegalArgumentException Si l'identifiant de l'employé ou du véhicule est incorrect (n'existe pas dans la base),
+	 * 									si les notes ne sont pas comprises entre 0 et 10 inclus,
+	 * 									si le format de la date est correcte,
+	 * 									ou si l'employé n'a pas loué le véhicule à la date donnée.
 	 * @throws RemoteException
 	 */
-	void grade(Tenant tenant, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException, IllegalArgumentException, RemoteException;
+	void grade(String rentalDate, Tenant tenant, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException, IllegalArgumentException, RemoteException;
 }

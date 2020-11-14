@@ -57,9 +57,8 @@ public class IfsCarsService {
 	 * @throws RemoteException Si la connexion avec la base de donnée, ou le service de conversion de devise a été interrompue
 	 */
 	public double getPrice(long vehicleId, String currency) throws IllegalArgumentException, SQLException, RemoteException {
-		int price = db.getVehiclePrice(vehicleId);
+		double price = db.getVehiclePrice(vehicleId);
 		
-		// TODO : Prix en double plutot qu'en int
 		return currencyConverter.convertEuroTo(currency, price);
 	}
 	
@@ -70,11 +69,10 @@ public class IfsCarsService {
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
 	 * @return True si le véhicule est disponible pour l'achat, False sinon.
-	 * @throws RemoteException Si la connexion avec le serveur de IfsCars est indisponible
+	 * @throws RemoteException Si la connexion avec le serveur de IfsCars, ou avec la base de données est indisponible
 	 */
 	public boolean isAvailable(long vehicleId) throws RemoteException {
-		return !garage.isRented(vehicleId);
-		// TODO : Vérifier également que le véhicule a déjà été loué.
+		return !garage.isRented(vehicleId) && db.getRentalsNumber(vehicleId) > 0;
 	}
 	
 	/**

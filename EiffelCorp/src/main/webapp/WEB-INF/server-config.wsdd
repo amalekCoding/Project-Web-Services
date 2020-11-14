@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
   <ns1:parameter name="sendXsiTypes" value="true"/>
+  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -36,16 +36,16 @@
   <ns2:operation name="isAvailable" qname="ns1:isAvailable" returnQName="ns1:isAvailableReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
    <ns2:parameter qname="ns1:vehicleId" type="xsd:long"/>
   </ns2:operation>
-  <ns1:operation name="purchase" qname="ns2:purchase" returnQName="ns2:purchaseReturn" returnType="xsd:boolean" soapAction="" xmlns:ns2="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns2:clientId" type="xsd:long"/>
+  <ns1:operation name="addToBasket" qname="ns2:addToBasket" soapAction="" xmlns:ns2="http://eiffelCorp.uge.fr">
+   <ns1:parameter qname="ns2:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
   <ns1:operation name="getVehiclesList" qname="ns3:getVehiclesList" returnQName="ns3:getVehiclesListReturn" returnType="xsd:long" soapAction="" xmlns:ns3="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   <ns1:operation name="getPrice" qname="ns4:getPrice" returnQName="ns4:getPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns4="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns4:vehicleId" type="xsd:long"/>
    <ns1:parameter qname="ns4:currency" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="addToBasket" qname="ns5:addToBasket" soapAction="" xmlns:ns5="http://eiffelCorp.uge.fr">
-   <ns1:parameter qname="ns5:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="purchase" qname="ns5:purchase" returnQName="ns5:purchaseReturn" returnType="xsd:boolean" soapAction="" xmlns:ns5="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns5:clientId" type="xsd:long"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="isAvailable addToBasket getVehiclesList purchase getPrice"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
