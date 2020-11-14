@@ -4,6 +4,14 @@
     
     
     
+
+<%
+	java.util.Date date = new java.util.Date();
+    IfsCarsService service = new IfsCarsService();
+%>
+    
+    
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +22,11 @@
  
 <body>
 	<div class="page">
-	 <h1>Dashboard</h1>
+	 <h1>My Dashboard</h1>
 	 
 
-	 <input type="button" class="button-basket"  onclick="window.location='mybasket.jsp';">
+	 <input type="button" class="icon button-profile"  onclick="window.location='profile.jsp';">
+	 <input type="button" class="icon button-basket"  onclick="window.location='mybasket.jsp';">
 
 	 
 	 <table class="layout display cars-table">
@@ -27,10 +36,70 @@
 			    <th>Model</th> 
 			    <th>Grade</th> 
 			    <th>Rental Price</th> 
+			    <th>Rented times</th> 
+			    <th>Availability</th> 
+			    <th>Rent</th> 
+			</tr> 
+		</thead> 
+		<tbody> 
+
+			<tr> 
+			    <td>BMW</td> 
+			    <td>X5</td> 
+			    <td>6</td> 
+			    <td>$150.00</td> 
+			    <td>6</td>
+
+			    <td><img class="icon" src="logo/check.png"/></td>
+			    <td><input type="button" class="icon button-rent"></td>
+			</tr> 
+			<tr> 
+			    <td>Audi</td> 
+			    <td>A5</td> 
+			    <td>8</td> 
+			    <td>$100.00</td> 
+			    <td>2</td>
+			    
+			    <td><img class="icon check-logo"  src="logo/cross.png"/></td>
+			    <td><input type="button" onclick="msgAddedToWaitingLst()" class="icon button-rent"></td>
+			</tr>
+			
+			
+			<%
+				long[] lstId = service.getVehiclesList();
+				for(long vehicleId : lstId) {
+			%>
+			<tr> 
+			    <td>?</td> 
+			    <td>?</td> 
+			    <td>?</td> 
+			    <td><%= service.getPrice(vehicleId, "USD") %></td> 
+			    <td>?</td>
+			    <% if(service.isAvailable(vehicleId)) { %>
+			    	<td><img class="icon check-logo" src="logo/check.png"/></td>
+			    	<td><input type="button" class="icon button-rent"></td>
+			    <% } else { %>
+			    	<td><img class="icon check-logo" src="logo/cross.png"/></td>
+			    	<td><input type="button" onclick="msgAddedToWaitingLst()" class="icon button-rent"></td>
+			    <% } %> 
+			</tr>
+			<%
+				}
+			%>
+		</tbody> 
+	 </table> 
+
+
+	 <h1>Particulier</h1>
+	 <table class="layout display cars-table">
+		<thead> 
+			<tr> 
+			    <th>Brand</th> 
+			    <th>Model</th> 
+			    <th>Grade</th> 
 			    <th>Price</th> 
 			    <th>Rented times</th> 
-			    <th>Rent</th> 
-			    <th>Buy</th> 
+			    <th>Add to Basket</th> 
 			</tr> 
 		</thead> 
 		<tbody> 
@@ -38,23 +107,19 @@
 			    <td>BMW</td> 
 			    <td>X5</td> 
 			    <td>6</td> 
-			    <td>$150.00</td> 
 			    <td>$15 000.00</td> 
 			    <td>6</td>
-
-			    <td><input type="button" class="button-rent"></td>
-			    <td><input type="button" class="button-buy"></td>
+     
+			    <td><input type="button" class="icon button-addbasket"></td>
 			</tr> 
 			<tr> 
 			    <td>Audi</td> 
 			    <td>A5</td> 
 			    <td>8</td> 
-			    <td>$100.00</td> 
 			    <td>$20 000.00</td> 
 			    <td>2</td>
 			    
-			    <td><input type="button" class="button-rent"></td>
-			    <td><input type="button" class="button-buy"></td>
+			    <td><input type="button" class="icon button-addbasket"></td>
 			</tr>
 		</tbody> 
 	 </table> 
@@ -65,6 +130,15 @@
 </html>
 
 
+
+<script>
+function msgAddedToWaitingLst() {
+  alert("This car is not available.\n You're on the list.");
+}
+</script>
+
+
+
 <!-- 
 <!DOCTYPE html>
 <html>
@@ -73,15 +147,10 @@
         <title>Titre de la page</title>
     </head>
 
-    <%
-        java.util.Date date = new java.util.Date();
-        IfsCarsService service = new IfsCarsService();
-    %>
-
     <body>
         <h1>Hello world !</h1>
-        <p>Date et heure du jour : <%= date.toString() %></p>
-        <p><%= service.getPrice(1) %></p>
+        <p><%= service.getVehiclesList() %></p>
+        <p><%= service.getPrice(1, "USD") %></p>
     </body>
 </html>
 

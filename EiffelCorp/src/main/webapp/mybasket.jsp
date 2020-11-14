@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<link href="css/dashboard.css" rel="stylesheet">
 	
-	<title>Insert title here</title>
+	<title>MyBasket</title>
 </head>
 <body>
 
@@ -18,14 +18,13 @@
 	 
 	 <table class="layout display cars-table">
 		<thead> 
-			<tr> 
+			<tr>
+			
 			    <th>Brand</th> 
 			    <th>Model</th> 
 			    <th>Grade</th> 
-			    <th>Rental Price</th> 
 			    <th>Price</th> 
 			    <th>Rented times</th> 
-			    <th>Grade</th> 
 			    <th>Buy</th> 
 			</tr> 
 		</thead> 
@@ -34,12 +33,10 @@
 			    <td>BMW</td> 
 			    <td>X5</td> 
 			    <td>6</td> 
-			    <td>$150.00</td> 
 			    <td>$15 000.00</td> 
 			    <td>6</td>
 
-			    <td><input type="button" class="button-grade"></td>
-			    <td><input type="button" class="button-buy"></td>
+			    <td><input type="button" class="icon button-buy"></td>
 			</tr> 
 		</tbody> 
 	 </table> 
@@ -55,7 +52,6 @@
 			    <th>Model</th> 
 			    <th>Grade</th> 
 			    <th>Rental Price</th> 
-			    <th>Price</th> 
 			    <th>Rented times</th> 
 			    <th>Cancel</th> 
 			</tr> 
@@ -66,10 +62,9 @@
 			    <td>X5</td> 
 			    <td>6</td> 
 			    <td>$150.00</td> 
-			    <td>$15 000.00</td> 
 			    <td>6</td>
 
-			    <td><input type="button" class="button-cancel"></td>
+			    <td><input type="button" class="icon button-cancel"></td>
 			</tr> 
 		</tbody> 
 	 </table> 
