@@ -95,10 +95,11 @@ ALTER SEQUENCE public."Employees_id_seq" OWNED BY public."Employees".id;
 
 
 --
--- Name: Grades; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Rentals; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."Grades" (
+CREATE TABLE public."Rentals" (
+    date timestamp with time zone NOT NULL,
     vehicle_id integer NOT NULL,
     employee_id integer NOT NULL,
     vehicle_grade integer,
@@ -106,51 +107,7 @@ CREATE TABLE public."Grades" (
 );
 
 
-ALTER TABLE public."Grades" OWNER TO postgres;
-
---
--- Name: Grades_employee_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Grades_employee_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Grades_employee_id_seq" OWNER TO postgres;
-
---
--- Name: Grades_employee_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Grades_employee_id_seq" OWNED BY public."Grades".employee_id;
-
-
---
--- Name: Grades_vehicle_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Grades_vehicle_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Grades_vehicle_id_seq" OWNER TO postgres;
-
---
--- Name: Grades_vehicle_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Grades_vehicle_id_seq" OWNED BY public."Grades".vehicle_id;
-
+ALTER TABLE public."Rentals" OWNER TO postgres;
 
 --
 -- Name: Vehicles; Type: TABLE; Schema: public; Owner: postgres
@@ -158,8 +115,7 @@ ALTER SEQUENCE public."Grades_vehicle_id_seq" OWNED BY public."Grades".vehicle_i
 
 CREATE TABLE public."Vehicles" (
     id integer NOT NULL,
-    price integer DEFAULT 0,
-    nb_rented integer DEFAULT 0
+    price double precision DEFAULT 0
 );
 
 
@@ -170,13 +126,6 @@ ALTER TABLE public."Vehicles" OWNER TO postgres;
 --
 
 COMMENT ON COLUMN public."Vehicles".price IS 'Prix du véhicule (en euros)';
-
-
---
--- Name: COLUMN "Vehicles".nb_rented; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN public."Vehicles".nb_rented IS 'Nombre de fois que le véhicule a été loué';
 
 
 --
@@ -216,20 +165,6 @@ ALTER TABLE ONLY public."Employees" ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- Name: Grades vehicle_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Grades" ALTER COLUMN vehicle_id SET DEFAULT nextval('public."Grades_vehicle_id_seq"'::regclass);
-
-
---
--- Name: Grades employee_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Grades" ALTER COLUMN employee_id SET DEFAULT nextval('public."Grades_employee_id_seq"'::regclass);
-
-
---
 -- Name: Vehicles id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -240,35 +175,44 @@ ALTER TABLE ONLY public."Vehicles" ALTER COLUMN id SET DEFAULT nextval('public."
 -- Data for Name: Clients; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY public."Clients" (id, bank_balance) FROM stdin;
+1	1200
+\.
 
 
 --
 -- Data for Name: Employees; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."Employees" VALUES (1);
-INSERT INTO public."Employees" VALUES (2);
-INSERT INTO public."Employees" VALUES (3);
+COPY public."Employees" (id) FROM stdin;
+1
+2
+3
+\.
 
 
 --
--- Data for Name: Grades; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Rentals; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY public."Rentals" (date, vehicle_id, employee_id, vehicle_grade, condition_grade) FROM stdin;
+\.
 
 
 --
 -- Data for Name: Vehicles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."Vehicles" VALUES (1, 5000, 0);
+COPY public."Vehicles" (id, price) FROM stdin;
+1	5000
+\.
 
 
 --
 -- Name: Clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Clients_id_seq"', 1, false);
+SELECT pg_catalog.setval('public."Clients_id_seq"', 1, true);
 
 
 --
@@ -276,20 +220,6 @@ SELECT pg_catalog.setval('public."Clients_id_seq"', 1, false);
 --
 
 SELECT pg_catalog.setval('public."Employees_id_seq"', 3, true);
-
-
---
--- Name: Grades_employee_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Grades_employee_id_seq"', 1, false);
-
-
---
--- Name: Grades_vehicle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Grades_vehicle_id_seq"', 1, false);
 
 
 --
@@ -316,11 +246,11 @@ ALTER TABLE ONLY public."Employees"
 
 
 --
--- Name: Grades Grades_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Rentals Rentals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Grades"
-    ADD CONSTRAINT "Grades_pkey" PRIMARY KEY (vehicle_id, employee_id);
+ALTER TABLE ONLY public."Rentals"
+    ADD CONSTRAINT "Rentals_pkey" PRIMARY KEY (date, vehicle_id, employee_id);
 
 
 --
@@ -332,19 +262,19 @@ ALTER TABLE ONLY public."Vehicles"
 
 
 --
--- Name: Grades employee_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Rentals idEmployee_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Grades"
-    ADD CONSTRAINT employee_fk FOREIGN KEY (employee_id) REFERENCES public."Employees"(id);
+ALTER TABLE ONLY public."Rentals"
+    ADD CONSTRAINT "idEmployee_fk" FOREIGN KEY (employee_id) REFERENCES public."Employees"(id);
 
 
 --
--- Name: Grades vehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Rentals idVehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."Grades"
-    ADD CONSTRAINT vehicle_fk FOREIGN KEY (vehicle_id) REFERENCES public."Vehicles"(id);
+ALTER TABLE ONLY public."Rentals"
+    ADD CONSTRAINT "idVehicle_fk" FOREIGN KEY (vehicle_id) REFERENCES public."Vehicles"(id);
 
 
 --
