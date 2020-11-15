@@ -22,6 +22,7 @@ public class DataBase {
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
 	private final static String VEHICLES_TABLE = "public.\"Vehicles\"";
 	private final static String RENTALS_TABLE = "public.\"Rentals\"";
+	private final static String PURCHASES_TABLE = "public.\"Purchases\"";
 	private final static String CLIENTS_TABLE = "public.\"Clients\"";
 	
 	private Connection pgConnection;
@@ -68,12 +69,30 @@ public class DataBase {
 	/**
 	 * Determines if a employee exists in the database.
 	 * 
-	 * @param employeeId The client ID
-	 * @return True if the client exists, False otherwise
+	 * @param employeeId The employee ID
+	 * @return True if the employee exists, False otherwise
 	 * @throws SQLException 
 	 */
 	public boolean employeeExists(long employeeId) throws SQLException {
 		var query = String.format("SELECT COUNT(*) FROM " + EMPLOYEES_TABLE + " WHERE id=%d;", employeeId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result) && result.next()) {
+			return result.getInt("count") > 0;
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Determines if a client exists in the database.
+	 * 
+	 * @param clientId The client ID
+	 * @return True if the client exists, False otherwise
+	 * @throws SQLException 
+	 */
+	public boolean clientExists(long clientId) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + CLIENTS_TABLE + " WHERE id=%d;", clientId);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result) && result.next()) {
@@ -142,15 +161,33 @@ public class DataBase {
 	}
 	
 	/**
-	 * Renvoie le prix en euros du véhicule donné en paramètre.
+	 * Enregistre dans la base de données l'achat d'un véhicule.
+	 * 
+	 * @param date La date de l'achat du véhicule, au format DATE_FORMAT
+	 * @param clientId L'identifiant du client ayant acheté le véhicule
+	 * @param vehicleId L'identifiant du véhicule acheté
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si la date donnée n'est pas au bon format
+	 */
+	public void registerPurchase(String date, long clientId, long vehicleId) throws SQLException, IllegalArgumentException {
+		if (!Utils.isValidDate(date)) {
+			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
+		}
+		
+		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, employee_id) VALUES (%s, %d, %d);", date, clientId, vehicleId);
+		executeUpdate(query);
+	}
+	
+	/**
+	 * Renvoie le prix d'achat en euros du véhicule donné en paramètre.
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
-	 * @return Le prix du véhicule
+	 * @return Le prix d'achat du véhicule
 	 * @throws SQLException
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
 	 */
-	public double getVehiclePrice(long vehicleId) throws SQLException, IllegalArgumentException {
-		var query = String.format("SELECT price FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+	public double getVehicleBuyingPrice(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT buying_price FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
@@ -158,7 +195,30 @@ public class DataBase {
 				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
 			}
 			
-			return result.getDouble("price");
+			return result.getDouble("buying_price");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Renvoie le prix de location en euros du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return Le prix de location du véhicule
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public double getVehicleRentalPrice(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT rental_price FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
+			}
+			
+			return result.getDouble("rental_price");
 		}
 		
 		throw new IllegalStateException();
@@ -274,5 +334,93 @@ public class DataBase {
 	 */
 	public String getDateFormat() {
 		return DATE_FORMAT;
+	}
+	
+	/**
+	 * Récupère la liste des véhicules loués par l'employé dont l'identifiant est donné.
+	 * 
+	 * @return Un tableau contenant les identifiants des véhicules loués par l'employé
+	 * @throws SQLException
+	 */
+	public long[] getRentedVehicles(long employeeId) throws SQLException {
+		var query = String.format("SELECT DISTINCT vehicle_id FROM " + RENTALS_TABLE + " WHERE employee_id=%d;", employeeId);
+		var lst = new ArrayList<Long>();
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			while (result.next()) {
+				lst.add((long)result.getInt("id"));
+			}
+		}
+		
+		var array = new long[lst.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = lst.get(i);
+		}
+		
+		return array;
+	}
+	
+	/**
+	 * Récupère la liste des véhicules achetés par le client dont l'identifiant est donné.
+	 * 
+	 * @return Un tableau contenant les identifiants des véhicules achetés par le client
+	 * @throws SQLException
+	 */
+	public long[] getPurchasedVehicles(long clientId) throws SQLException {
+		var query = String.format("SELECT DISTINCT vehicle_id FROM " + PURCHASES_TABLE + " WHERE client_id=%d;", clientId);
+		var lst = new ArrayList<Long>();
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			while (result.next()) {
+				lst.add((long)result.getInt("id"));
+			}
+		}
+		
+		var array = new long[lst.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = lst.get(i);
+		}
+		
+		return array;
+	}
+	
+	/**
+	 * Vérifie l'authentification d'un employé, selon ses identifiants.
+	 * 
+	 * @param login Le login de l'employé
+	 * @param password Le mot de passe de l'employé
+	 * @return True si l'authentification a réussi, False sinon
+	 * @throws SQLException
+	 */
+	public boolean authenticateEmployee(String login, String password) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + EMPLOYEES_TABLE + " WHERE login=%s && password=%s;", login, password);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result) && result.next()) {
+			return result.getInt("count") > 0;
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Vérifie l'authentification d'un client, selon ses identifiants.
+	 * 
+	 * @param login Le login du client
+	 * @param password Le mot de passe de l'employé
+	 * @return True si l'authentification a réussi, False sinon
+	 * @throws SQLException
+	 */
+	public boolean authenticateClient(String login, String password) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + CLIENTS_TABLE + " WHERE login=%s && password=%s;", login, password);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result) && result.next()) {
+			return result.getInt("count") > 0;
+		}
+		
+		throw new IllegalStateException();
 	}
 }

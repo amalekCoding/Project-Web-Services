@@ -33,44 +33,69 @@
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
  <ns1:service name="DataBase" provider="java:RPC" style="wrapped" use="literal">
-  <ns2:operation name="getDateFormat" qname="ns1:getDateFormat" returnQName="ns1:getDateFormatReturn" returnType="xsd:string" soapAction="" xmlns:ns1="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/"/>
-  <ns1:operation name="getClientBankBalance" qname="ns2:getClientBankBalance" returnQName="ns2:getClientBankBalanceReturn" returnType="xsd:int" soapAction="" xmlns:ns2="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ns2:operation name="getClientBankBalance" qname="ns1:getClientBankBalance" returnQName="ns1:getClientBankBalanceReturn" returnType="xsd:int" soapAction="" xmlns:ns1="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns2:parameter qname="ns1:clientId" type="xsd:long"/>
+  </ns2:operation>
+  <ns1:operation name="getPurchasedVehicles" qname="ns2:getPurchasedVehicles" returnQName="ns2:getPurchasedVehiclesReturn" returnType="xsd:long" soapAction="" xmlns:ns2="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns2:clientId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="employeeExists" qname="ns3:employeeExists" returnQName="ns3:employeeExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns3="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns3:employeeId" type="xsd:long"/>
+  <ns1:operation name="authenticateEmployee" qname="ns3:authenticateEmployee" returnQName="ns3:authenticateEmployeeReturn" returnType="xsd:boolean" soapAction="" xmlns:ns3="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns3:login" type="xsd:string"/>
+   <ns1:parameter qname="ns3:password" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="addGrade" qname="ns4:addGrade" soapAction="" xmlns:ns4="http://database.uge.fr">
-   <ns1:parameter qname="ns4:date" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns4:employeeId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns4:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns4:vehicleGrade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns4:conditionGrade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="vehicleExists" qname="ns4:vehicleExists" returnQName="ns4:vehicleExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns4="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns4:vehicleId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="registerRental" qname="ns5:registerRental" soapAction="" xmlns:ns5="http://database.uge.fr">
+  <ns1:operation name="addGrade" qname="ns5:addGrade" soapAction="" xmlns:ns5="http://database.uge.fr">
    <ns1:parameter qname="ns5:date" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
    <ns1:parameter qname="ns5:employeeId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
    <ns1:parameter qname="ns5:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns5:vehicleGrade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns5:conditionGrade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="getVehiclePrice" qname="ns6:getVehiclePrice" returnQName="ns6:getVehiclePriceReturn" returnType="xsd:double" soapAction="" xmlns:ns6="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns6:vehicleId" type="xsd:long"/>
+  <ns1:operation name="employeeExists" qname="ns6:employeeExists" returnQName="ns6:employeeExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns6="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns6:employeeId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="vehicleExists" qname="ns7:vehicleExists" returnQName="ns7:vehicleExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns7="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns7:vehicleId" type="xsd:long"/>
+  <ns1:operation name="clientExists" qname="ns7:clientExists" returnQName="ns7:clientExistsReturn" returnType="xsd:boolean" soapAction="" xmlns:ns7="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns7:clientId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="hasRentedVehicle" qname="ns8:hasRentedVehicle" returnQName="ns8:hasRentedVehicleReturn" returnType="xsd:boolean" soapAction="" xmlns:ns8="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns8:employeeId" type="xsd:long"/>
-   <ns1:parameter qname="ns8:vehicleId" type="xsd:long"/>
+  <ns1:operation name="debiteClient" qname="ns8:debiteClient" soapAction="" xmlns:ns8="http://database.uge.fr">
+   <ns1:parameter qname="ns8:clientId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns8:amount" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="getRentalsNumber" qname="ns9:getRentalsNumber" returnQName="ns9:getRentalsNumberReturn" returnType="xsd:int" soapAction="" xmlns:ns9="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns9:vehicleId" type="xsd:long"/>
+  <ns1:operation name="getVehiclesId" qname="ns9:getVehiclesId" returnQName="ns9:getVehiclesIdReturn" returnType="xsd:long" soapAction="" xmlns:ns9="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="hasRentedVehicle" qname="ns10:hasRentedVehicle" returnQName="ns10:hasRentedVehicleReturn" returnType="xsd:boolean" soapAction="" xmlns:ns10="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns10:employeeId" type="xsd:long"/>
+   <ns1:parameter qname="ns10:vehicleId" type="xsd:long"/>
   </ns1:operation>
-  <ns1:operation name="getVehiclesId" qname="ns10:getVehiclesId" returnQName="ns10:getVehiclesIdReturn" returnType="xsd:long" soapAction="" xmlns:ns10="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  <ns1:operation name="debiteClient" qname="ns11:debiteClient" soapAction="" xmlns:ns11="http://database.uge.fr">
-   <ns1:parameter qname="ns11:clientId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns11:amount" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="registerRental" qname="ns11:registerRental" soapAction="" xmlns:ns11="http://database.uge.fr">
+   <ns1:parameter qname="ns11:date" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns11:employeeId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns11:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="getRentalsNumber getVehiclePrice vehicleExists getClientBankBalance addGrade debiteClient hasRentedVehicle getDateFormat getVehiclesId registerRental employeeExists"/>
+  <ns1:operation name="registerPurchase" qname="ns12:registerPurchase" soapAction="" xmlns:ns12="http://database.uge.fr">
+   <ns1:parameter qname="ns12:date" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns12:clientId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns12:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="authenticateClient" qname="ns13:authenticateClient" returnQName="ns13:authenticateClientReturn" returnType="xsd:boolean" soapAction="" xmlns:ns13="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns13:login" type="xsd:string"/>
+   <ns1:parameter qname="ns13:password" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="getRentalsNumber" qname="ns14:getRentalsNumber" returnQName="ns14:getRentalsNumberReturn" returnType="xsd:int" soapAction="" xmlns:ns14="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns14:vehicleId" type="xsd:long"/>
+  </ns1:operation>
+  <ns1:operation name="getRentedVehicles" qname="ns15:getRentedVehicles" returnQName="ns15:getRentedVehiclesReturn" returnType="xsd:long" soapAction="" xmlns:ns15="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns15:employeeId" type="xsd:long"/>
+  </ns1:operation>
+  <ns1:operation name="getDateFormat" qname="ns16:getDateFormat" returnQName="ns16:getDateFormatReturn" returnType="xsd:string" soapAction="" xmlns:ns16="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="getVehicleBuyingPrice" qname="ns17:getVehicleBuyingPrice" returnQName="ns17:getVehicleBuyingPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns17="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns17:vehicleId" type="xsd:long"/>
+  </ns1:operation>
+  <ns1:operation name="getVehicleRentalPrice" qname="ns18:getVehicleRentalPrice" returnQName="ns18:getVehicleRentalPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns18="http://database.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns18:vehicleId" type="xsd:long"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="registerPurchase debiteClient hasRentedVehicle authenticateClient clientExists getVehiclesId registerRental employeeExists getRentalsNumber vehicleExists getClientBankBalance addGrade getRentedVehicles getPurchasedVehicles getDateFormat authenticateEmployee getVehicleBuyingPrice getVehicleRentalPrice"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="DataBase"/>
   <ns1:parameter name="className" value="fr.uge.database.DataBase"/>

@@ -26,7 +26,9 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public."Clients" (
     id integer NOT NULL,
-    bank_balance integer DEFAULT 0
+    bank_balance integer DEFAULT 0,
+    login character varying(30) NOT NULL,
+    password character varying(30) NOT NULL
 );
 
 
@@ -66,7 +68,9 @@ ALTER SEQUENCE public."Clients_id_seq" OWNED BY public."Clients".id;
 --
 
 CREATE TABLE public."Employees" (
-    id integer NOT NULL
+    id integer NOT NULL,
+    login character varying(30) NOT NULL,
+    password character varying(30) NOT NULL
 );
 
 
@@ -95,6 +99,19 @@ ALTER SEQUENCE public."Employees_id_seq" OWNED BY public."Employees".id;
 
 
 --
+-- Name: Purchases; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Purchases" (
+    date timestamp with time zone NOT NULL,
+    vehicle_id integer NOT NULL,
+    client_id integer NOT NULL
+);
+
+
+ALTER TABLE public."Purchases" OWNER TO postgres;
+
+--
 -- Name: Rentals; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -115,17 +132,41 @@ ALTER TABLE public."Rentals" OWNER TO postgres;
 
 CREATE TABLE public."Vehicles" (
     id integer NOT NULL,
-    price double precision DEFAULT 0
+    buying_price double precision DEFAULT 0,
+    rental_price double precision DEFAULT 0,
+    brand character varying(20),
+    model character varying(20)
 );
 
 
 ALTER TABLE public."Vehicles" OWNER TO postgres;
 
 --
--- Name: COLUMN "Vehicles".price; Type: COMMENT; Schema: public; Owner: postgres
+-- Name: COLUMN "Vehicles".buying_price; Type: COMMENT; Schema: public; Owner: postgres
 --
 
-COMMENT ON COLUMN public."Vehicles".price IS 'Prix du véhicule (en euros)';
+COMMENT ON COLUMN public."Vehicles".buying_price IS 'Prix d''achat du véhicule (en euros)';
+
+
+--
+-- Name: COLUMN "Vehicles".rental_price; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Vehicles".rental_price IS 'Prix de location du véhicule (en euros)';
+
+
+--
+-- Name: COLUMN "Vehicles".brand; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Vehicles".brand IS 'Marque du véhicule';
+
+
+--
+-- Name: COLUMN "Vehicles".model; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Vehicles".model IS 'Modèle du véhicule';
 
 
 --
@@ -175,37 +216,31 @@ ALTER TABLE ONLY public."Vehicles" ALTER COLUMN id SET DEFAULT nextval('public."
 -- Data for Name: Clients; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Clients" (id, bank_balance) FROM stdin;
-1	1200
-\.
 
 
 --
 -- Data for Name: Employees; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Employees" (id) FROM stdin;
-1
-2
-3
-\.
+
+
+--
+-- Data for Name: Purchases; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
 
 
 --
 -- Data for Name: Rentals; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Rentals" (date, vehicle_id, employee_id, vehicle_grade, condition_grade) FROM stdin;
-\.
 
 
 --
 -- Data for Name: Vehicles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Vehicles" (id, price) FROM stdin;
-1	5000
-\.
+INSERT INTO public."Vehicles" VALUES (1, 5000, 0, NULL, NULL);
 
 
 --
@@ -230,6 +265,14 @@ SELECT pg_catalog.setval('public."Vehicles_id_seq"', 1, true);
 
 
 --
+-- Name: Clients Clients_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Clients"
+    ADD CONSTRAINT "Clients_login_key" UNIQUE (login);
+
+
+--
 -- Name: Clients Clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -238,11 +281,27 @@ ALTER TABLE ONLY public."Clients"
 
 
 --
+-- Name: Employees Employees_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Employees"
+    ADD CONSTRAINT "Employees_login_key" UNIQUE (login);
+
+
+--
 -- Name: Employees Employees_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Employees"
     ADD CONSTRAINT "Employees_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Purchases Purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Purchases"
+    ADD CONSTRAINT "Purchases_pkey" PRIMARY KEY (date, vehicle_id, client_id);
 
 
 --
@@ -262,6 +321,14 @@ ALTER TABLE ONLY public."Vehicles"
 
 
 --
+-- Name: Purchases idClient_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Purchases"
+    ADD CONSTRAINT "idClient_fk" FOREIGN KEY (client_id) REFERENCES public."Clients"(id);
+
+
+--
 -- Name: Rentals idEmployee_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -274,6 +341,14 @@ ALTER TABLE ONLY public."Rentals"
 --
 
 ALTER TABLE ONLY public."Rentals"
+    ADD CONSTRAINT "idVehicle_fk" FOREIGN KEY (vehicle_id) REFERENCES public."Vehicles"(id);
+
+
+--
+-- Name: Purchases idVehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Purchases"
     ADD CONSTRAINT "idVehicle_fk" FOREIGN KEY (vehicle_id) REFERENCES public."Vehicles"(id);
 
 
