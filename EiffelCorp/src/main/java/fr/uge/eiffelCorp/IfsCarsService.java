@@ -8,12 +8,13 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
+import com.currencysystem.webservices.currencyserver.CurncsrvReturnRate;
+import com.currencysystem.webservices.currencyserver.CurrencyServerLocator;
+import com.currencysystem.webservices.currencyserver.CurrencyServerSoap;
+
 import fr.uge.banque.BanqueService;
 import fr.uge.banque.BanqueServiceServiceLocator;
 import fr.uge.banque.BanqueServiceSoapBindingStub;
-import fr.uge.currency.CurrencyConverter;
-import fr.uge.currency.CurrencyConverterServiceLocator;
-import fr.uge.currency.CurrencyConverterSoapBindingStub;
 import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
@@ -22,7 +23,7 @@ import fr.uge.ifsCars.IGarage;
 public class IfsCarsService {
 	private final DataBase db;
 	private final BanqueService bank;
-	private final CurrencyConverter currencyConverter;
+	private final CurrencyServerSoap currencyConverter;
 	private IGarage garage;
 	
 	private final List<Long> basket;
@@ -34,8 +35,7 @@ public class IfsCarsService {
 		this.bank = new BanqueServiceServiceLocator().getBanqueService();
 		((BanqueServiceSoapBindingStub) this.bank).setMaintainSession(true);
 		
-		this.currencyConverter = new CurrencyConverterServiceLocator().getCurrencyConverter();
-		((CurrencyConverterSoapBindingStub) this.currencyConverter).setMaintainSession(true);
+		this.currencyConverter = new CurrencyServerLocator().getCurrencyServerSoap();
 		
 		try {
 			this.garage = (IGarage) Naming.lookup("Garage");
@@ -59,7 +59,7 @@ public class IfsCarsService {
 	public double getPrice(long vehicleId, String currency) throws IllegalArgumentException, SQLException, RemoteException {
 		double price = db.getVehiclePrice(vehicleId);
 		
-		return currencyConverter.convertEuroTo(currency, price);
+		return (double) currencyConverter.convert("", "EUR", currency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
 	}
 	
 	/**
