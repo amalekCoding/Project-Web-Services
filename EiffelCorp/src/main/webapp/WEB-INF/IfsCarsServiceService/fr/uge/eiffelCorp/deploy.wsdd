@@ -13,19 +13,25 @@
       <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="isAvailable" qname="operNS:isAvailable" returnQName="retNS:isAvailableReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" name="addToBasket" qname="operNS:addToBasket" soapAction="">
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getBuyingPrice" qname="operNS:getBuyingPrice" returnQName="retNS:getBuyingPriceReturn" returnType="rtns:double" soapAction="">
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+        <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:currency" type="tns:string"/>
       </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehiclesList" qname="operNS:getVehiclesList" returnQName="retNS:getVehiclesListReturn" returnType="rtns:long" soapAction="">
-      </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getPrice" qname="operNS:getPrice" returnQName="retNS:getPriceReturn" returnType="rtns:double" soapAction="">
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRentalPrice" qname="operNS:getRentalPrice" returnQName="retNS:getRentalPriceReturn" returnType="rtns:double" soapAction="">
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:currency" type="tns:string"/>
       </operation>
       <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="purchase" qname="operNS:purchase" returnQName="retNS:purchaseReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
       </operation>
-      <parameter name="allowedMethods" value="isAvailable addToBasket getVehiclesList purchase getPrice"/>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" name="addToBasket" qname="operNS:addToBasket" soapAction="">
+        <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehiclesList" qname="operNS:getVehiclesList" returnQName="retNS:getVehiclesListReturn" returnType="rtns:long" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getBasket" qname="operNS:getBasket" returnQName="retNS:getBasketReturn" returnType="rtns:long" soapAction="">
+      </operation>
+      <parameter name="allowedMethods" value="isAvailable getBasket getBuyingPrice getRentalPrice addToBasket getVehiclesList purchase"/>
 
   </service>
 </deployment>

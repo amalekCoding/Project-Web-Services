@@ -24,11 +24,20 @@ public interface IGarage extends Remote {
 	 * Met fin à l'actuelle location du véhicule, et enchaine avec l'employé suivant sur la liste d'attente, en le notifiant.
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
-	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
 	 * @throws IllegalArgumentException Si le véhicule donné n'est pas en cours de location.
 	 * @throws RemoteException
 	 */
-	void endRent(long vehicleId) throws SQLException, IllegalArgumentException, RemoteException;
+	void endRent(long vehicleId) throws IllegalArgumentException, RemoteException;
+	
+	/**
+	 * Retire de la file d'attente un employé pour le véhicule donné.
+	 * 
+	 * @param tenant L'employé à retirer de la file
+	 * @param vehicleId L'identifiant du véhicule
+	 * @throws IllegalArgumentException Si le véhicule n'est pas en cours de location ou si l'employé ne se trouve pas dans la file d'attente de ce véhicule
+	 * @throws RemoteException 
+	 */
+	void removeFromQueue(Tenant tenant, long vehicleId) throws IllegalArgumentException, RemoteException;
 	
 	/**
 	 * Détermine si le véhicule est en cours de location.

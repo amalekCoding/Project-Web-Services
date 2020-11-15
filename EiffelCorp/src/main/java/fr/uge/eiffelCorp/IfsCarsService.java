@@ -3,7 +3,9 @@ package fr.uge.eiffelCorp;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.rpc.ServiceException;
@@ -47,17 +49,33 @@ public class IfsCarsService {
 	}
 	
 	/**
-	 * Renvoie le prix du véhicule donné en paramètre.
+	 * Renvoie le prix d'achat du véhicule donné en paramètre.
 	 * 
 	 * @param vehicleId L'identifiant du véhicule
 	 * @param currency La devise du prix
-	 * @return Le prix du véhicule
+	 * @return Le prix d'achat du véhicule
 	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base, ou si la devise donné n'est pas disponible
 	 * @throws RemoteException Si la connexion avec la base de donnée, ou le service de conversion de devise a été interrompue
 	 */
-	public double getPrice(long vehicleId, String currency) throws IllegalArgumentException, SQLException, RemoteException {
-		double price = db.getVehiclePrice(vehicleId);
+	public double getBuyingPrice(long vehicleId, String currency) throws IllegalArgumentException, SQLException, RemoteException {
+		double price = db.getVehicleBuyingPrice(vehicleId);
+		
+		return (double) currencyConverter.convert("", "EUR", currency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
+	}
+	
+	/**
+	 * Renvoie le prix de location du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @param currency La devise du prix
+	 * @return Le prix de location du véhicule
+	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base, ou si la devise donné n'est pas disponible
+	 * @throws RemoteException Si la connexion avec la base de donnée, ou le service de conversion de devise a été interrompue
+	 */
+	public double getRentalPrice(long vehicleId, String currency) throws IllegalArgumentException, SQLException, RemoteException {
+		double price = db.getVehicleRentalPrice(vehicleId);
 		
 		return (double) currencyConverter.convert("", "EUR", currency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
 	}
@@ -97,21 +115,28 @@ public class IfsCarsService {
 	 * 
 	 * @param clientId L'identifiant du client
 	 * @return True si l'achat a réussis (c'est à dire si le client avait les fonds suffisants), False sinon.
-	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
-	 * @throws RemoteException Si la connexion avec la base de donnée ou la banque a été interrompue
+	 * @throws SQLException Si la connexion avec la base de données a été interrompue
+	 * @throws RemoteException Si la connexion avec la base de données ou la banque a été interrompue
 	 */
 	public boolean purchase(long clientId) throws SQLException, RemoteException {
 		int totalPrice = 0;
 		
 		for (Long vehicleId : basket) {
 			try {
-				totalPrice += getPrice(vehicleId, "EUR");
+				totalPrice += getBuyingPrice(vehicleId, "EUR");
 			} catch (IllegalArgumentException e) {
 				throw new IllegalStateException("Panier invalide : Le véhicule " + vehicleId + " n'existe pas dans la base");
 			}
 		}
 		
-		return bank.makePurchase(clientId, totalPrice);
+		if (bank.makePurchase(clientId, totalPrice)) {
+			for (Long vehicleId : basket) {
+				registerPurchase(clientId, vehicleId);
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -122,5 +147,35 @@ public class IfsCarsService {
 	 */
 	public long[] getVehiclesList() throws RemoteException {
 		return db.getVehiclesId();
+	}
+	
+	/**
+	 * Renvoie la liste des véhicules placés dans le panier.
+	 * 
+	 * @return La liste des véhicules placés dans le panier
+	 */
+	public long[] getBasket() {
+		var array = new long[basket.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = basket.get(i);
+		}
+		
+		return array;
+	}
+	
+	/**
+	 * Enregistre l'achat dans la base de données
+	 * 
+	 * @param clientId Le client achetant le véhicule
+	 * @param vehicleId L'identifiant du véhicule acheté
+	 * @throws SQLException Si la connexion avec la base de données a été interrompue
+	 * @throws RemoteException Si la connexion avec la base de données a été interrompue
+	 */
+	private void registerPurchase(long clientId, long vehicleId) throws SQLException, RemoteException {
+	    SimpleDateFormat format = new SimpleDateFormat(db.getDateFormat());
+	    Date now = new Date();
+	    String strDate = format.format(now);
+		
+		db.registerPurchase(strDate, clientId, vehicleId);
 	}
 }
