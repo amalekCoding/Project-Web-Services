@@ -225,6 +225,98 @@ public class DataBase {
 	}
 	
 	/**
+	 * Renvoie la marque du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return La marque du véhicule
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public String getVehicleBrand(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT brand FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
+			}
+			
+			return result.getString("brand");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Renvoie le modèle du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return Le modèle du véhicule
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public String getVehicleModel(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT model FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'existe pas dans la base !");
+			}
+			
+			return result.getString("model");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Renvoie la note moyenne générale du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return La note moyenne générale du véhicule
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public float getVehicleGeneralGrade(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT AVG(vehicle_grade) AS note FROM " + RENTALS_TABLE + " WHERE vehicle_id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'a jamais été noté");
+			}
+			
+			return result.getFloat("note");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Renvoie la note moyenne de l'état du véhicule donné en paramètre.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return La note moyenne de l'état du véhicule
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
+	 */
+	public float getVehicleConditionGrade(long vehicleId) throws SQLException, IllegalArgumentException {
+		var query = String.format("SELECT AVG(condition_grade) AS note FROM " + RENTALS_TABLE + " WHERE vehicle_id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result)) {
+			if (!result.next()) {
+				throw new IllegalArgumentException("Le véhicule " + vehicleId + " n'a jamais été noté");
+			}
+			
+			return result.getFloat("note");
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
 	 * Récupère le solde bancaire du client donné en paramètre.
 	 * 
 	 * @param clientId L'identifiant du client

@@ -78,7 +78,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <element name="getVehiclesListResponse">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getVehiclesListReturn" type="xsd:long"/>
+      <element maxOccurs="unbounded" name="getVehiclesListReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
@@ -88,7 +88,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <element name="getBasketResponse">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getBasketReturn" type="xsd:long"/>
+      <element maxOccurs="unbounded" name="getBasketReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>

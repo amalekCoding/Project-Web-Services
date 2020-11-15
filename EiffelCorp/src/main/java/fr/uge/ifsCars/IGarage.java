@@ -64,4 +64,14 @@ public interface IGarage extends Remote {
 	 * @throws RemoteException
 	 */
 	void grade(String rentalDate, Tenant tenant, long vehicleId, int vehicleGrade, int conditionGrade) throws SQLException, IllegalArgumentException, RemoteException;
+	
+	/**
+	 * Récupère toutes les caractéristiques d'un véhicule depuis la base de données et renvoie l'ensemble sous forme d'un objet Vehicle.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return L'objet Vehicle correspondant
+	 * @throws RemoteException
+	 * @throws IllegalArgumentException Si le véhicule n'existe pas dans la base de données
+	 */
+	Vehicle getVehicle(long vehicleId) throws RemoteException, IllegalArgumentException;
 }

@@ -231,8 +231,20 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		db.addGrade(rentalDate, tenant.getId(), vehicleId, vehicleGrade, conditionGrade);
 	}
 	
+	@Override
+	public Vehicle getVehicle(long vehicleId) throws RemoteException, IllegalArgumentException {
+		if (!db.vehicleExists(vehicleId)) {
+			throw new IllegalArgumentException("Erreur : Le véhicule " + vehicleId + " n'existe pas dans la base !");
+		}
+		
+		return new Vehicle(vehicleId,
+				db.getVehicleBrand(vehicleId), db.getVehicleModel(vehicleId),
+				db.getVehicleBuyingPrice(vehicleId), db.getVehicleRentalPrice(vehicleId),
+				db.getVehicleGeneralGrade(vehicleId), db.getVehicleConditionGrade(vehicleId));
+	}
+	
 	/**
-	 * Enregistre la location dans la base de données
+	 * Enregistre la location dans la base de données.
 	 * 
 	 * @param tenant L'employé louant le véhicule
 	 * @param vehicleId L'identifiant du véhicule loué

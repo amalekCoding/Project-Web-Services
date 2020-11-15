@@ -1,5 +1,6 @@
 package fr.uge.eiffelCorp;
 
+import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
 import fr.uge.ifsCars.IGarage;
+import fr.uge.utils.Serialization;
 
 public class IfsCarsService {
 	private final DataBase db;
@@ -140,31 +142,42 @@ public class IfsCarsService {
 	}
 	
 	/**
-	 * Récupère la liste des identifiants de tous les véhicules (achetable ou louable seulement).
+	 * Récupère la liste de tous les véhicules (achetable ou louable seulement) sous forme sérializé.
 	 * 
-	 * @return Un tableau contenant les identifiants des véhicules de la base
-	 * @throws RemoteException
+	 * @return Un tableau contenant les véhicules sérializés de la base
+	 * @throws IOException 
 	 */
-	public long[] getVehiclesList() throws RemoteException {
-		return db.getVehiclesId();
-	}
-	
-	/**
-	 * Renvoie la liste des véhicules placés dans le panier.
-	 * 
-	 * @return La liste des véhicules placés dans le panier
-	 */
-	public long[] getBasket() {
-		var array = new long[basket.size()];
-		for (int i = 0; i < array.length; i++) {
-			array[i] = basket.get(i);
+	public String[] getVehiclesList() throws IOException {
+		long[] ids = db.getVehiclesId();
+		String[] serializedVehicles = new String[ids.length];
+		
+		for (int i = 0; i < ids.length; i++) {
+			var vehicle = garage.getVehicle(ids[i]);
+			serializedVehicles[i] = Serialization.serialize(vehicle);
 		}
 		
-		return array;
+		return serializedVehicles;
 	}
 	
 	/**
-	 * Enregistre l'achat dans la base de données
+	 * Renvoie la liste des véhicules placés dans le panier sous forme sérializé.
+	 * 
+	 * @return La liste des véhicules sérializés placés dans le panier
+	 * @throws IOException 
+	 */
+	public String[] getBasket() throws IOException {
+		String[] serializedVehicles = new String[basket.size()];
+		
+		for (int i = 0; i < basket.size(); i++) {
+			var vehicle = garage.getVehicle(basket.get(i));
+			serializedVehicles[i] = Serialization.serialize(vehicle);
+		}
+		
+		return serializedVehicles;
+	}
+	
+	/**
+	 * Enregistre l'achat dans la base de données.
 	 * 
 	 * @param clientId Le client achetant le véhicule
 	 * @param vehicleId L'identifiant du véhicule acheté

@@ -27,9 +27,9 @@
       <operation xmlns:operNS="http://eiffelCorp.uge.fr" name="addToBasket" qname="operNS:addToBasket" soapAction="">
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehiclesList" qname="operNS:getVehiclesList" returnQName="retNS:getVehiclesListReturn" returnType="rtns:long" soapAction="">
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehiclesList" qname="operNS:getVehiclesList" returnQName="retNS:getVehiclesListReturn" returnType="rtns:string" soapAction="">
       </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getBasket" qname="operNS:getBasket" returnQName="retNS:getBasketReturn" returnType="rtns:long" soapAction="">
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getBasket" qname="operNS:getBasket" returnQName="retNS:getBasketReturn" returnType="rtns:string" soapAction="">
       </operation>
       <parameter name="allowedMethods" value="isAvailable getBasket getBuyingPrice getRentalPrice addToBasket getVehiclesList purchase"/>
 
