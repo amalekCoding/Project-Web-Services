@@ -6,7 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Grade The Car</title>
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css" >
+    <link rel="stylesheet" href="css/table.css" >
 </head>
 
 <body>

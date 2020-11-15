@@ -1,13 +1,21 @@
+<%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link href="css/dashboard.css" rel="stylesheet">
-	
+    <link rel="stylesheet" href="css/base.css" >
+    <link rel="stylesheet" href="css/table.css" >
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 	<title>My Profile</title>
 </head>
+
+
+
+
+   
 <body>
 
 
@@ -32,7 +40,7 @@
 			</tr> 
 			<tr> 
 			    <th>Amount in Bank</th> 
-			    <td>$15 000.00</td>
+			    <td>120 000.00 $</td>
 			</tr> 
 	 </table> 
 	 

@@ -3,17 +3,14 @@
 
 body{
     background: linear-gradient(90deg, #18e5b2 40%, #FFFFFF 40%);
-    padding:5%;
+    padding: 5%;
 }
 
 a{
     font-weight:bold;
 }
 
-h6{
-    font-weight:bold;
-}
-h5{
+h5, h6{
     font-weight:bold;
 }
 
@@ -53,10 +50,6 @@ h5{
     width:30%;
 }
 
-.info h5{
-    text-align:center;
-}
-
-.info h6{
+.info h5, .info h6 {
     text-align:center;
 }

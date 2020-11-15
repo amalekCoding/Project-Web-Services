@@ -16,7 +16,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link   href="css/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css" >
+    <link rel="stylesheet" href="css/table.css" >
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <title>Dashboard</title>
 </head>
 
  
@@ -27,6 +31,7 @@
 
 	 <input type="button" class="icon button-profile"  onclick="window.location='profile.jsp';">
 	 <input type="button" class="icon button-basket"  onclick="window.location='mybasket.jsp';">
+   	 <span class='badge-warning' id='lblCartCount'> 0 </span>
 
 	 
 	 <table class="layout display cars-table">
