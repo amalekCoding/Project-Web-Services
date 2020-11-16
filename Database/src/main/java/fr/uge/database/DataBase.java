@@ -479,38 +479,56 @@ public class DataBase {
 	}
 	
 	/**
-	 * Vérifie l'authentification d'un employé, selon ses identifiants.
+	 * Vérifie l'authentification d'un employé, selon ses identifiants, et renvoie ses informations
+	 * si l'authentification a réussis sous la forme "id|firstname|lastname".
 	 * 
 	 * @param login Le login de l'employé
 	 * @param password Le mot de passe de l'employé
-	 * @return True si l'authentification a réussi, False sinon
+	 * @return La String contenant les informations de l'employé ou null si l'authentification a échouée
 	 * @throws SQLException
 	 */
-	public boolean authenticateEmployee(String login, String password) throws SQLException {
-		var query = String.format("SELECT COUNT(*) FROM " + EMPLOYEES_TABLE + " WHERE login=%s && password=%s;", login, password);
+	public String authenticateEmployee(String login, String password) throws SQLException {
+		var query = String.format("SELECT id, firstname, lastname FROM " + EMPLOYEES_TABLE + " WHERE login=%s && password=%s;", login, password);
 		
 		var result = executeQuery(query);
-		if (!Objects.isNull(result) && result.next()) {
-			return result.getInt("count") > 0;
+		if (!Objects.isNull(result)) {
+			if (result.next()) {
+				var id = result.getString("id");
+				var firstname = result.getString("firstname");
+				var lastname = result.getString("lastname");
+				
+				return id + '|' + firstname + '|' + lastname;
+			} else {
+				return null;
+			}
 		}
 		
 		throw new IllegalStateException();
 	}
 	
 	/**
-	 * Vérifie l'authentification d'un client, selon ses identifiants.
+	 * Vérifie l'authentification d'un client, selon ses identifiants, et renvoie ses informations
+	 * si l'authentification a réussis sous la forme "id|firstname|lastname".
 	 * 
 	 * @param login Le login du client
 	 * @param password Le mot de passe de l'employé
-	 * @return True si l'authentification a réussi, False sinon
+	 * @return La String contenant les informations du client ou null si l'authentification a échouée
 	 * @throws SQLException
 	 */
-	public boolean authenticateClient(String login, String password) throws SQLException {
-		var query = String.format("SELECT COUNT(*) FROM " + CLIENTS_TABLE + " WHERE login=%s && password=%s;", login, password);
+	public String authenticateClient(String login, String password) throws SQLException {
+		var query = String.format("SELECT id, firstname, lastname FROM " + CLIENTS_TABLE + " WHERE login=%s && password=%s;", login, password);
 		
 		var result = executeQuery(query);
-		if (!Objects.isNull(result) && result.next()) {
-			return result.getInt("count") > 0;
+		if (!Objects.isNull(result)) {
+			if (result.next()) {
+				var id = result.getString("id");
+				var firstname = result.getString("firstname");
+				var lastname = result.getString("lastname");
+				
+				return id + '|' + firstname + '|' + lastname;
+			} else {
+				return null;
+			}
 		}
 		
 		throw new IllegalStateException();
