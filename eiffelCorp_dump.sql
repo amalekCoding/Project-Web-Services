@@ -28,7 +28,9 @@ CREATE TABLE public."Clients" (
     id integer NOT NULL,
     bank_balance integer DEFAULT 0,
     login character varying(30) NOT NULL,
-    password character varying(30) NOT NULL
+    password character varying(30) NOT NULL,
+    firstname character varying(20) NOT NULL,
+    lastname character varying(20) NOT NULL
 );
 
 
@@ -39,6 +41,20 @@ ALTER TABLE public."Clients" OWNER TO postgres;
 --
 
 COMMENT ON COLUMN public."Clients".bank_balance IS 'Solde bancaire';
+
+
+--
+-- Name: COLUMN "Clients".firstname; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Clients".firstname IS 'Prénom';
+
+
+--
+-- Name: COLUMN "Clients".lastname; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Clients".lastname IS 'Nom';
 
 
 --
@@ -70,11 +86,27 @@ ALTER SEQUENCE public."Clients_id_seq" OWNED BY public."Clients".id;
 CREATE TABLE public."Employees" (
     id integer NOT NULL,
     login character varying(30) NOT NULL,
-    password character varying(30) NOT NULL
+    password character varying(30) NOT NULL,
+    firstname character varying(20) NOT NULL,
+    lastname character varying(20) NOT NULL
 );
 
 
 ALTER TABLE public."Employees" OWNER TO postgres;
+
+--
+-- Name: COLUMN "Employees".firstname; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Employees".firstname IS 'Prénom';
+
+
+--
+-- Name: COLUMN "Employees".lastname; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Employees".lastname IS 'Nom';
+
 
 --
 -- Name: Employees_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
