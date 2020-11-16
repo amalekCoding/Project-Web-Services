@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.ifsCars.Vehicle"%>
+<%@page import="fr.uge.ifsCars.IGarage"%>
+<%@page import="fr.uge.utils.Serialization"%>
+<%@page import="java.rmi.Naming"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +15,15 @@
 
 	<title>MyBasket</title>
 </head>
-<body>
 
-
-	<div class="page">
+	<%
+	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
+    	IGarage garage = (IGarage)session.getAttribute("garage");
+	%>
 	
+    
+<body>
+	<div class="page">
 	
 		<h1>Shopping Cart</h1>
 	 
@@ -40,10 +49,31 @@
 	
 				    <td><input type="button" class="icon button-buy"   onclick="window.location='buy.jsp';"></td>
 				</tr> 
-			</tbody> 
+			
+		 
+		 
+		 
+		 
+		 
+			<%
+				String[] lstStrVehicles = service.getBasket();
+				for(String strVehicle : lstStrVehicles) {
+					Vehicle vehicle = (Vehicle) Serialization.deserialize(strVehicle);
+			%>
+			<tr> 
+			    <td><%= vehicle.brand %></td> 
+			    <td><%= vehicle.model %></td> 
+			    <td><%= vehicle.generalGrade %></td> 
+			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
+			    <td><%= -1 %></td> 
+				<td><input type="button" class="icon button-buy"   onclick="window.location='buy.jsp';"></td>
+			    
+			</tr>
+			<%
+				}
+			%>
+		 </tbody> 
 		 </table> 
-		 
-		 
 		 
 		 <h1>En attente</h1>
 		 

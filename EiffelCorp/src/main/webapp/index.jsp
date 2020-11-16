@@ -1,5 +1,8 @@
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@page import="fr.uge.ifsCars.Vehicle"%>
+<%@page import="fr.uge.ifsCars.IGarage"%>
+<%@page import="fr.uge.utils.Serialization"%>
+<%@page import="java.rmi.Naming"%><%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
     
@@ -11,7 +14,13 @@
     <link rel="stylesheet" href="css/login.css">
 </head>
 
-
+	<%
+	    IfsCarsService service = new IfsCarsService();
+	    IGarage garage = (IGarage) Naming.lookup("Garage");
+	    session.setAttribute("service", service);
+	    session.setAttribute("garage", garage);
+	%>
+	
 <body>
 
     <div class="logindiv card">

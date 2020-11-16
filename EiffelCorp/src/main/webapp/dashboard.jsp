@@ -1,27 +1,33 @@
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.ifsCars.Vehicle"%>
+<%@page import="fr.uge.ifsCars.IGarage"%>
+<%@page import="fr.uge.utils.Serialization"%>
+<%@page import="java.rmi.Naming"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
-    
-    
 
-<%
-	java.util.Date date = new java.util.Date();
-    IfsCarsService service = new IfsCarsService();
-%>
-    
-    
     
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+	<script type="text/javascript" src="/js/dashboard.js"></script>
     <link rel="stylesheet" href="css/base.css" >
     <link rel="stylesheet" href="css/table.css" >
     <link rel="stylesheet" href="css/dashboard.css">
-
+    
     <title>Dashboard</title>
 </head>
+
+
+
+
+<%
+	IfsCarsService service = (IfsCarsService)session.getAttribute("service");
+    IGarage garage = (IGarage)session.getAttribute("garage");
+%>
+
+
 
  
 <body>
@@ -29,11 +35,11 @@
 	 <h1>My Dashboard</h1>
 	 
 
-	 <input type="button" class="icon button-profile"  onclick="window.location='profile.jsp';">
-	 <input type="button" class="icon button-basket"  onclick="window.location='mybasket.jsp';">
+	 <input type="button" class="button-profile icon"  onclick="window.location='profile.jsp';">
+	 <input type="button" class="button-basket icon"  onclick="window.location='mybasket.jsp';">
    	 <span class='badge-warning' id='lblCartCount'> 0 </span>
 
-	 
+
 	 <table class="layout display cars-table">
 		<thead> 
 			<tr> 
@@ -49,16 +55,6 @@
 		<tbody> 
 
 			<tr> 
-			    <td>BMW</td> 
-			    <td>X5</td> 
-			    <td>6</td> 
-			    <td>$150.00</td> 
-			    <td>6</td>
-
-			    <td><img class="icon" src="logo/check.png"/></td>
-			    <td><input type="button" class="icon button-rent"></td>
-			</tr> 
-			<tr> 
 			    <td>Audi</td> 
 			    <td>A5</td> 
 			    <td>8</td> 
@@ -71,16 +67,17 @@
 			
 			
 			<%
-				long[] lstId = service.getVehiclesList();
-				for(long vehicleId : lstId) {
+				String[] lstStrVehicles = service.getVehiclesList();
+				for(String strVehicle : lstStrVehicles) {
+					Vehicle vehicle = (Vehicle) Serialization.deserialize(strVehicle);
 			%>
 			<tr> 
-			    <td>?</td> 
-			    <td>?</td> 
-			    <td>?</td> 
-			    <td><%= service.getPrice(vehicleId, "USD") %></td> 
-			    <td>?</td>
-			    <% if(service.isAvailable(vehicleId)) { %>
+			    <td><%= vehicle.brand %></td> 
+			    <td><%= vehicle.model %></td> 
+			    <td><%= vehicle.generalGrade %></td> 
+			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
+			    <td><%= -1 %></td> 
+			    <% if(!garage.isRented(vehicle.id)) { %>
 			    	<td><img class="icon check-logo" src="logo/check.png"/></td>
 			    	<td><input type="button" class="icon button-rent"></td>
 			    <% } else { %>
@@ -115,48 +112,55 @@
 			    <td>$15 000.00</td> 
 			    <td>6</td>
      
-			    <td><input type="button" class="icon button-addbasket"></td>
+
 			</tr> 
+
+
+			<%
+				lstStrVehicles = service.getVehiclesList();
+				for(String strVehicle : lstStrVehicles) {
+					Vehicle vehicle = (Vehicle) Serialization.deserialize(strVehicle);
+			%>
 			<tr> 
-			    <td>Audi</td> 
-			    <td>A5</td> 
-			    <td>8</td> 
-			    <td>$20 000.00</td> 
-			    <td>2</td>
+			    <td><%= vehicle.brand %></td> 
+			    <td><%= vehicle.model %></td> 
+			    <td><%= vehicle.generalGrade %></td> 
+			   	<td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+			    <td><%= -1 %></td> 
 			    
-			    <td><input type="button" class="icon button-addbasket"></td>
+			   	<td>
+			   	<form method="POST">
+			   		<button  name = "addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicle.id %>> d</button>
+			   	</form>
+			   	</td>
+
 			</tr>
+			<%
+				}
+			%>
+			
+					
+			
+
 		</tbody> 
 	 </table> 
 
-
-
+	</div>
+	
+	<script>
+	
+	function addToBasket() {
+		<%
+		System.out.println("123123123123123123");
+		if(request.getParameter("addcart") != null) {
+			System.out.println("ixxxxxi");
+	    	int x = Integer.valueOf(request.getParameter("addcart"));
+	    	service.addToBasket(x);
+		}
+		%>		
+	}
+	</script>
  </body>
 </html>
 
 
-
-<script>
-function msgAddedToWaitingLst() {
-  alert("This car is not available.\n You're on the list.");
-}
-</script>
-
-
-
-<!-- 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="ISO-8859-1">
-        <title>Titre de la page</title>
-    </head>
-
-    <body>
-        <h1>Hello world !</h1>
-        <p><%= service.getVehiclesList() %></p>
-        <p><%= service.getPrice(1, "USD") %></p>
-    </body>
-</html>
-
--->
