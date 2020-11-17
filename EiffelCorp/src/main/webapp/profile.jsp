@@ -1,4 +1,11 @@
+<%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.database.DataBaseServiceLocator"%>
+<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.ifsCars.Vehicle"%>
+<%@page import="fr.uge.ifsCars.IGarage"%>
+<%@page import="fr.uge.utils.Serialization"%>
+<%@page import="java.rmi.Naming"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,7 +21,12 @@
 
 
 
-
+<%
+	IfsCarsService service = (IfsCarsService)session.getAttribute("service");
+	IGarage garage = (IGarage)session.getAttribute("garage");
+	DataBase db = new DataBaseServiceLocator().getDataBase();
+	((DataBaseSoapBindingStub) db).setMaintainSession(true);
+%>
    
 <body>
 
@@ -92,7 +104,34 @@
 
 			    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
 			    <td><input type="button" class="icon button-cancel"></td>
-			</tr> 
+			</tr>
+			
+			
+			
+			<%
+				
+				System.out.println("-   ici " + db.clientExists(0));
+				long[] lstIdVehicles =  db.getRentedVehicles(0L);
+
+				for(long vehicleId : lstIdVehicles) {
+
+			%>
+			<tr> 
+			    <td><%= db.getVehicleBrand(vehicleId) %></td> 
+			    <td><%= db.getVehicleModel(vehicleId) %></td> 
+			    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
+			    <td><%= service.getRentalPrice(vehicleId, "EUR") %></td> 
+			    <td><%= db.getRentalsNumber(vehicleId) %></td> 
+			    
+			    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
+			    <td><input type="button" class="icon button-cancel"></td>
+			</tr>
+			<%
+				}
+			%>
+			
+			
+			
 		</tbody> 
 	 </table> 
 
