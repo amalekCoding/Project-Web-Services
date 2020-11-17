@@ -1,3 +1,8 @@
+<%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.ifsCars.Vehicle"%>
+<%@page import="fr.uge.ifsCars.IGarage"%>
+<%@page import="fr.uge.utils.Serialization"%>
+<%@page import="java.rmi.Naming"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,6 +14,24 @@
 	</head>
 <body>
 
+
+	<%
+	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
+    	IGarage garage = (IGarage)session.getAttribute("garage");
+    	if(session.getAttribute("buy-btn") == null) {
+    		System.out.println("nullllllllllll");
+    	}
+    	
+		int vehicleId = (Integer)session.getAttribute("buy-btn");
+		Vehicle vehicle = garage.getVehicle(vehicleId);
+		
+		if(session.getAttribute("buy-btn") != null) {
+    		System.out.println("");
+    	}
+		
+	%>
+	
+	
 
 	<div class="page">
 
@@ -32,14 +55,18 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>BMW</td>
-					<td>X5</td>
-					<td>6</td>
-					<td>$15 000.00</td>
-					<td>6</td>
+					<td><%= vehicle.brand %></td> 
+				    <td><%= vehicle.model %></td> 
+				    <td><%= vehicle.generalGrade %></td> 
+				    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+				    <td><%= -1 %></td> 
 					<td><input type="number" id="tentacles" name="tentacles"
 						value="1" min="1" max="100"></td>
-
+			    
+			    
+			    
+			    
+			</tr>
 
 				</tr>
 			</tbody>
@@ -74,6 +101,10 @@
 		<div>
 			<h3>Total : EUR 15 000</h3>
 			<button >Acheter !</button>
+			
+			<form method="POST">
+			   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicleId %>>
+			   	</form>
 		</div>
 
 	</div>

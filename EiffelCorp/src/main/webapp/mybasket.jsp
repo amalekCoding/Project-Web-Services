@@ -64,10 +64,13 @@
 			    <td><%= vehicle.brand %></td> 
 			    <td><%= vehicle.model %></td> 
 			    <td><%= vehicle.generalGrade %></td> 
-			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
+			    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
 			    <td><%= -1 %></td> 
-				<td><input type="button" class="icon button-buy"   onclick="window.location='buy.jsp';"></td>
-			    
+				<td>
+					<form method="POST" >
+						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value=<%= vehicle.id %>>
+			    	</form> 
+			    </td>
 			</tr>
 			<%
 				}
@@ -101,6 +104,25 @@
 			</tbody> 
 		 </table>
 
+
+
+	<script>
+	
+		function confirmBuy() {
+			<%
+			System.out.println("-1buy-btn()-");
+			if(request.getParameter("buy-btn") != null) {
+				System.out.println("-2buy-btn()-");
+		    	int idVehicles = Integer.valueOf(request.getParameter("buy-btn"));
+				System.out.println(idVehicles);
+				session.setAttribute("buy-btn", idVehicles);
+				response.getWriter().write("<script> window.location='buy.jsp'</script>");
+			}
+			%>
+		}
+	</script>
+	
+	
 	</div>
 </body>
 </html>

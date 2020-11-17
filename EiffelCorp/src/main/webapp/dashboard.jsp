@@ -104,16 +104,7 @@
 			    <th>Add to Basket</th> 
 			</tr> 
 		</thead> 
-		<tbody> 
-			<tr> 
-			    <td>BMW</td> 
-			    <td>X5</td> 
-			    <td>6</td> 
-			    <td>$15 000.00</td> 
-			    <td>6</td>
-     
-
-			</tr> 
+		<tbody>
 
 
 			<%
@@ -130,7 +121,7 @@
 			    
 			   	<td>
 			   	<form method="POST">
-			   		<button  name = "addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicle.id %>> d</button>
+			   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicle.id %>>
 			   	</form>
 			   	</td>
 
@@ -138,8 +129,6 @@
 			<%
 				}
 			%>
-			
-					
 			
 
 		</tbody> 
@@ -149,16 +138,15 @@
 	
 	<script>
 	
-	function addToBasket() {
-		<%
-		System.out.println("123123123123123123");
-		if(request.getParameter("addcart") != null) {
-			System.out.println("ixxxxxi");
-	    	int x = Integer.valueOf(request.getParameter("addcart"));
-	    	service.addToBasket(x);
+		function addToBasket() {
+			<%
+			if(request.getParameter("addcart") != null) {
+				System.out.println("-addToBasket()-");
+		    	int x = Integer.valueOf(request.getParameter("addcart"));
+		    	service.addToBasket(x);
+			}
+			%>		
 		}
-		%>		
-	}
 	</script>
  </body>
 </html>
