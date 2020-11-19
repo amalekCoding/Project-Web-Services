@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.rpc.ServiceException;
 
@@ -176,10 +177,10 @@ public class IfsCarsService {
 	 * @throws IOException 
 	 */
 	public String[] getVehiclesList() throws IOException {
-		long[] ids = db.getVehiclesId();
-		String[] serializedVehicles = new String[ids.length];
+		long[] ids = db.getVehiclesId();		
+		String[] serializedVehicles = new String[Objects.isNull(ids) ? 0 : ids.length];
 		
-		for (int i = 0; i < ids.length; i++) {
+		for (int i = 0; i < serializedVehicles.length; i++) {
 			var vehicle = garage.getVehicle(ids[i]);
 			serializedVehicles[i] = Serialization.serialize(vehicle);
 		}

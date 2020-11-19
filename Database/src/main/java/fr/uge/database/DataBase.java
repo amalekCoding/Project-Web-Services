@@ -25,6 +25,9 @@ public class DataBase {
 	private final static String PURCHASES_TABLE = "public.\"Purchases\"";
 	private final static String CLIENTS_TABLE = "public.\"Clients\"";
 	
+	// Constantes
+	private final static char SEP_CAR = ':';
+	
 	private Connection pgConnection;
 
 	public DataBase() {
@@ -46,7 +49,7 @@ public class DataBase {
         }
 	}
 	
-	private void silentlyClose() {
+	public void silentlyClose() {
 		try {
 			pgConnection.close();
 			pgConnection = null;
@@ -480,7 +483,7 @@ public class DataBase {
 	
 	/**
 	 * Vérifie l'authentification d'un employé, selon ses identifiants, et renvoie ses informations
-	 * si l'authentification a réussis sous la forme "id|firstname|lastname".
+	 * si l'authentification a réussis sous la forme "id:firstname:lastname".
 	 * 
 	 * @param login Le login de l'employé
 	 * @param password Le mot de passe de l'employé
@@ -488,7 +491,7 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public String authenticateEmployee(String login, String password) throws SQLException {
-		var query = String.format("SELECT id, firstname, lastname FROM " + EMPLOYEES_TABLE + " WHERE login=%s && password=%s;", login, password);
+		var query = String.format("SELECT id, firstname, lastname FROM " + EMPLOYEES_TABLE + " WHERE login='%s' AND password='%s';", login, password);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
@@ -497,7 +500,7 @@ public class DataBase {
 				var firstname = result.getString("firstname");
 				var lastname = result.getString("lastname");
 				
-				return id + '|' + firstname + '|' + lastname;
+				return id + SEP_CAR + firstname + SEP_CAR + lastname;
 			} else {
 				return null;
 			}
@@ -508,7 +511,7 @@ public class DataBase {
 	
 	/**
 	 * Vérifie l'authentification d'un client, selon ses identifiants, et renvoie ses informations
-	 * si l'authentification a réussis sous la forme "id|firstname|lastname".
+	 * si l'authentification a réussis sous la forme "id:firstname:lastname".
 	 * 
 	 * @param login Le login du client
 	 * @param password Le mot de passe de l'employé
@@ -516,7 +519,7 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public String authenticateClient(String login, String password) throws SQLException {
-		var query = String.format("SELECT id, firstname, lastname FROM " + CLIENTS_TABLE + " WHERE login=%s && password=%s;", login, password);
+		var query = String.format("SELECT id, firstname, lastname FROM " + CLIENTS_TABLE + " WHERE login='%s' AND password='%s';", login, password);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
@@ -525,7 +528,7 @@ public class DataBase {
 				var firstname = result.getString("firstname");
 				var lastname = result.getString("lastname");
 				
-				return id + '|' + firstname + '|' + lastname;
+				return id + SEP_CAR + firstname + SEP_CAR + lastname;
 			} else {
 				return null;
 			}
