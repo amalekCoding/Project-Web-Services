@@ -141,6 +141,34 @@ public class IfsCarsService {
 		}
 	}
 	
+	
+	
+	/**
+	 * Achète un véhicule.
+	 * 
+	 * @param clientId L'identifiant du client, vehicleId L'identifiant du vehicule
+	 * @return True si l'achat a réussis (c'est à dire si le client avait les fonds suffisants), False sinon.
+	 * @throws SQLException Si la connexion avec la base de données a été interrompue
+	 * @throws RemoteException Si la connexion avec la base de données ou la banque a été interrompue
+	 */
+	public boolean purchaseVehicle(long clientId, long vehicleId) throws SQLException, RemoteException {
+		int totalPrice = 0;
+		
+		try {
+			totalPrice += getBuyingPrice(vehicleId, "EUR");
+		} catch (IllegalArgumentException e) {
+			throw new IllegalStateException("Invalide : Le véhicule " + vehicleId + " n'existe pas dans la base");
+		}
+		
+		if (bank.makePurchase(clientId, totalPrice)) {
+			registerPurchase(clientId, vehicleId);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	/**
 	 * Récupère la liste de tous les véhicules (achetable ou louable seulement) sous forme sérializé.
 	 * 

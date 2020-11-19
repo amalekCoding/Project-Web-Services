@@ -1,5 +1,4 @@
 
-<script type="text/javascript">
 
 	function msgAddedToWaitingLst() {
 	  alert("This car is not available.\n You're on the list.");
@@ -24,4 +23,3 @@
 	}
 	
 	window.onload = init  
-</script>

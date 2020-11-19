@@ -112,21 +112,22 @@
 				
 				System.out.println("-   ici " + db.clientExists(0));
 				long[] lstIdVehicles =  db.getRentedVehicles(0L);
-
-				for(long vehicleId : lstIdVehicles) {
+				if(lstIdVehicles != null) {
+					for(long vehicleId : lstIdVehicles) {
 
 			%>
-			<tr> 
-			    <td><%= db.getVehicleBrand(vehicleId) %></td> 
-			    <td><%= db.getVehicleModel(vehicleId) %></td> 
-			    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
-			    <td><%= service.getRentalPrice(vehicleId, "EUR") %></td> 
-			    <td><%= db.getRentalsNumber(vehicleId) %></td> 
-			    
-			    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
-			    <td><input type="button" class="icon button-cancel"></td>
-			</tr>
+					<tr> 
+					    <td><%= db.getVehicleBrand(vehicleId) %></td> 
+					    <td><%= db.getVehicleModel(vehicleId) %></td> 
+					    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
+					    <td><%= service.getRentalPrice(vehicleId, "EUR") %></td> 
+					    <td><%= db.getRentalsNumber(vehicleId) %></td> 
+					    
+					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
+					    <td><input type="button" class="icon button-cancel"></td>
+					</tr>
 			<%
+					}
 				}
 			%>
 			

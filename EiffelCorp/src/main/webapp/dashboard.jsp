@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-	<script type="text/javascript" src="/js/dashboard.js"></script>
+	<script type="text/javascript" src="js/dashboard.js"></script>
     <link rel="stylesheet" href="css/base.css" >
     <link rel="stylesheet" href="css/table.css" >
     <link rel="stylesheet" href="css/dashboard.css">
@@ -79,7 +79,7 @@
 			    <td><%= -1 %></td> 
 			    <% if(!garage.isRented(vehicle.id)) { %>
 			    	<td><img class="icon check-logo" src="logo/check.png"/></td>
-			    	<td><input type="button" class="icon button-rent"></td>
+			    	<td><input type="button" class="icon button-rent" onclick="window.location='rent.jsp';"></td>
 			    <% } else { %>
 			    	<td><img class="icon check-logo" src="logo/cross.png"/></td>
 			    	<td><input type="button" onclick="msgAddedToWaitingLst()" class="icon button-rent"></td>
@@ -121,7 +121,8 @@
 			    
 			   	<td>
 			   	<form method="POST">
-			   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicle.id %>>
+			   		<input type="hidden" name="addToCartId" value=<%= vehicle.id %>>
+			   		<input type="submit" name="addToCartBtn" onclick='addToBasket()' id='addcart' class="icon button-addbasket" value="" >
 			   	</form>
 			   	</td>
 
@@ -140,9 +141,9 @@
 	
 		function addToBasket() {
 			<%
-			if(request.getParameter("addcart") != null) {
+			if(request.getParameter("addToCartId") != null) {
 				System.out.println("-addToBasket()-");
-		    	int x = Integer.valueOf(request.getParameter("addcart"));
+		    	int x = Integer.valueOf(request.getParameter("addToCartId"));
 		    	service.addToBasket(x);
 			}
 			%>		

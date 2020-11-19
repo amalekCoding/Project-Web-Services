@@ -47,7 +47,7 @@
 					<th>Brand</th>
 					<th>Model</th>
 					<th>Grade</th>
-					<th>Price</th>
+					<th>Renting Price</th>
 					<th>Rented times</th>
 					<th>Quantity</th>
 
@@ -58,7 +58,7 @@
 					<td><%= vehicle.brand %></td> 
 				    <td><%= vehicle.model %></td> 
 				    <td><%= vehicle.generalGrade %></td> 
-				    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+				    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
 				    <td><%= -1 %></td> 
 					<td><input type="number" id="tentacles" name="tentacles"
 						value="1" min="1" max="100"></td>
@@ -92,7 +92,7 @@
 					<td><strong>Deduction :</strong> -15 000</td>
 				</tr>
 				<tr>
-					<td><strong>After purchase :</strong> 10 000 EUR</td>
+					<td><strong>After rent :</strong> 10 000 EUR</td>
 				</tr>
 			</tbody>
 		</table>
