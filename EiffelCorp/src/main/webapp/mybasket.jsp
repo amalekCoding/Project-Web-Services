@@ -1,17 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.database.DataBaseServiceLocator"%>
+<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
+<%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.ifsCars.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
 <%@page import="fr.uge.utils.Serialization"%>
-<%@page import="java.rmi.Naming"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css" >
     <link rel="stylesheet" href="css/table.css" >
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/buttons.css">
 
 	<title>MyBasket</title>
 </head>
@@ -19,13 +21,20 @@
 	<%
 	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
     	IGarage garage = (IGarage)session.getAttribute("garage");
-	%>
+    	
+    	DataBase db = new DataBaseServiceLocator().getDataBase();
+    	((DataBaseSoapBindingStub) db).setMaintainSession(true);
+    %>
+	  
 	
     
 <body>
 	<div class="page">
 	
 		<h1>Shopping Cart</h1>
+		
+	 	<input type="button" class="button-cal icon"  onclick="window.location='dashboard.jsp';">
+		
 	 
 		 <table class="layout display cars-table">
 			<thead> 
@@ -65,7 +74,7 @@
 			    <td><%= vehicle.model %></td> 
 			    <td><%= vehicle.generalGrade %></td> 
 			    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    <td><%= -1 %></td> 
+			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 				<td>
 					<form method="POST" >
 						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value=<%= vehicle.id %>>
@@ -78,17 +87,14 @@
 		 </tbody> 
 		 </table> 
 		 
-		 <h1>En attente</h1>
+		 
+		 <br>
+		 <h2>My Waiting List : </h2>
 		 
 		 <table class="layout display cars-table">
 			<thead> 
 				<tr> 
-				    <th>Brand</th> 
-				    <th>Model</th> 
-				    <th>Grade</th> 
-				    <th>Rental Price</th> 
-				    <th>Rented times</th> 
-				    <th>Cancel</th> 
+				    <th>Brand</th><th>Model</th><th>Grade</th><th>Rental Price</th><th>Rented times</th><th>Cancel</th> 
 				</tr> 
 			</thead> 
 			<tbody> 
@@ -110,12 +116,9 @@
 	
 		function confirmBuy() {
 			<%
-			System.out.println("-1buy-btn()-");
 			if(request.getParameter("buy-btn") != null) {
-				System.out.println("-2buy-btn()-");
-		    	int idVehicles = Integer.valueOf(request.getParameter("buy-btn"));
-				System.out.println(idVehicles);
-				session.setAttribute("buy-btn", idVehicles);
+		    	int idVehicle = Integer.valueOf(request.getParameter("buy-btn"));
+				session.setAttribute("buy-btn", idVehicle);
 				response.getWriter().write("<script> window.location='buy.jsp'</script>");
 			}
 			%>

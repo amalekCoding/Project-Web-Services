@@ -1,6 +1,3 @@
-
-
-
 #lblCartCount {
     font-size: 12px;
     background: #ff0000;
@@ -13,44 +10,11 @@
 }
 
 
-img.icon,
-input.icon {
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    
-    width: 36px;
-    height: 36px;
-}
-
-input.button-profile {
-	background-image: url(../logo/profile.png);
-}
 input.button-addbasket {
 	background-image: url(../logo/add-tobasket.png);
 }
-input.button-grade {
-	background-image: url(../logo/grade.png);
-}
-input.button-cancel {
-	background-image: url(../logo/cancel.png);
-}
-input.button-basket {
-	background-image: url(../logo/basket.png);
-}
 input.button-rent {
     background-image: url(../logo/rent.png);
-}
-input.button-buy {
-    background-image: url(../logo/buy.png);
-}
-
-input.button-profile,
-input.button-basket {
-	float: right;
-	padding-right: 5em;
-	padding-bottom: 4em;
 }
 
 

@@ -159,7 +159,7 @@ public class DataBase {
 			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
 		}
 		
-		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES (%s, %d, %d);", date, employeeId, vehicleId);
+		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, employeeId, vehicleId);
 		executeUpdate(query);
 	}
 	
@@ -177,7 +177,7 @@ public class DataBase {
 			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
 		}
 		
-		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, employee_id) VALUES (%s, %d, %d);", date, clientId, vehicleId);
+		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, clientId, vehicleId);
 		executeUpdate(query);
 	}
 	
