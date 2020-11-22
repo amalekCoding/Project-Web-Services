@@ -83,6 +83,25 @@ public class IfsCarsService {
 		return (double) currencyConverter.convert("", "EUR", currency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
 	}
 	
+	
+	// TODO : A verifier !!!!!!!!!!
+	// TODO : A verifier !!!!!!!!!!
+	// TODO : A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	// A verifier !!!!!!!!!!
+	public double convertPrice(String toCurrency, int price) throws IllegalArgumentException, SQLException, RemoteException {
+		if(toCurrency == "EUR") {
+			return price;
+		}
+		return (double) currencyConverter.convert("", "EUR", toCurrency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
+	}
+	
+	
 	/**
 	 * Détermine si le véhicule est disponible pour l'achat.
 	 * Un véhicule est disponible pour l'achat s'il n'est pas en cours de location et s'il a préalablement été loué

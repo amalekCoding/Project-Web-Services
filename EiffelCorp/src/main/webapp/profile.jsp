@@ -30,6 +30,7 @@
 	int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
 	String firstname = (String)session.getAttribute("firstname");
 	String lastname = (String)session.getAttribute("lastname");
+	String currency = (String)session.getAttribute("currency");
 %>
    
 <body>
@@ -54,35 +55,36 @@
 			</tr> 
 			<tr> 
 			    <th>My Currency</th> 
-			    <td>USD</td> 
+			    <td><%= currency %></td> 
 			</tr> 
 			<tr> 
 			    <th>Amount in Bank</th> 
-			    <td><%= db.getClientBankBalance(idPerson) %></td>
+			    <td><%= 
+			    		String.format("%.2f", service.convertPrice(currency, db.getClientBankBalance(idPerson)))
+			    	%></td>
 			</tr> 
 	 </table> 
 	 
 	  <table class="layout profile display cars-table modifycurrency">
+	<form method="POST">
 			<tr>
 				<th>Modify Your Currency</th> 
 			</tr> 
-			<tr>
-			<td>
-		    <FORM>
-		    <SELECT name="currency" size="1">
-		    <OPTION>EUR
-		    <OPTION>USD
-		    <OPTION>GBP
-		    <OPTION>JPY
-		    </SELECT>
-		    </FORM>
-					
-			
-			</td>
-			</tr> 
+			<tr><td>
+			    <SELECT name="toCurrency" size="1">
+				    <option value="" selected disabled>To Currency</option>
+				    <OPTION>EUR
+				    <OPTION>USD
+				    <OPTION>GBP
+				    <OPTION>JPY
+			    </SELECT>
+			</td></tr> 
 			<tr> 
-			    <td><input type="button" class="icon button-cancel"> </td> 
+				<td>
+					<input type="submit" onclick='changeCurrency()' class="icon button-cancel" value="" >
+				</td> 
 			</tr>
+	</form>
 	 </table> 
 
 	 </div>
@@ -126,7 +128,7 @@
 					    <td><%= db.getVehicleBrand(vehicleId) %></td> 
 					    <td><%= db.getVehicleModel(vehicleId) %></td> 
 					    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
-					    <td><%= service.getRentalPrice(vehicleId, "EUR") %></td> 
+					    <td><%= service.getRentalPrice(vehicleId, currency) %></td> 
 					    <td><%= db.getRentalsNumber(vehicleId) %></td> 
 					    
 					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
@@ -141,9 +143,24 @@
 			
 		</tbody> 
 	 </table> 
-
-
-
 	</div>
+
+
+	<script>
+	
+		function changeCurrency() {
+			<%
+			System.out.println("-1rchangeCurrency()-");
+			if(request.getParameter("toCurrency") != null) {
+				System.out.println("-2changeCurrency()-");
+		    	String toCurrency = request.getParameter("toCurrency");
+				System.out.println(toCurrency);
+				session.setAttribute("currency", toCurrency);
+				response.getWriter().write("<script> window.location='profile.jsp'</script>");
+			}
+			%>
+		}
+	</script>
+	
 </body>
 </html>

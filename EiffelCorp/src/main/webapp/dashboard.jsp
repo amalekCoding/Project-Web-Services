@@ -46,7 +46,7 @@
 
 	 <input type="button" class="button-profile icon"  onclick="window.location='profile.jsp';">
 	 <input type="button" class="button-basket icon"  onclick="window.location='mybasket.jsp';">
-   	 <span class='badge-warning' id='lblCartCount'> 0 </span>
+   	 <span class='badge-warning' id='cartCount'> 0 </span>
 
 
 	 <h2>To Rent : </h2>
@@ -162,8 +162,9 @@
 			<%
 			if(request.getParameter("addToCartId") != null) {
 				System.out.println("-addToBasket()-");
-		    	int x = Integer.valueOf(request.getParameter("addToCartId"));
-		    	service.addToBasket(x);
+		    	int vehicleId = Integer.valueOf(request.getParameter("addToCartId"));
+		    	service.addToBasket(vehicleId);
+				response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
 			}
 			%>		
 		}
@@ -177,10 +178,20 @@
 		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
 				System.out.println(idVehicle);
 				session.setAttribute("rentVehiculeId", idVehicle);
-				response.getWriter().write("<script> window.location='rent.jsp'</script>");
 			}
 			%>
 		}
+		
+		
+		<%				
+			String[] lstStrVehiclesBasket = service.getBasket();
+			int nb = lstStrVehiclesBasket.length;
+		%>
+		
+		var output = document.getElementById("cartCount")
+
+		output.innerText = "<%= nb %>";
+
 		
 	</script>
  </body>

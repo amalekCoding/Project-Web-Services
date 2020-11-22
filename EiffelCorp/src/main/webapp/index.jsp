@@ -98,6 +98,8 @@
 				    
 				    session.setAttribute("type_person", type);
 				    
+					session.setAttribute("currency", "EUR");
+
 					response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
 			    }
 		
