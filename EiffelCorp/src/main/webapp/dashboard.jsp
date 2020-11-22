@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/base.css" >
     <link rel="stylesheet" href="css/table.css" >
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/buttons.css">
     
     <title>Dashboard</title>
 </head>
@@ -31,6 +32,11 @@
     
 	DataBase db = new DataBaseServiceLocator().getDataBase();
 	((DataBaseSoapBindingStub) db).setMaintainSession(true);
+<<<<<<< HEAD
+=======
+	
+    String type_person = (String)session.getAttribute("type_person");
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 %>
 
 
@@ -43,7 +49,10 @@
 
 	 <input type="button" class="button-profile icon"  onclick="window.location='profile.jsp';">
 	 <input type="button" class="button-basket icon"  onclick="window.location='mybasket.jsp';">
-   	 <span class='badge-warning' id='lblCartCount'> 0 </span>
+   	 <span class='badge-warning' id='cartCount'> 0 </span>
+
+
+	 <h2>To Rent : </h2>
 
 
 	 <table class="layout display cars-table">
@@ -105,7 +114,7 @@
 	 </table> 
 
 
-	 <h1>Particulier</h1>
+	 <h2>To buy : </h2>
 	 <table class="layout display cars-table">
 		<thead> 
 			<tr> 
@@ -156,8 +165,9 @@
 			<%
 			if(request.getParameter("addToCartId") != null) {
 				System.out.println("-addToBasket()-");
-		    	int x = Integer.valueOf(request.getParameter("addToCartId"));
-		    	service.addToBasket(x);
+		    	int vehicleId = Integer.valueOf(request.getParameter("addToCartId"));
+		    	service.addToBasket(vehicleId);
+				response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
 			}
 			%>		
 		}
@@ -171,11 +181,28 @@
 		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
 				System.out.println(idVehicle);
 				session.setAttribute("rentVehiculeId", idVehicle);
+<<<<<<< HEAD
 				response.getWriter().write("<script> window.location='rent.jsp'</script>");
+=======
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			}
 			%>
 		}
 		
+<<<<<<< HEAD
+=======
+		
+		<%				
+			String[] lstStrVehiclesBasket = service.getBasket();
+			int nb = lstStrVehiclesBasket.length;
+		%>
+		
+		var output = document.getElementById("cartCount")
+
+		output.innerText = "<%= nb %>";
+
+		
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 	</script>
  </body>
 </html>

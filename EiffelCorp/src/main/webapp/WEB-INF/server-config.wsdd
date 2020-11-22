@@ -60,6 +60,7 @@
   <ns1:parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
   <ns1:parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
+  <ns1:parameter name="scope" value="session"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

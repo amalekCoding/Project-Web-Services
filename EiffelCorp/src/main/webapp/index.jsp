@@ -34,8 +34,23 @@
             <span class="add-on"><i class="icon-key"></i></span>
             <input id="password" name="password" type="password" class="form-control" placeholder="Enter your password">
 
-            <br><br>
             
+<<<<<<< HEAD
+=======
+            <div>
+              <input type="radio" id="employee" name="type" value="employee"
+			         checked>
+			  <label for="employee">Employee</label>
+			
+			  <input type="radio" id="client" name="type" value="client">
+			  <label for="client">Client</label>
+			</div>
+
+            <br>
+
+
+            
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 	        <input type="submit" class="btn btn-primary loginbtn" value="Login" onclick="login()">
         </form>
 
@@ -52,6 +67,7 @@
 	
 		function login() {
 			<%
+<<<<<<< HEAD
 			System.out.println("-login()-");
 			if(request.getParameter("login") != null && request.getParameter("password") != null) {
 				System.out.println("-login : " + request.getParameter("login"));
@@ -68,6 +84,32 @@
 					
 
 				    IfsCarsService service = new IfsCarsService();
+=======
+			if(request.getParameter("type") != null && request.getParameter("login") != null && request.getParameter("password") != null) {
+				String login = request.getParameter("login");
+		    	String password = request.getParameter("password");
+		    	String type = request.getParameter("type");
+		    	
+				String[] personInfo = {""};
+				boolean authentificated = false;
+				
+		    	DataBase db = new DataBaseServiceLocator().getDataBase();
+				((DataBaseSoapBindingStub) db).setMaintainSession(true);
+				
+				if(type.equals("employee") && db.authenticateEmployee(login, password) != null)
+		    	{
+					personInfo = db.authenticateEmployee(login, password).split(":");
+					authentificated = true;
+		    	}
+		    	else if(type.equals("client") && db.authenticateClient(login, password) != null)
+		    	{
+		    		personInfo = db.authenticateClient(login, password).split(":");
+		    		authentificated = true;
+		    	}
+		    	
+		    	if (authentificated) {
+			    	IfsCarsService service = new IfsCarsService();
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 				    IGarage garage = (IGarage) Naming.lookup("Garage");
 				    session.setAttribute("service", service);
 				    session.setAttribute("garage", garage);
@@ -76,9 +118,18 @@
 				    session.setAttribute("firstname", personInfo[1]);
 				    session.setAttribute("lastname", personInfo[2]);
 				    
+<<<<<<< HEAD
 					response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
 		    	}
 				
+=======
+				    session.setAttribute("type_person", type);
+				    
+					session.setAttribute("currency", "EUR");
+
+					response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
+			    }
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 		
 			}
 			%>		

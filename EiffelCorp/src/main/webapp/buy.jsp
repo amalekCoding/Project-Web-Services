@@ -132,6 +132,21 @@
 				//service.purchaseVehicle(idPerson, vehicle.id);
 				//response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
 			//}
+<<<<<<< HEAD
+=======
+			
+
+				if (request.getParameter("confirmBuyBtn") != null) {
+				
+					if(!service.purchaseVehicle(idPerson, vehicleId)){
+						response.getWriter().write("<script> window.location='failedPayment.jsp'</script>");
+					}
+					else{
+						response.getWriter().write("<script> window.location='buyValidate.jsp'</script>");
+					}
+				}
+			
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			%>
 		}
 		

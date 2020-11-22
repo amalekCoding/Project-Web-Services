@@ -13,7 +13,7 @@
 	<meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css" >
     <link rel="stylesheet" href="css/table.css" >
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/buttons.css">
 
 	<title>MyBasket</title>
 </head>
@@ -32,6 +32,9 @@
 	<div class="page">
 	
 		<h1>Shopping Cart</h1>
+		
+	 	<input type="button" class="button-cal icon"  onclick="window.location='dashboard.jsp';">
+		
 	 
 		 <table class="layout display cars-table">
 			<thead> 
@@ -84,17 +87,14 @@
 		 </tbody> 
 		 </table> 
 		 
-		 <h1>En attente</h1>
+		 
+		 <br>
+		 <h2>My Waiting List : </h2>
 		 
 		 <table class="layout display cars-table">
 			<thead> 
 				<tr> 
-				    <th>Brand</th> 
-				    <th>Model</th> 
-				    <th>Grade</th> 
-				    <th>Rental Price</th> 
-				    <th>Rented times</th> 
-				    <th>Cancel</th> 
+				    <th>Brand</th><th>Model</th><th>Grade</th><th>Rental Price</th><th>Rented times</th><th>Cancel</th> 
 				</tr> 
 			</thead> 
 			<tbody> 
@@ -116,12 +116,9 @@
 	
 		function confirmBuy() {
 			<%
-			System.out.println("-1buy-btn()-");
 			if(request.getParameter("buy-btn") != null) {
-				System.out.println("-2buy-btn()-");
-		    	int idVehicles = Integer.valueOf(request.getParameter("buy-btn"));
-				System.out.println(idVehicles);
-				session.setAttribute("buy-btn", idVehicles);
+		    	int idVehicle = Integer.valueOf(request.getParameter("buy-btn"));
+				session.setAttribute("buy-btn", idVehicle);
 				response.getWriter().write("<script> window.location='buy.jsp'</script>");
 			}
 			%>

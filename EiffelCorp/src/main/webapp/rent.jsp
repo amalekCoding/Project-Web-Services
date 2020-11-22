@@ -66,7 +66,7 @@
 				    <td><%= vehicle.model %></td> 
 				    <td><%= vehicle.generalGrade %></td> 
 				    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
-				    <td><%= -1 %></td> 
+			    	<td><%= db.getRentalsNumber(vehicle.id) %></td> 
 					<td><input type="number" id="tentacles" name="tentacles"
 						value="1" min="1" max="100"></td>
 			    
@@ -101,15 +101,28 @@
 		
 		
 		<div>
-			<h3>Total : EUR 15 000</h3>
-			<button >Acheter !</button>
-			
+			<h3>Total : EUR 15 000</h3>			
 			<form method="POST">
+<<<<<<< HEAD
 		   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicleId %>>
+=======
+				<button type="submit" name="confirmRentBtn" onclick='rent()'>
+					Validate</button>
+>>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			</form>
 		</div>
 
 	</div>
+	
+	
+	
+	<script>
+		
+
+	</script>
+	
+	
+	
 		
 </body>
 </html>
