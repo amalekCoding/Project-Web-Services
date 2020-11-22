@@ -26,6 +26,10 @@
 	IGarage garage = (IGarage)session.getAttribute("garage");
 	DataBase db = new DataBaseServiceLocator().getDataBase();
 	((DataBaseSoapBindingStub) db).setMaintainSession(true);
+	
+	int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
+	String firstname = (String)session.getAttribute("firstname");
+	String lastname = (String)session.getAttribute("lastname");
 %>
    
 <body>
@@ -40,11 +44,11 @@
 	 <table class="layout profile display cars-table">
 			<tr> 
 			    <th>First Name</th> 
-			    <td>Jacques</td> 
+			    <td><%= firstname %></td> 
 			</tr> 
 			<tr> 
 			    <th>Last Name</th> 
-			    <td>Lopez</td> 
+			    <td><%= lastname %></td> 
 			</tr> 
 			<tr> 
 			    <th>My Currency</th> 
@@ -52,7 +56,7 @@
 			</tr> 
 			<tr> 
 			    <th>Amount in Bank</th> 
-			    <td>120 000.00 $</td>
+			    <td><%= db.getClientBankBalance(idPerson) %></td>
 			</tr> 
 	 </table> 
 	 

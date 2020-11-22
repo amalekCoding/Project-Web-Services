@@ -1,10 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.database.DataBaseServiceLocator"%>
+<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
+<%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.ifsCars.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
 <%@page import="fr.uge.utils.Serialization"%>
-<%@page import="java.rmi.Naming"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,11 @@
 	<%
 	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
     	IGarage garage = (IGarage)session.getAttribute("garage");
-	%>
+    	
+    	DataBase db = new DataBaseServiceLocator().getDataBase();
+    	((DataBaseSoapBindingStub) db).setMaintainSession(true);
+    %>
+	  
 	
     
 <body>
@@ -65,7 +71,7 @@
 			    <td><%= vehicle.model %></td> 
 			    <td><%= vehicle.generalGrade %></td> 
 			    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    <td><%= -1 %></td> 
+			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 				<td>
 					<form method="POST" >
 						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value=<%= vehicle.id %>>

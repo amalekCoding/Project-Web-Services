@@ -14,9 +14,9 @@ import static fr.uge.database.utils.Utils.DATE_FORMAT;
 
 public class DataBase {
 	// Informations de connexion
-	private final static String SERVER_URL = "localhost/EiffelCorp";
-	private final static String USER = "postgres";
-	private final static String PASSWORD = "postgres";
+	private final static String SERVER_URL = "localhost/amalek_db";
+	private final static String USER = "malek";
+	private final static String PASSWORD = "";
 	
 	// Nom des tables
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
@@ -446,6 +446,7 @@ public class DataBase {
 		}
 		
 		var array = new long[lst.size()];
+		System.out.println(array);
 		for (int i = 0; i < array.length; i++) {
 			array[i] = lst.get(i);
 		}
@@ -488,7 +489,7 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public String authenticateEmployee(String login, String password) throws SQLException {
-		var query = String.format("SELECT id, firstname, lastname FROM " + EMPLOYEES_TABLE + " WHERE login=%s && password=%s;", login, password);
+		var query = String.format("SELECT id, firstname, lastname FROM " + EMPLOYEES_TABLE + " WHERE login='%s' AND password='%s';", login, password);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
@@ -497,12 +498,13 @@ public class DataBase {
 				var firstname = result.getString("firstname");
 				var lastname = result.getString("lastname");
 				
-				return id + '|' + firstname + '|' + lastname;
+				return id + ':' + firstname + ':' + lastname;
 			} else {
 				return null;
 			}
 		}
-		
+		//return null;
+
 		throw new IllegalStateException();
 	}
 	
@@ -516,7 +518,7 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public String authenticateClient(String login, String password) throws SQLException {
-		var query = String.format("SELECT id, firstname, lastname FROM " + CLIENTS_TABLE + " WHERE login=%s && password=%s;", login, password);
+		var query = String.format("SELECT id, firstname, lastname FROM " + CLIENTS_TABLE + " WHERE login='%s' AND password='%s';", login, password);
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
@@ -525,7 +527,7 @@ public class DataBase {
 				var firstname = result.getString("firstname");
 				var lastname = result.getString("lastname");
 				
-				return id + '|' + firstname + '|' + lastname;
+				return id + ':' + firstname + ':' + lastname;
 			} else {
 				return null;
 			}

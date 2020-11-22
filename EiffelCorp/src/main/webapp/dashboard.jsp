@@ -1,3 +1,6 @@
+<%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.database.DataBaseServiceLocator"%>
+<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.ifsCars.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
@@ -25,6 +28,9 @@
 <%
 	IfsCarsService service = (IfsCarsService)session.getAttribute("service");
     IGarage garage = (IGarage)session.getAttribute("garage");
+    
+	DataBase db = new DataBaseServiceLocator().getDataBase();
+	((DataBaseSoapBindingStub) db).setMaintainSession(true);
 %>
 
 
@@ -76,10 +82,17 @@
 			    <td><%= vehicle.model %></td> 
 			    <td><%= vehicle.generalGrade %></td> 
 			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
-			    <td><%= -1 %></td> 
+			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 			    <% if(!garage.isRented(vehicle.id)) { %>
 			    	<td><img class="icon check-logo" src="logo/check.png"/></td>
-			    	<td><input type="button" class="icon button-rent" onclick="window.location='rent.jsp';"></td>
+			    	<td>
+			    	
+			    	<form method="POST">
+			   			<input type="hidden" name="rentVehiculeId" value=<%= vehicle.id %>>
+			   			<input type="submit" name="confirmRentBtn" class="icon button-rent" onclick='confirmRent()' value="" >
+			   		</form>
+			   				    	
+			    	
 			    <% } else { %>
 			    	<td><img class="icon check-logo" src="logo/cross.png"/></td>
 			    	<td><input type="button" onclick="msgAddedToWaitingLst()" class="icon button-rent"></td>
@@ -117,7 +130,7 @@
 			    <td><%= vehicle.model %></td> 
 			    <td><%= vehicle.generalGrade %></td> 
 			   	<td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    <td><%= -1 %></td> 
+			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 			    
 			   	<td>
 			   	<form method="POST">
@@ -148,6 +161,21 @@
 			}
 			%>		
 		}
+		
+		
+		function confirmRent() {
+			<%
+			System.out.println("-1rent-btn()-");
+			if(request.getParameter("rentVehiculeId") != null) {
+				System.out.println("-2rent-btn()-");
+		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
+				System.out.println(idVehicle);
+				session.setAttribute("rentVehiculeId", idVehicle);
+				response.getWriter().write("<script> window.location='rent.jsp'</script>");
+			}
+			%>
+		}
+		
 	</script>
  </body>
 </html>

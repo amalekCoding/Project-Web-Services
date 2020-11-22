@@ -1,3 +1,6 @@
+<%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.database.DataBaseServiceLocator"%>
+<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.ifsCars.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
@@ -16,6 +19,7 @@
 
 
 	<%
+			System.out.println("---- je suis dans buy -----");
 	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
     	IGarage garage = (IGarage)session.getAttribute("garage");
     	if(session.getAttribute("buy-btn") == null) {
@@ -29,6 +33,10 @@
     		System.out.println();
     	}
 		
+		DataBase db = new DataBaseServiceLocator().getDataBase();
+		((DataBaseSoapBindingStub) db).setMaintainSession(true);
+		
+		int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
 	%>
 	
 	
@@ -59,15 +67,10 @@
 				    <td><%= vehicle.model %></td> 
 				    <td><%= vehicle.generalGrade %></td> 
 				    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-				    <td><%= -1 %></td> 
+			    	<td><%= db.getRentalsNumber(vehicle.id) %></td> 
 					<td><input type="number" id="tentacles" name="tentacles"
 						value="1" min="1" max="100"></td>
 			    
-			    
-			    
-			    
-			</tr>
-
 				</tr>
 			</tbody>
 		</table>
@@ -83,16 +86,16 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><strong>Account id :</strong> 10000</td>
+					<td><strong>Account id :</strong> <%= idPerson %></td>
 				</tr>
 				<tr>
-					<td><strong>Account balance :</strong> BMW</td>
+					<td><strong>Account balance :</strong> <%= db.getClientBankBalance(idPerson) %> EUR</td>
 				</tr>
 				<tr>
-					<td><strong>Deduction :</strong> -15 000</td>
+					<td><strong>Deduction :</strong> - <%= service.getBuyingPrice(vehicle.id, "EUR") %> EUR</td>
 				</tr>
 				<tr>
-					<td><strong>After purchase :</strong> 10 000 EUR</td>
+					<td><strong>After purchase :</strong>   <%= db.getClientBankBalance(idPerson) -  service.getBuyingPrice(vehicle.id, "EUR") %> EUR</td>
 				</tr>
 			</tbody>
 		</table>
@@ -100,14 +103,39 @@
 		
 		<div>
 			<h3>Total : EUR 15 000</h3>
-			<button >Acheter !</button>
 			
 			<form method="POST">
-			   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicleId %>>
-			   	</form>
+	  			<input type="hidden" name="buyidPerson" value=<%= idPerson %>>
+	  			<input type="hidden" name="buyVehiculeId" value=<%= vehicle.id %>>
+	   			<button type="submit" name="confirmBuyBtn" onclick='buy()' > Validate </button>
+			</form>
+			
+			
 		</div>
 
 	</div>
 		
+		<script>
+		
+		function buy() {
+			<%
+			System.out.println("-44buy-btn()-");
+			//if(request.getParameter("buy-btn") != null) {
+				System.out.println("-33buy-btn()-");
+		    	//int idVehicles = Integer.valueOf(request.getParameter("buy-btn"));
+				//System.out.println(idVehicles);
+				//session.setAttribute("buy-btn", idVehicles);
+				System.out.println(idPerson);
+				System.out.println(vehicle.id);
+				//System.out.println(service.purchaseVehicle(idPerson, vehicle.id));
+				
+				//service.purchaseVehicle(idPerson, vehicle.id);
+				//response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
+			//}
+			%>
+		}
+		
+		
+		</script>
 </body>
 </html>

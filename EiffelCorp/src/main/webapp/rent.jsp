@@ -1,3 +1,6 @@
+<%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.database.DataBaseServiceLocator"%>
+<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.ifsCars.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
@@ -18,17 +21,21 @@
 	<%
 	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
     	IGarage garage = (IGarage)session.getAttribute("garage");
-    	if(session.getAttribute("buy-btn") == null) {
+    	if(session.getAttribute("rentVehiculeId") == null) {
     		System.out.println("nullllllllllll");
     	}
     	
-		int vehicleId = (Integer)session.getAttribute("buy-btn");
+		int vehicleId = (Integer)session.getAttribute("rentVehiculeId");
 		Vehicle vehicle = garage.getVehicle(vehicleId);
 		
-		if(session.getAttribute("buy-btn") != null) {
+		if(session.getAttribute("rent-btn") != null) {
     		System.out.println();
     	}
 		
+		DataBase db = new DataBaseServiceLocator().getDataBase();
+		((DataBaseSoapBindingStub) db).setMaintainSession(true);
+		
+		int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
 	%>
 	
 	
@@ -63,11 +70,6 @@
 					<td><input type="number" id="tentacles" name="tentacles"
 						value="1" min="1" max="100"></td>
 			    
-			    
-			    
-			    
-			</tr>
-
 				</tr>
 			</tbody>
 		</table>
@@ -83,16 +85,16 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><strong>Account id :</strong> 10000</td>
+					<td><strong>Account id :</strong> <%= idPerson %></td>
 				</tr>
 				<tr>
-					<td><strong>Account balance :</strong> BMW</td>
+					<td><strong>Account balance :</strong> <%= db.getClientBankBalance(idPerson) %> EUR</td>
 				</tr>
 				<tr>
-					<td><strong>Deduction :</strong> -15 000</td>
+					<td><strong>Deduction :</strong> - <%= service.getRentalPrice(vehicle.id, "EUR") %> EUR</td>
 				</tr>
 				<tr>
-					<td><strong>After rent :</strong> 10 000 EUR</td>
+					<td><strong>After rent :</strong>   <%= db.getClientBankBalance(idPerson) -  service.getRentalPrice(vehicle.id, "EUR") %> EUR</td>
 				</tr>
 			</tbody>
 		</table>
@@ -103,8 +105,8 @@
 			<button >Acheter !</button>
 			
 			<form method="POST">
-			   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicleId %>>
-			   	</form>
+		   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicleId %>>
+			</form>
 		</div>
 
 	</div>

@@ -115,6 +115,7 @@
   <ns1:parameter name="schemaQualified" value="http://database.uge.fr"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://database.uge.fr"/>
   <ns1:parameter name="wsdlServiceElement" value="DataBaseService"/>
+  <ns1:parameter name="scope" value="application"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>
