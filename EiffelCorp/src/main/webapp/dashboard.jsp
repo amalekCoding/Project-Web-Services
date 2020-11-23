@@ -40,6 +40,14 @@
 
  
 <body>
+	<div class="navigation">
+
+	 <a type="button" class="button button-logout icon"  onclick="window.location='index.jsp';">
+  		<div class="logout">Logout</div>
+  	</a>
+  </div>
+  
+
 	<div class="page">
 	 <h1>My Dashboard</h1>
 	 
