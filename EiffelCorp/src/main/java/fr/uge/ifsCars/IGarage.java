@@ -74,4 +74,31 @@ public interface IGarage extends Remote {
 	 * @throws IllegalArgumentException Si le véhicule n'existe pas dans la base de données
 	 */
 	Vehicle getVehicle(long vehicleId) throws RemoteException, IllegalArgumentException;
+	
+	/**
+	 * Renvoie la liste des identifiants des véhicules actuellement loués par l'employé en paramètre.
+	 * 
+	 * @param tenant L'employé dont il faut récupérer les liste des véhicules en cours de location
+	 * @return La liste des véhicules en cours de location par l'employé
+	 * @throws RemoteException
+	 */
+	Vehicle[] getRentingVehicles(Tenant tenant) throws RemoteException;
+	
+	/**
+	 * Récupère la liste de tous les véhicules (achetable et/ou louable).
+	 * 
+	 * @return Un tableau contenant tous les véhicules de la base
+	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
+	 * @throws RemoteException 
+	 */
+	public Vehicle[] getVehiclesList() throws SQLException, RemoteException;
+	
+	/**
+	 * Récupère la liste des véhicules loués par l'employé.
+	 * 
+	 * @return Un tableau contenant tous les véhicules loués
+	 * @throws SQLException Si la connexion avec la base de donnée a été interrompue
+	 * @throws RemoteException 
+	 */
+	public Vehicle[] getRentedVehicles(Tenant tenant) throws SQLException, RemoteException;
 }

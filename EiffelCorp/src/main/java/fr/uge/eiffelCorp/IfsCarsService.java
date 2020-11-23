@@ -5,10 +5,8 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.rpc.ServiceException;
 
@@ -23,6 +21,7 @@ import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
 import fr.uge.ifsCars.IGarage;
+import fr.uge.ifsCars.Vehicle;
 import fr.uge.utils.Serialization;
 
 public class IfsCarsService {
@@ -31,7 +30,11 @@ public class IfsCarsService {
 	private final CurrencyServerSoap currencyConverter;
 	private IGarage garage;
 	
-	private final List<Long> basket;
+	/**
+	 * Identifiants des véhicules dans le panier du client.
+	 */
+	private final ConcurrentLinkedQueue<Long> basket;
+	private long clientId;
 	
 	public IfsCarsService() throws ServiceException {
 		this.db = new DataBaseServiceLocator().getDataBase();
@@ -48,7 +51,26 @@ public class IfsCarsService {
 			System.err.println("Erreur : Le serveur RMI définissant \"Garage\" n'est pas accessible");
 		}
 		
-		this.basket = new ArrayList<Long>();
+		this.basket = new ConcurrentLinkedQueue<Long>();
+		this.clientId = -1;
+	}
+	
+	/**
+	 * Défini l'identifiant du client associé à cet objet.
+	 * 
+	 * @param clientId L'identifiant du client
+	 * @throws RemoteException
+	 */
+	public void setId(long clientId) throws RemoteException {
+		if (this.clientId != -1) {
+			throw new IllegalStateException("L'identifiant ne peut pas être redéfini plusieurs fois");
+		}
+		
+		if (!db.clientExists(clientId)) {
+			throw new IllegalArgumentException("Le client " + clientId + " n'existe pas dans la base de données");
+		}
+		
+		this.clientId = clientId;
 	}
 	
 	/**
@@ -83,25 +105,6 @@ public class IfsCarsService {
 		return (double) currencyConverter.convert("", "EUR", currency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
 	}
 	
-	
-	// TODO : A verifier !!!!!!!!!!
-	// TODO : A verifier !!!!!!!!!!
-	// TODO : A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	// A verifier !!!!!!!!!!
-	public double convertPrice(String toCurrency, int price) throws IllegalArgumentException, SQLException, RemoteException {
-		if(toCurrency == "EUR") {
-			return price;
-		}
-		return (double) currencyConverter.convert("", "EUR", toCurrency, price, false, "", CurncsrvReturnRate.curncsrvReturnRateNumber, "", "");
-	}
-	
-	
 	/**
 	 * Détermine si le véhicule est disponible pour l'achat.
 	 * Un véhicule est disponible pour l'achat s'il n'est pas en cours de location et s'il a préalablement été loué
@@ -135,13 +138,16 @@ public class IfsCarsService {
 	 * Achète les véhicules placés dans le panier.
 	 * Vide le panier si l'achat a réussis (le client avait les fonds suffisants).
 	 * 
-	 * @param clientId L'identifiant du client
 	 * @return True si l'achat a réussis (c'est à dire si le client avait les fonds suffisants), False sinon.
 	 * @throws SQLException Si la connexion avec la base de données a été interrompue
 	 * @throws RemoteException Si la connexion avec la base de données ou la banque a été interrompue
 	 */
-	public boolean purchase(long clientId) throws SQLException, RemoteException {
+	public boolean purchase() throws SQLException, RemoteException {
 		int totalPrice = 0;
+		
+		if (clientId == -1) {
+			throw new IllegalStateException("L'identifiant du client n'a pas été renseigné. Exectuez d'abord la méthode setId().");
+		}
 		
 		for (Long vehicleId : basket) {
 			try {
@@ -155,73 +161,50 @@ public class IfsCarsService {
 			for (Long vehicleId : basket) {
 				registerPurchase(clientId, vehicleId);
 			}
+			basket.clear();
+			
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	
-	
 	/**
-	 * Achète un véhicule.
+	 * Récupère la liste des véhicule achetés par le client.
 	 * 
-	 * @param clientId L'identifiant du client, vehicleId L'identifiant du vehicule
-	 * @return True si l'achat a réussis (c'est à dire si le client avait les fonds suffisants), False sinon.
-	 * @throws SQLException Si la connexion avec la base de données a été interrompue
-	 * @throws RemoteException Si la connexion avec la base de données ou la banque a été interrompue
+	 * @return Un tableau contenant les véhicules achetés.
+	 * @throws RemoteException
 	 */
-	public boolean purchaseVehicle(long clientId, long vehicleId) throws SQLException, RemoteException {
-		int totalPrice = 0;
+	public Vehicle[] getPurchasedVehicles() throws RemoteException {
+		var SerializedVehicles = db.getPurchasedVehicles(clientId);
+		var vehicles = new Vehicle[SerializedVehicles.length];
 		
-		try {
-			totalPrice += getBuyingPrice(vehicleId, "EUR");
-		} catch (IllegalArgumentException e) {
-			throw new IllegalStateException("Invalide : Le véhicule " + vehicleId + " n'existe pas dans la base");
+		for (int i = 0; i < SerializedVehicles.length; i++) {
+			try {
+				vehicles[i] = (Vehicle) Serialization.deserialize(SerializedVehicles[i]);
+			} catch (ClassNotFoundException | IOException e) {
+				vehicles[i] = null;
+			}
 		}
 		
-		if (bank.makePurchase(clientId, totalPrice)) {
-			registerPurchase(clientId, vehicleId);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	
-	/**
-	 * Récupère la liste de tous les véhicules (achetable ou louable seulement) sous forme sérializé.
-	 * 
-	 * @return Un tableau contenant les véhicules sérializés de la base
-	 * @throws IOException 
-	 */
-	public String[] getVehiclesList() throws IOException {
-		long[] ids = db.getVehiclesId();		
-		String[] serializedVehicles = new String[Objects.isNull(ids) ? 0 : ids.length];
-		
-		for (int i = 0; i < serializedVehicles.length; i++) {
-			var vehicle = garage.getVehicle(ids[i]);
-			serializedVehicles[i] = Serialization.serialize(vehicle);
-		}
-		
-		return serializedVehicles;
+		return vehicles;
 	}
 	
 	/**
-	 * Renvoie la liste des véhicules placés dans le panier sous forme sérializé.
+	 * Renvoie la liste des véhicules placés dans le panier.
 	 * 
-	 * @return La liste des véhicules sérializés placés dans le panier
+	 * @return La liste des véhicules placés dans le panier
 	 * @throws IOException 
 	 */
-	public String[] getBasket() throws IOException {
-		String[] serializedVehicles = new String[basket.size()];
+	public Vehicle[] getBasket() throws IOException {
+		Vehicle[] vehicles = new Vehicle[basket.size()];
 		
-		for (int i = 0; i < basket.size(); i++) {
-			var vehicle = garage.getVehicle(basket.get(i));
-			serializedVehicles[i] = Serialization.serialize(vehicle);
+		var iterator = basket.iterator();
+		for (int i = 0; iterator.hasNext(); i++) {
+			vehicles[i] = garage.getVehicle(iterator.next());
 		}
 		
-		return serializedVehicles;
+		return vehicles;
 	}
 	
 	/**

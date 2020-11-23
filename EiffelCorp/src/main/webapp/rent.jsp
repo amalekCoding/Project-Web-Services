@@ -1,3 +1,4 @@
+<%@page import="fr.uge.eiffelCorp.Employee"%>
 <%@page import="fr.uge.database.DataBase"%>
 <%@page import="fr.uge.database.DataBaseServiceLocator"%>
 <%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
@@ -101,14 +102,9 @@
 		
 		
 		<div>
-			<h3>Total : EUR 15 000</h3>			
 			<form method="POST">
-<<<<<<< HEAD
-		   		<input  name="addcart" onclick='addToBasket()'  type="submit" id='addcart' class="icon button-addbasket" value=<%= vehicleId %>>
-=======
 				<button type="submit" name="confirmRentBtn" onclick='rent()'>
 					Validate</button>
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			</form>
 		</div>
 
@@ -117,7 +113,20 @@
 	
 	
 	<script>
-		
+	function rent() {
+		<%
+			Employee employee = new Employee(idPerson);
+			if (request.getParameter("confirmRentBtn") != null) {
+						
+				System.out.println("entrer dans buy rent");
+				if(!garage.rent(employee, vehicleId)){
+					response.getWriter().write("<script> window.location='failedPayment.jsp'</script>");
+				}
+				else{
+					response.getWriter().write("<script> window.location='buyValidate.jsp'</script>");
+				}
+			}
+		%>
 
 	</script>
 	

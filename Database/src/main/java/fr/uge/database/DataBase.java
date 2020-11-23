@@ -1,5 +1,6 @@
 package fr.uge.database;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,14 +10,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import fr.uge.database.utils.Utils;
+import fr.uge.ifsCars.Vehicle;
+import fr.uge.utils.Serialization;
 
 import static fr.uge.database.utils.Utils.DATE_FORMAT;
 
 public class DataBase {
 	// Informations de connexion
-	private final static String SERVER_URL = "localhost/amalek_db";
-	private final static String USER = "malek";
-	private final static String PASSWORD = "";
+	private final static String SERVER_URL = "localhost/EiffelCorp";
+	private final static String USER = "postgres";
+	private final static String PASSWORD = "postgres";
 	
 	// Nom des tables
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
@@ -159,7 +162,7 @@ public class DataBase {
 			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
 		}
 		
-		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, employeeId, vehicleId);
+		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, vehicleId, employeeId);
 		executeUpdate(query);
 	}
 	
@@ -177,7 +180,7 @@ public class DataBase {
 			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
 		}
 		
-		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, clientId, vehicleId);
+		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, client_id) VALUES ('%s', %d, %d);", date, vehicleId, clientId);
 		executeUpdate(query);
 	}
 	
@@ -281,7 +284,7 @@ public class DataBase {
 	 * @throws SQLException
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
 	 */
-	public float getVehicleGeneralGrade(long vehicleId) throws SQLException, IllegalArgumentException {
+	private float getVehicleGeneralGrade(long vehicleId) throws SQLException, IllegalArgumentException {
 		var query = String.format("SELECT AVG(vehicle_grade) AS note FROM " + RENTALS_TABLE + " WHERE vehicle_id=%d;", vehicleId);
 		
 		var result = executeQuery(query);
@@ -304,7 +307,7 @@ public class DataBase {
 	 * @throws SQLException
 	 * @throws IllegalArgumentException Si l'identifiant du véhicule n'est pas renseigné dans la base
 	 */
-	public float getVehicleConditionGrade(long vehicleId) throws SQLException, IllegalArgumentException {
+	private float getVehicleConditionGrade(long vehicleId) throws SQLException, IllegalArgumentException {
 		var query = String.format("SELECT AVG(condition_grade) AS note FROM " + RENTALS_TABLE + " WHERE vehicle_id=%d;", vehicleId);
 		
 		var result = executeQuery(query);
@@ -398,25 +401,77 @@ public class DataBase {
 	}
 	
 	/**
-	 * Récupère la liste des identifiants de tous les véhicules de la base.
+	 * Récupère toutes les caractéristiques d'un véhicule depuis la base de données et renvoie l'ensemble sous forme d'un objet Vehicle sérialisé.
 	 * 
-	 * @return Un tableau contenant les identifiants des véhicules de la base
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return L'objet Véhicule sérialisé associé à l'identifiant
 	 * @throws SQLException
 	 */
-	public long[] getVehiclesId() throws SQLException {
-		var query = String.format("SELECT id FROM " + VEHICLES_TABLE + ";");
-		var lst = new ArrayList<Long>();
+	public String getVehicle(long vehicleId) throws SQLException {
+		var query = String.format("SELECT id, buying_price, rental_price, brand, model FROM " + VEHICLES_TABLE + " WHERE id=%d;", vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result) && result.next()) {
+			var id = result.getLong("id");
+			var buyingPrice = result.getDouble("buying_price");
+			var rentalPrice = result.getDouble("rental_price");
+			var brand = result.getString("brand");
+			var model = result.getString("model");
+			float avgGeneralGrade, avgConditionGrade;
+			try {
+				avgGeneralGrade = getVehicleGeneralGrade(id);
+				avgConditionGrade = getVehicleConditionGrade(id);	
+			} catch (IllegalArgumentException e) { // Si le véhicule n'a jamais été noté
+				avgGeneralGrade = avgConditionGrade = -1;
+			}
+			
+			try {
+				return Serialization.serialize(new Vehicle(id, brand, model, buyingPrice, rentalPrice, avgGeneralGrade, avgConditionGrade, null));
+			} catch (IOException e) {
+				return null;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Récupère la liste de tous les véhicules de la base sous forme sérialisé.
+	 * 
+	 * @return Un tableau contenant les véhicules sérialisés de la base
+	 * @throws SQLException
+	 */
+	public String[] getAllVehicles() throws SQLException {
+		var query = String.format("SELECT id, buying_price, rental_price, brand, model FROM " + VEHICLES_TABLE + ";");
+		var lst = new ArrayList<Vehicle>();
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
 			while (result.next()) {
-				lst.add((long)result.getInt("id"));
+				var id = result.getLong("id");
+				var buyingPrice = result.getDouble("buying_price");
+				var rentalPrice = result.getDouble("rental_price");
+				var brand = result.getString("brand");
+				var model = result.getString("model");
+				float avgGeneralGrade, avgConditionGrade;
+				try {
+					avgGeneralGrade = getVehicleGeneralGrade(id);
+					avgConditionGrade = getVehicleConditionGrade(id);	
+				} catch (IllegalArgumentException e) { // Si le véhicule n'a jamais été noté
+					avgGeneralGrade = avgConditionGrade = -1;
+				}
+				
+				lst.add(new Vehicle(id, brand, model, buyingPrice, rentalPrice, avgGeneralGrade, avgConditionGrade, null));
 			}
 		}
 		
-		var array = new long[lst.size()];
+		var array = new String[lst.size()];
 		for (int i = 0; i < array.length; i++) {
-			array[i] = lst.get(i);
+			try {
+				array[i] = Serialization.serialize(lst.get(i));
+			} catch (IOException e) {
+				array[i] = null;
+			}
 		}
 		
 		return array;
@@ -432,51 +487,91 @@ public class DataBase {
 	}
 	
 	/**
-	 * Récupère la liste des véhicules loués par l'employé dont l'identifiant est donné.
+	 * Récupère la liste des véhicules loués sérialisés par l'employé dont l'identifiant est donné.
 	 * 
-	 * @return Un tableau contenant les identifiants des véhicules loués par l'employé
+	 * @param employeeId L'identifiant de l'employé
+	 * @return Un tableau contenant les véhicules loués sérialisés par l'employé
 	 * @throws SQLException
 	 */
-	public long[] getRentedVehicles(long employeeId) throws SQLException {
-		var query = String.format("SELECT DISTINCT vehicle_id FROM " + RENTALS_TABLE + " WHERE employee_id=%d;", employeeId);
-		var lst = new ArrayList<Long>();
+	public String[] getRentedVehicles(long employeeId) throws SQLException {
+		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date"
+				+ "FROM " + VEHICLES_TABLE + ", " + RENTALS_TABLE + " "
+				+ "WHERE " + VEHICLES_TABLE + ".id = " + RENTALS_TABLE + ".vehicle_id AND employee_id=%d;", employeeId);
+		var lst = new ArrayList<Vehicle>();
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
 			while (result.next()) {
-				lst.add((long)result.getInt("id"));
+				var id = result.getLong("id");
+				var buyingPrice = result.getDouble("buying_price");
+				var rentalPrice = result.getDouble("rental_price");
+				var brand = result.getString("brand");
+				var model = result.getString("model");
+				var date = result.getTimestamp("date");
+				float avgGeneralGrade, avgConditionGrade;
+				try {
+					avgGeneralGrade = getVehicleGeneralGrade(id);
+					avgConditionGrade = getVehicleConditionGrade(id);
+				} catch (IllegalArgumentException e) { // Si le véhicule n'a jamais été noté
+					avgGeneralGrade = avgConditionGrade = -1;
+				}
+				
+				lst.add(new Vehicle(id, brand, model, buyingPrice, rentalPrice, avgGeneralGrade, avgConditionGrade, date));
 			}
 		}
 		
-		var array = new long[lst.size()];
-		System.out.println(array);
+		var array = new String[lst.size()];
 		for (int i = 0; i < array.length; i++) {
-			array[i] = lst.get(i);
+			try {
+				array[i] = Serialization.serialize(lst.get(i));
+			} catch (IOException e) {
+				array[i] = null;
+			}
 		}
 		
 		return array;
 	}
 	
 	/**
-	 * Récupère la liste des véhicules achetés par le client dont l'identifiant est donné.
+	 * Récupère la liste des véhicules achetés sérialisés par le client dont l'identifiant est donné.
 	 * 
-	 * @return Un tableau contenant les identifiants des véhicules achetés par le client
+	 * @return Un tableau contenant les véhicules achetés sérialisés par le client
 	 * @throws SQLException
 	 */
-	public long[] getPurchasedVehicles(long clientId) throws SQLException {
-		var query = String.format("SELECT DISTINCT vehicle_id FROM " + PURCHASES_TABLE + " WHERE client_id=%d;", clientId);
-		var lst = new ArrayList<Long>();
+	public String[] getPurchasedVehicles(long clientId) throws SQLException {
+		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date"
+				+ "FROM " + VEHICLES_TABLE + ", " + PURCHASES_TABLE + " "
+				+ "WHERE " + VEHICLES_TABLE + ".id = " + PURCHASES_TABLE + ".vehicle_id AND client_id=%d;", clientId);
+		var lst = new ArrayList<Vehicle>();
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
 			while (result.next()) {
-				lst.add((long)result.getInt("id"));
+				var id = result.getLong("id");
+				var buyingPrice = result.getDouble("buying_price");
+				var rentalPrice = result.getDouble("rental_price");
+				var brand = result.getString("brand");
+				var model = result.getString("model");
+				var date = result.getTimestamp("date");
+				float avgGeneralGrade, avgConditionGrade;
+				try {
+					avgGeneralGrade = getVehicleGeneralGrade(id);
+					avgConditionGrade = getVehicleConditionGrade(id);
+				} catch (IllegalArgumentException e) { // Si le véhicule n'a jamais été noté
+					avgGeneralGrade = avgConditionGrade = -1;
+				}
+				
+				lst.add(new Vehicle(id, brand, model, buyingPrice, rentalPrice, avgGeneralGrade, avgConditionGrade, date));
 			}
 		}
 		
-		var array = new long[lst.size()];
+		var array = new String[lst.size()];
 		for (int i = 0; i < array.length; i++) {
-			array[i] = lst.get(i);
+			try {
+				array[i] = Serialization.serialize(lst.get(i));
+			} catch (IOException e) {
+				array[i] = null;
+			}
 		}
 		
 		return array;
@@ -501,17 +596,12 @@ public class DataBase {
 				var firstname = result.getString("firstname");
 				var lastname = result.getString("lastname");
 				
-<<<<<<< HEAD
-				return id + ':' + firstname + ':' + lastname;
-=======
 				return id + SEP_CAR + firstname + SEP_CAR + lastname;
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			} else {
 				return null;
 			}
 		}
-		//return null;
-
+		
 		throw new IllegalStateException();
 	}
 	
@@ -534,11 +624,7 @@ public class DataBase {
 				var firstname = result.getString("firstname");
 				var lastname = result.getString("lastname");
 				
-<<<<<<< HEAD
-				return id + ':' + firstname + ':' + lastname;
-=======
 				return id + SEP_CAR + firstname + SEP_CAR + lastname;
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			} else {
 				return null;
 			}

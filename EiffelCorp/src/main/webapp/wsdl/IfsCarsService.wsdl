@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://eiffelCorp.uge.fr" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://eiffelCorp.uge.fr" xmlns:intf="http://eiffelCorp.uge.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<wsdl:definitions targetNamespace="http://eiffelCorp.uge.fr" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://eiffelCorp.uge.fr" xmlns:intf="http://eiffelCorp.uge.fr" xmlns:tns1="http://ifsCars.uge.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!--WSDL created by Apache Axis version: 1.4
 Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://eiffelCorp.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://ifsCars.uge.fr"/>
    <element name="isAvailable">
     <complexType>
      <sequence>
@@ -17,6 +18,36 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
       <element name="isAvailableReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
+   </element>
+   <element name="setId">
+    <complexType>
+     <sequence>
+      <element name="clientId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setIdResponse">
+    <complexType/>
+   </element>
+   <element name="getBasket">
+    <complexType/>
+   </element>
+   <element name="getBasketResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getBasketReturn" type="tns1:Vehicle"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addToBasket">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addToBasketResponse">
+    <complexType/>
    </element>
    <element name="getBuyingPrice">
     <complexType>
@@ -49,11 +80,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     </complexType>
    </element>
    <element name="purchase">
-    <complexType>
-     <sequence>
-      <element name="clientId" type="xsd:long"/>
-     </sequence>
-    </complexType>
+    <complexType/>
    </element>
    <element name="purchaseResponse">
     <complexType>
@@ -62,38 +89,31 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="addToBasket">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addToBasketResponse">
+   <element name="getPurchasedVehicles">
     <complexType/>
    </element>
-   <element name="getVehiclesList">
-    <complexType/>
-   </element>
-   <element name="getVehiclesListResponse">
+   <element name="getPurchasedVehiclesResponse">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getVehiclesListReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getBasket">
-    <complexType/>
-   </element>
-   <element name="getBasketResponse">
-    <complexType>
-     <sequence>
-      <element maxOccurs="unbounded" name="getBasketReturn" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="getPurchasedVehiclesReturn" type="tns1:Vehicle"/>
      </sequence>
     </complexType>
    </element>
   </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://ifsCars.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
+   <complexType name="Vehicle">
+    <sequence/>
+   </complexType>
+  </schema>
  </wsdl:types>
+
+   <wsdl:message name="setIdRequest">
+
+      <wsdl:part element="impl:setId" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
 
    <wsdl:message name="isAvailableRequest">
 
@@ -143,9 +163,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getVehiclesListRequest">
+   <wsdl:message name="setIdResponse">
 
-      <wsdl:part element="impl:getVehiclesList" name="parameters">
+      <wsdl:part element="impl:setIdResponse" name="parameters">
 
       </wsdl:part>
 
@@ -191,6 +211,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="getPurchasedVehiclesRequest">
+
+      <wsdl:part element="impl:getPurchasedVehicles" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="getBuyingPriceRequest">
 
       <wsdl:part element="impl:getBuyingPrice" name="parameters">
@@ -199,9 +227,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getVehiclesListResponse">
+   <wsdl:message name="getPurchasedVehiclesResponse">
 
-      <wsdl:part element="impl:getVehiclesListResponse" name="parameters">
+      <wsdl:part element="impl:getPurchasedVehiclesResponse" name="parameters">
 
       </wsdl:part>
 
@@ -216,6 +244,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:isAvailableResponse" name="isAvailableResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setId">
+
+         <wsdl:input message="impl:setIdRequest" name="setIdRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setIdResponse" name="setIdResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBasket">
+
+         <wsdl:input message="impl:getBasketRequest" name="getBasketRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getBasketResponse" name="getBasketResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addToBasket">
+
+         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
 
        </wsdl:output>
 
@@ -257,37 +321,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addToBasket">
+      <wsdl:operation name="getPurchasedVehicles">
 
-         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehiclesList">
-
-         <wsdl:input message="impl:getVehiclesListRequest" name="getVehiclesListRequest">
+         <wsdl:input message="impl:getPurchasedVehiclesRequest" name="getPurchasedVehiclesRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:getVehiclesListResponse" name="getVehiclesListResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getBasket">
-
-         <wsdl:input message="impl:getBasketRequest" name="getBasketRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getBasketResponse" name="getBasketResponse">
+         <wsdl:output message="impl:getPurchasedVehiclesResponse" name="getPurchasedVehiclesResponse">
 
        </wsdl:output>
 
@@ -310,6 +350,60 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="isAvailableResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setId">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setIdRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setIdResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBasket">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getBasketRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getBasketResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addToBasket">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addToBasketRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addToBasketResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -371,53 +465,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addToBasket">
+      <wsdl:operation name="getPurchasedVehicles">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="addToBasketRequest">
+         <wsdl:input name="getPurchasedVehiclesRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="addToBasketResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehiclesList">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getVehiclesListRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getVehiclesListResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getBasket">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getBasketRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getBasketResponse">
+         <wsdl:output name="getPurchasedVehiclesResponse">
 
             <wsdlsoap:body use="literal"/>
 

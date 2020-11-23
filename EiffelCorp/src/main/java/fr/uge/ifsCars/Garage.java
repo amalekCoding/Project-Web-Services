@@ -1,9 +1,11 @@
 package fr.uge.ifsCars;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Queue;
@@ -15,10 +17,15 @@ import javax.xml.rpc.ServiceException;
 import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
+import fr.uge.utils.Serialization;
 
 public class Garage extends UnicastRemoteObject implements IGarage {
 	private DataBase db;
-	private final Map<Long, Queue<Tenant>> rentalsQueues; // Key : vehicle ID ; Value : La file des employés en attente pour le véhicule ou en cours de location (1er element de la file)
+	/**
+	 * Key : vehicle ID <br/>
+	 * Value : La file des employés en attente pour le véhicule ou en cours de location (1er element de la file)
+	 */
+	private final Map<Long, Queue<Tenant>> rentalsQueues;
 	
 	public Garage() throws RemoteException, ServiceException {
 		super();
@@ -237,10 +244,34 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 			throw new IllegalArgumentException("Erreur : Le véhicule " + vehicleId + " n'existe pas dans la base !");
 		}
 		
-		return new Vehicle(vehicleId,
-				db.getVehicleBrand(vehicleId), db.getVehicleModel(vehicleId),
-				db.getVehicleBuyingPrice(vehicleId), db.getVehicleRentalPrice(vehicleId),
-				db.getVehicleGeneralGrade(vehicleId), db.getVehicleConditionGrade(vehicleId));
+		try {
+			return (Vehicle) Serialization.deserialize(db.getVehicle(vehicleId));
+		} catch (ClassNotFoundException | IOException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Vehicle[] getRentingVehicles(Tenant tenant) throws RemoteException {
+		var vehicles = new ArrayList<Vehicle>();
+		
+		for (var vehicleId : rentalsQueues.keySet()) {
+			// On vérifie que les remoteObject dans cette file existent toujours (non déconnecté du serveur), sinon on les retire de la file. (Nettoyage)
+			if (removeDisconnectedTenants(vehicleId)) {
+				endRent(vehicleId);
+			}
+			
+			if (rentalsQueues.get(vehicleId).peek().getId() == tenant.getId()) {
+				vehicles.add(getVehicle(vehicleId));
+			}
+		}
+		
+		var array = new Vehicle[vehicles.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = vehicles.get(i);
+		}
+		
+		return array;
 	}
 	
 	/**
@@ -257,5 +288,37 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 	    String strDate = format.format(now);
 		
 		db.registerRental(strDate, tenant.getId(), vehicleId);
+	}
+	
+	@Override
+	public Vehicle[] getVehiclesList() throws SQLException, RemoteException {
+		var SerializedVehicles = db.getAllVehicles();
+		var vehicles = new Vehicle[SerializedVehicles.length];
+		
+		for (int i = 0; i < SerializedVehicles.length; i++) {
+			try {
+				vehicles[i] = (Vehicle) Serialization.deserialize(SerializedVehicles[i]);
+			} catch (ClassNotFoundException | IOException e) {
+				vehicles[i] = null;
+			}
+		}
+		
+		return vehicles;
+	}
+	
+	@Override
+	public Vehicle[] getRentedVehicles(Tenant tenant) throws SQLException, RemoteException {
+		var SerializedVehicles = db.getRentedVehicles(tenant.getId());
+		var vehicles = new Vehicle[SerializedVehicles.length];
+		
+		for (int i = 0; i < SerializedVehicles.length; i++) {
+			try {
+				vehicles[i] = (Vehicle) Serialization.deserialize(SerializedVehicles[i]);
+			} catch (ClassNotFoundException | IOException e) {
+				vehicles[i] = null;
+			}
+		}
+		
+		return vehicles;
 	}
 }

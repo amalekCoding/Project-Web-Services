@@ -26,12 +26,9 @@
     		System.out.println("nullllllllllll");
     	}
     	
-		int vehicleId = (Integer)session.getAttribute("buy-btn");
+		int vehicleId = (Integer)session.getAttribute("buyVehicleId");
 		Vehicle vehicle = garage.getVehicle(vehicleId);
 		
-		if(session.getAttribute("buy-btn") != null) {
-    		System.out.println();
-    	}
 		
 		DataBase db = new DataBaseServiceLocator().getDataBase();
 		((DataBaseSoapBindingStub) db).setMaintainSession(true);
@@ -102,15 +99,11 @@
 		
 		
 		<div>
-			<h3>Total : EUR 15 000</h3>
-			
 			<form method="POST">
 	  			<input type="hidden" name="buyidPerson" value=<%= idPerson %>>
 	  			<input type="hidden" name="buyVehiculeId" value=<%= vehicle.id %>>
 	   			<button type="submit" name="confirmBuyBtn" onclick='buy()' > Validate </button>
 			</form>
-			
-			
 		</div>
 
 	</div>
@@ -119,25 +112,7 @@
 		
 		function buy() {
 			<%
-			System.out.println("-44buy-btn()-");
-			//if(request.getParameter("buy-btn") != null) {
-				System.out.println("-33buy-btn()-");
-		    	//int idVehicles = Integer.valueOf(request.getParameter("buy-btn"));
-				//System.out.println(idVehicles);
-				//session.setAttribute("buy-btn", idVehicles);
-				System.out.println(idPerson);
-				System.out.println(vehicle.id);
-				//System.out.println(service.purchaseVehicle(idPerson, vehicle.id));
-				
-				//service.purchaseVehicle(idPerson, vehicle.id);
-				//response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
-			//}
-<<<<<<< HEAD
-=======
-			
-
 				if (request.getParameter("confirmBuyBtn") != null) {
-				
 					if(!service.purchaseVehicle(idPerson, vehicleId)){
 						response.getWriter().write("<script> window.location='failedPayment.jsp'</script>");
 					}
@@ -145,12 +120,8 @@
 						response.getWriter().write("<script> window.location='buyValidate.jsp'</script>");
 					}
 				}
-			
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 			%>
 		}
-		
-		
 		</script>
 </body>
 </html>

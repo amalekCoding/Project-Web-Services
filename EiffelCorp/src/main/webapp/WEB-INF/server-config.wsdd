@@ -36,31 +36,33 @@
   <ns2:operation name="isAvailable" qname="ns1:isAvailable" returnQName="ns1:isAvailableReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
    <ns2:parameter qname="ns1:vehicleId" type="xsd:long"/>
   </ns2:operation>
-  <ns1:operation name="getBuyingPrice" qname="ns2:getBuyingPrice" returnQName="ns2:getBuyingPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns2="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns2:vehicleId" type="xsd:long"/>
-   <ns1:parameter qname="ns2:currency" type="xsd:string"/>
+  <ns1:operation name="setId" qname="ns2:setId" soapAction="" xmlns:ns2="http://eiffelCorp.uge.fr">
+   <ns1:parameter qname="ns2:clientId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="getRentalPrice" qname="ns3:getRentalPrice" returnQName="ns3:getRentalPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns3="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns3:vehicleId" type="xsd:long"/>
-   <ns1:parameter qname="ns3:currency" type="xsd:string"/>
-  </ns1:operation>
-  <ns1:operation name="purchase" qname="ns4:purchase" returnQName="ns4:purchaseReturn" returnType="xsd:boolean" soapAction="" xmlns:ns4="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns4:clientId" type="xsd:long"/>
-  </ns1:operation>
+  <ns1:operation name="getBasket" qname="ns3:getBasket" returnQName="ns3:getBasketReturn" returnType="ns4:Vehicle" soapAction="" xmlns:ns3="http://eiffelCorp.uge.fr" xmlns:ns4="http://ifsCars.uge.fr"/>
   <ns1:operation name="addToBasket" qname="ns5:addToBasket" soapAction="" xmlns:ns5="http://eiffelCorp.uge.fr">
    <ns1:parameter qname="ns5:vehicleId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="getVehiclesList" qname="ns6:getVehiclesList" returnQName="ns6:getVehiclesListReturn" returnType="xsd:string" soapAction="" xmlns:ns6="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  <ns1:operation name="getBasket" qname="ns7:getBasket" returnQName="ns7:getBasketReturn" returnType="xsd:string" soapAction="" xmlns:ns7="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  <ns1:parameter name="allowedMethods" value="isAvailable getBasket getBuyingPrice getRentalPrice addToBasket getVehiclesList purchase"/>
+  <ns1:operation name="getBuyingPrice" qname="ns6:getBuyingPrice" returnQName="ns6:getBuyingPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns6="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns6:vehicleId" type="xsd:long"/>
+   <ns1:parameter qname="ns6:currency" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="getRentalPrice" qname="ns7:getRentalPrice" returnQName="ns7:getRentalPriceReturn" returnType="xsd:double" soapAction="" xmlns:ns7="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns7:vehicleId" type="xsd:long"/>
+   <ns1:parameter qname="ns7:currency" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="purchase" qname="ns8:purchase" returnQName="ns8:purchaseReturn" returnType="xsd:boolean" soapAction="" xmlns:ns8="http://eiffelCorp.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  <ns1:operation name="getPurchasedVehicles" qname="ns9:getPurchasedVehicles" returnQName="ns9:getPurchasedVehiclesReturn" returnType="ns10:Vehicle" soapAction="" xmlns:ns10="http://ifsCars.uge.fr" xmlns:ns9="http://eiffelCorp.uge.fr"/>
+  <ns1:parameter name="allowedMethods" value="isAvailable getBasket getBuyingPrice getRentalPrice addToBasket purchase setId getPurchasedVehicles"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="IfsCarsService"/>
   <ns1:parameter name="className" value="fr.uge.eiffelCorp.IfsCarsService"/>
   <ns1:parameter name="wsdlServicePort" value="IfsCarsService"/>
-  <ns1:parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
+  <ns1:parameter name="schemaQualified" value="http://ifsCars.uge.fr,http://eiffelCorp.uge.fr"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
   <ns1:parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
   <ns1:parameter name="scope" value="session"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns11:Vehicle" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:fr.uge.ifsCars.Vehicle" xmlns:ns11="http://ifsCars.uge.fr"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

@@ -44,54 +44,6 @@ public class DataBaseProxy implements fr.uge.database.DataBase {
     return dataBase;
   }
   
-  public java.lang.String getDateFormat() throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getDateFormat();
-  }
-  
-  public double getVehicleRentalPrice(long vehicleId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getVehicleRentalPrice(vehicleId);
-  }
-  
-  public float getVehicleConditionGrade(long vehicleId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getVehicleConditionGrade(vehicleId);
-  }
-  
-  public float getVehicleGeneralGrade(long vehicleId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getVehicleGeneralGrade(vehicleId);
-  }
-  
-  public java.lang.String authenticateEmployee(java.lang.String login, java.lang.String password) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.authenticateEmployee(login, password);
-  }
-  
-  public double getVehicleBuyingPrice(long vehicleId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getVehicleBuyingPrice(vehicleId);
-  }
-  
-  public int getClientBankBalance(long clientId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getClientBankBalance(clientId);
-  }
-  
-  public long[] getPurchasedVehicles(long clientId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getPurchasedVehicles(clientId);
-  }
-  
   public boolean clientExists(long clientId) throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
@@ -110,16 +62,16 @@ public class DataBaseProxy implements fr.uge.database.DataBase {
     return dataBase.employeeExists(employeeId);
   }
   
-  public void silentlyClose() throws java.rmi.RemoteException{
+  public double getVehicleRentalPrice(long vehicleId) throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
-    dataBase.silentlyClose();
+    return dataBase.getVehicleRentalPrice(vehicleId);
   }
   
-  public boolean vehicleExists(long vehicleId) throws java.rmi.RemoteException{
+  public double getVehicleBuyingPrice(long vehicleId) throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
-    return dataBase.vehicleExists(vehicleId);
+    return dataBase.getVehicleBuyingPrice(vehicleId);
   }
   
   public boolean hasRentedVehicle(long employeeId, long vehicleId) throws java.rmi.RemoteException{
@@ -128,28 +80,16 @@ public class DataBaseProxy implements fr.uge.database.DataBase {
     return dataBase.hasRentedVehicle(employeeId, vehicleId);
   }
   
-  public long[] getVehiclesId() throws java.rmi.RemoteException{
+  public java.lang.String[] getAllVehicles() throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
-    return dataBase.getVehiclesId();
+    return dataBase.getAllVehicles();
   }
   
-  public int getRentalsNumber(long vehicleId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.getRentalsNumber(vehicleId);
-  }
-  
-  public long[] getRentedVehicles(long employeeId) throws java.rmi.RemoteException{
+  public java.lang.String[] getRentedVehicles(long employeeId) throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
     return dataBase.getRentedVehicles(employeeId);
-  }
-  
-  public java.lang.String authenticateClient(java.lang.String login, java.lang.String password) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    return dataBase.authenticateClient(login, password);
   }
   
   public void registerRental(java.lang.String date, long employeeId, long vehicleId) throws java.rmi.RemoteException{
@@ -158,16 +98,16 @@ public class DataBaseProxy implements fr.uge.database.DataBase {
     dataBase.registerRental(date, employeeId, vehicleId);
   }
   
-  public void registerPurchase(java.lang.String date, long clientId, long vehicleId) throws java.rmi.RemoteException{
-    if (dataBase == null)
-      _initDataBaseProxy();
-    dataBase.registerPurchase(date, clientId, vehicleId);
-  }
-  
   public java.lang.String getVehicleBrand(long vehicleId) throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
     return dataBase.getVehicleBrand(vehicleId);
+  }
+  
+  public java.lang.String getVehicleModel(long vehicleId) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.getVehicleModel(vehicleId);
   }
   
   public void debiteClient(long clientId, int amount) throws java.rmi.RemoteException{
@@ -176,10 +116,64 @@ public class DataBaseProxy implements fr.uge.database.DataBase {
     dataBase.debiteClient(clientId, amount);
   }
   
-  public java.lang.String getVehicleModel(long vehicleId) throws java.rmi.RemoteException{
+  public void registerPurchase(java.lang.String date, long clientId, long vehicleId) throws java.rmi.RemoteException{
     if (dataBase == null)
       _initDataBaseProxy();
-    return dataBase.getVehicleModel(vehicleId);
+    dataBase.registerPurchase(date, clientId, vehicleId);
+  }
+  
+  public boolean vehicleExists(long vehicleId) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.vehicleExists(vehicleId);
+  }
+  
+  public java.lang.String getVehicle(long vehicleId) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.getVehicle(vehicleId);
+  }
+  
+  public int getRentalsNumber(long vehicleId) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.getRentalsNumber(vehicleId);
+  }
+  
+  public int getClientBankBalance(long clientId) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.getClientBankBalance(clientId);
+  }
+  
+  public java.lang.String[] getPurchasedVehicles(long clientId) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.getPurchasedVehicles(clientId);
+  }
+  
+  public java.lang.String authenticateEmployee(java.lang.String login, java.lang.String password) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.authenticateEmployee(login, password);
+  }
+  
+  public java.lang.String getDateFormat() throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.getDateFormat();
+  }
+  
+  public java.lang.String authenticateClient(java.lang.String login, java.lang.String password) throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    return dataBase.authenticateClient(login, password);
+  }
+  
+  public void silentlyClose() throws java.rmi.RemoteException{
+    if (dataBase == null)
+      _initDataBaseProxy();
+    dataBase.silentlyClose();
   }
   
   

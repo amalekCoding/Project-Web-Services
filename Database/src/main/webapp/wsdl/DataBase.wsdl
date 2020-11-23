@@ -4,115 +4,6 @@
 Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://database.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
-   <element name="getDateFormat">
-    <complexType/>
-   </element>
-   <element name="getDateFormatResponse">
-    <complexType>
-     <sequence>
-      <element name="getDateFormatReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleRentalPrice">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleRentalPriceResponse">
-    <complexType>
-     <sequence>
-      <element name="getVehicleRentalPriceReturn" type="xsd:double"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleConditionGrade">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleConditionGradeResponse">
-    <complexType>
-     <sequence>
-      <element name="getVehicleConditionGradeReturn" type="xsd:float"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleGeneralGrade">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleGeneralGradeResponse">
-    <complexType>
-     <sequence>
-      <element name="getVehicleGeneralGradeReturn" type="xsd:float"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="authenticateEmployee">
-    <complexType>
-     <sequence>
-      <element name="login" type="xsd:string"/>
-      <element name="password" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="authenticateEmployeeResponse">
-    <complexType>
-     <sequence>
-      <element name="authenticateEmployeeReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleBuyingPrice">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleBuyingPriceResponse">
-    <complexType>
-     <sequence>
-      <element name="getVehicleBuyingPriceReturn" type="xsd:double"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getClientBankBalance">
-    <complexType>
-     <sequence>
-      <element name="clientId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getClientBankBalanceResponse">
-    <complexType>
-     <sequence>
-      <element name="getClientBankBalanceReturn" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getPurchasedVehicles">
-    <complexType>
-     <sequence>
-      <element name="clientId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getPurchasedVehiclesResponse">
-    <complexType>
-     <sequence>
-      <element maxOccurs="unbounded" name="getPurchasedVehiclesReturn" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="clientExists">
     <complexType>
      <sequence>
@@ -155,23 +46,31 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="silentlyClose">
-    <complexType/>
-   </element>
-   <element name="silentlyCloseResponse">
-    <complexType/>
-   </element>
-   <element name="vehicleExists">
+   <element name="getVehicleRentalPrice">
     <complexType>
      <sequence>
       <element name="vehicleId" type="xsd:long"/>
      </sequence>
     </complexType>
    </element>
-   <element name="vehicleExistsResponse">
+   <element name="getVehicleRentalPriceResponse">
     <complexType>
      <sequence>
-      <element name="vehicleExistsReturn" type="xsd:boolean"/>
+      <element name="getVehicleRentalPriceReturn" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicleBuyingPrice">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicleBuyingPriceResponse">
+    <complexType>
+     <sequence>
+      <element name="getVehicleBuyingPriceReturn" type="xsd:double"/>
      </sequence>
     </complexType>
    </element>
@@ -190,13 +89,118 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="getVehiclesId">
+   <element name="getAllVehicles">
     <complexType/>
    </element>
-   <element name="getVehiclesIdResponse">
+   <element name="getAllVehiclesResponse">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getVehiclesIdReturn" type="xsd:long"/>
+      <element maxOccurs="unbounded" name="getAllVehiclesReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getRentedVehicles">
+    <complexType>
+     <sequence>
+      <element name="employeeId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getRentedVehiclesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getRentedVehiclesReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="registerRental">
+    <complexType>
+     <sequence>
+      <element name="date" type="xsd:string"/>
+      <element name="employeeId" type="xsd:long"/>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="registerRentalResponse">
+    <complexType/>
+   </element>
+   <element name="getVehicleBrand">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicleBrandResponse">
+    <complexType>
+     <sequence>
+      <element name="getVehicleBrandReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicleModel">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicleModelResponse">
+    <complexType>
+     <sequence>
+      <element name="getVehicleModelReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="debiteClient">
+    <complexType>
+     <sequence>
+      <element name="clientId" type="xsd:long"/>
+      <element name="amount" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="debiteClientResponse">
+    <complexType/>
+   </element>
+   <element name="registerPurchase">
+    <complexType>
+     <sequence>
+      <element name="date" type="xsd:string"/>
+      <element name="clientId" type="xsd:long"/>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="registerPurchaseResponse">
+    <complexType/>
+   </element>
+   <element name="vehicleExists">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="vehicleExistsResponse">
+    <complexType>
+     <sequence>
+      <element name="vehicleExistsReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicle">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getVehicleResponse">
+    <complexType>
+     <sequence>
+      <element name="getVehicleReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
@@ -214,17 +218,56 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="getRentedVehicles">
+   <element name="getClientBankBalance">
     <complexType>
      <sequence>
-      <element name="employeeId" type="xsd:long"/>
+      <element name="clientId" type="xsd:long"/>
      </sequence>
     </complexType>
    </element>
-   <element name="getRentedVehiclesResponse">
+   <element name="getClientBankBalanceResponse">
     <complexType>
      <sequence>
-      <element maxOccurs="unbounded" name="getRentedVehiclesReturn" type="xsd:long"/>
+      <element name="getClientBankBalanceReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getPurchasedVehicles">
+    <complexType>
+     <sequence>
+      <element name="clientId" type="xsd:long"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getPurchasedVehiclesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getPurchasedVehiclesReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="authenticateEmployee">
+    <complexType>
+     <sequence>
+      <element name="login" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="authenticateEmployeeResponse">
+    <complexType>
+     <sequence>
+      <element name="authenticateEmployeeReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getDateFormat">
+    <complexType/>
+   </element>
+   <element name="getDateFormatResponse">
+    <complexType>
+     <sequence>
+      <element name="getDateFormatReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
@@ -243,68 +286,11 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="registerRental">
-    <complexType>
-     <sequence>
-      <element name="date" type="xsd:string"/>
-      <element name="employeeId" type="xsd:long"/>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="registerRentalResponse">
+   <element name="silentlyClose">
     <complexType/>
    </element>
-   <element name="registerPurchase">
-    <complexType>
-     <sequence>
-      <element name="date" type="xsd:string"/>
-      <element name="clientId" type="xsd:long"/>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="registerPurchaseResponse">
+   <element name="silentlyCloseResponse">
     <complexType/>
-   </element>
-   <element name="getVehicleBrand">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleBrandResponse">
-    <complexType>
-     <sequence>
-      <element name="getVehicleBrandReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="debiteClient">
-    <complexType>
-     <sequence>
-      <element name="clientId" type="xsd:long"/>
-      <element name="amount" type="xsd:int"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="debiteClientResponse">
-    <complexType/>
-   </element>
-   <element name="getVehicleModel">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getVehicleModelResponse">
-    <complexType>
-     <sequence>
-      <element name="getVehicleModelReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
    </element>
   </schema>
  </wsdl:types>
@@ -333,25 +319,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getVehicleGeneralGradeRequest">
-
-      <wsdl:part element="impl:getVehicleGeneralGrade" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:message name="clientExistsRequest">
 
       <wsdl:part element="impl:clientExists" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="getVehiclesIdRequest">
-
-      <wsdl:part element="impl:getVehiclesId" name="parameters">
 
       </wsdl:part>
 
@@ -373,6 +343,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="getVehicleResponse">
+
+      <wsdl:part element="impl:getVehicleResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="registerRentalRequest">
 
       <wsdl:part element="impl:registerRental" name="parameters">
@@ -381,9 +359,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="authenticateEmployeeResponse">
+   <wsdl:message name="employeeExistsRequest">
 
-      <wsdl:part element="impl:authenticateEmployeeResponse" name="parameters">
+      <wsdl:part element="impl:employeeExists" name="parameters">
 
       </wsdl:part>
 
@@ -397,9 +375,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="employeeExistsRequest">
+   <wsdl:message name="authenticateEmployeeResponse">
 
-      <wsdl:part element="impl:employeeExists" name="parameters">
+      <wsdl:part element="impl:authenticateEmployeeResponse" name="parameters">
 
       </wsdl:part>
 
@@ -421,6 +399,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="employeeExistsResponse">
+
+      <wsdl:part element="impl:employeeExistsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="getVehicleBuyingPriceRequest">
 
       <wsdl:part element="impl:getVehicleBuyingPrice" name="parameters">
@@ -429,9 +415,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="employeeExistsResponse">
+   <wsdl:message name="registerRentalResponse">
 
-      <wsdl:part element="impl:employeeExistsResponse" name="parameters">
+      <wsdl:part element="impl:registerRentalResponse" name="parameters">
 
       </wsdl:part>
 
@@ -445,9 +431,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="registerRentalResponse">
+   <wsdl:message name="getVehicleRequest">
 
-      <wsdl:part element="impl:registerRentalResponse" name="parameters">
+      <wsdl:part element="impl:getVehicle" name="parameters">
 
       </wsdl:part>
 
@@ -493,17 +479,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getVehicleConditionGradeRequest">
+   <wsdl:message name="getAllVehiclesRequest">
 
-      <wsdl:part element="impl:getVehicleConditionGrade" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="getDateFormatRequest">
-
-      <wsdl:part element="impl:getDateFormat" name="parameters">
+      <wsdl:part element="impl:getAllVehicles" name="parameters">
 
       </wsdl:part>
 
@@ -512,6 +490,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:message name="getPurchasedVehiclesRequest">
 
       <wsdl:part element="impl:getPurchasedVehicles" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDateFormatRequest">
+
+      <wsdl:part element="impl:getDateFormat" name="parameters">
 
       </wsdl:part>
 
@@ -533,17 +519,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getVehiclesIdResponse">
+   <wsdl:message name="getVehicleRentalPriceRequest">
 
-      <wsdl:part element="impl:getVehiclesIdResponse" name="parameters">
+      <wsdl:part element="impl:getVehicleRentalPrice" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="getVehicleRentalPriceRequest">
+   <wsdl:message name="getAllVehiclesResponse">
 
-      <wsdl:part element="impl:getVehicleRentalPrice" name="parameters">
+      <wsdl:part element="impl:getAllVehiclesResponse" name="parameters">
 
       </wsdl:part>
 
@@ -589,14 +575,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getVehicleConditionGradeResponse">
-
-      <wsdl:part element="impl:getVehicleConditionGradeResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:message name="addGradeResponse">
 
       <wsdl:part element="impl:addGradeResponse" name="parameters">
@@ -608,14 +586,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:message name="debiteClientResponse">
 
       <wsdl:part element="impl:debiteClientResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="getVehicleGeneralGradeResponse">
-
-      <wsdl:part element="impl:getVehicleGeneralGradeResponse" name="parameters">
 
       </wsdl:part>
 
@@ -637,17 +607,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="authenticateClientRequest">
+   <wsdl:message name="getVehicleModelRequest">
 
-      <wsdl:part element="impl:authenticateClient" name="parameters">
+      <wsdl:part element="impl:getVehicleModel" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="getVehicleModelRequest">
+   <wsdl:message name="authenticateClientRequest">
 
-      <wsdl:part element="impl:getVehicleModel" name="parameters">
+      <wsdl:part element="impl:authenticateClient" name="parameters">
 
       </wsdl:part>
 
@@ -678,102 +648,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    </wsdl:message>
 
    <wsdl:portType name="DataBase">
-
-      <wsdl:operation name="getDateFormat">
-
-         <wsdl:input message="impl:getDateFormatRequest" name="getDateFormatRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getDateFormatResponse" name="getDateFormatResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehicleRentalPrice">
-
-         <wsdl:input message="impl:getVehicleRentalPriceRequest" name="getVehicleRentalPriceRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getVehicleRentalPriceResponse" name="getVehicleRentalPriceResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehicleConditionGrade">
-
-         <wsdl:input message="impl:getVehicleConditionGradeRequest" name="getVehicleConditionGradeRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getVehicleConditionGradeResponse" name="getVehicleConditionGradeResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehicleGeneralGrade">
-
-         <wsdl:input message="impl:getVehicleGeneralGradeRequest" name="getVehicleGeneralGradeRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getVehicleGeneralGradeResponse" name="getVehicleGeneralGradeResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="authenticateEmployee">
-
-         <wsdl:input message="impl:authenticateEmployeeRequest" name="authenticateEmployeeRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:authenticateEmployeeResponse" name="authenticateEmployeeResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehicleBuyingPrice">
-
-         <wsdl:input message="impl:getVehicleBuyingPriceRequest" name="getVehicleBuyingPriceRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getVehicleBuyingPriceResponse" name="getVehicleBuyingPriceResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getClientBankBalance">
-
-         <wsdl:input message="impl:getClientBankBalanceRequest" name="getClientBankBalanceRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getClientBankBalanceResponse" name="getClientBankBalanceResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getPurchasedVehicles">
-
-         <wsdl:input message="impl:getPurchasedVehiclesRequest" name="getPurchasedVehiclesRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getPurchasedVehiclesResponse" name="getPurchasedVehiclesResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
 
       <wsdl:operation name="clientExists">
 
@@ -811,25 +685,25 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="silentlyClose">
+      <wsdl:operation name="getVehicleRentalPrice">
 
-         <wsdl:input message="impl:silentlyCloseRequest" name="silentlyCloseRequest">
+         <wsdl:input message="impl:getVehicleRentalPriceRequest" name="getVehicleRentalPriceRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:silentlyCloseResponse" name="silentlyCloseResponse">
+         <wsdl:output message="impl:getVehicleRentalPriceResponse" name="getVehicleRentalPriceResponse">
 
        </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="vehicleExists">
+      <wsdl:operation name="getVehicleBuyingPrice">
 
-         <wsdl:input message="impl:vehicleExistsRequest" name="vehicleExistsRequest">
+         <wsdl:input message="impl:getVehicleBuyingPriceRequest" name="getVehicleBuyingPriceRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:vehicleExistsResponse" name="vehicleExistsResponse">
+         <wsdl:output message="impl:getVehicleBuyingPriceResponse" name="getVehicleBuyingPriceResponse">
 
        </wsdl:output>
 
@@ -847,25 +721,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getVehiclesId">
+      <wsdl:operation name="getAllVehicles">
 
-         <wsdl:input message="impl:getVehiclesIdRequest" name="getVehiclesIdRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getVehiclesIdResponse" name="getVehiclesIdResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getRentalsNumber">
-
-         <wsdl:input message="impl:getRentalsNumberRequest" name="getRentalsNumberRequest">
+         <wsdl:input message="impl:getAllVehiclesRequest" name="getAllVehiclesRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:getRentalsNumberResponse" name="getRentalsNumberResponse">
+         <wsdl:output message="impl:getAllVehiclesResponse" name="getAllVehiclesResponse">
 
        </wsdl:output>
 
@@ -883,18 +745,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="authenticateClient">
-
-         <wsdl:input message="impl:authenticateClientRequest" name="authenticateClientRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:authenticateClientResponse" name="authenticateClientResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="registerRental">
 
          <wsdl:input message="impl:registerRentalRequest" name="registerRentalRequest">
@@ -902,18 +752,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:registerRentalResponse" name="registerRentalResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="registerPurchase">
-
-         <wsdl:input message="impl:registerPurchaseRequest" name="registerPurchaseRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:registerPurchaseResponse" name="registerPurchaseResponse">
 
        </wsdl:output>
 
@@ -931,18 +769,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="debiteClient">
-
-         <wsdl:input message="impl:debiteClientRequest" name="debiteClientRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:debiteClientResponse" name="debiteClientResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="getVehicleModel">
 
          <wsdl:input message="impl:getVehicleModelRequest" name="getVehicleModelRequest">
@@ -955,155 +781,143 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-   </wsdl:portType>
+      <wsdl:operation name="debiteClient">
 
-   <wsdl:binding name="DataBaseSoapBinding" type="impl:DataBase">
+         <wsdl:input message="impl:debiteClientRequest" name="debiteClientRequest">
 
-      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+       </wsdl:input>
 
-      <wsdl:operation name="getDateFormat">
+         <wsdl:output message="impl:debiteClientResponse" name="debiteClientResponse">
 
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getDateFormatRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getDateFormatResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="getVehicleRentalPrice">
+      <wsdl:operation name="registerPurchase">
 
-         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input message="impl:registerPurchaseRequest" name="registerPurchaseRequest">
 
-         <wsdl:input name="getVehicleRentalPriceRequest">
+       </wsdl:input>
 
-            <wsdlsoap:body use="literal"/>
+         <wsdl:output message="impl:registerPurchaseResponse" name="registerPurchaseResponse">
 
-         </wsdl:input>
-
-         <wsdl:output name="getVehicleRentalPriceResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="getVehicleConditionGrade">
+      <wsdl:operation name="vehicleExists">
 
-         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input message="impl:vehicleExistsRequest" name="vehicleExistsRequest">
 
-         <wsdl:input name="getVehicleConditionGradeRequest">
+       </wsdl:input>
 
-            <wsdlsoap:body use="literal"/>
+         <wsdl:output message="impl:vehicleExistsResponse" name="vehicleExistsResponse">
 
-         </wsdl:input>
-
-         <wsdl:output name="getVehicleConditionGradeResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="getVehicleGeneralGrade">
+      <wsdl:operation name="getVehicle">
 
-         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input message="impl:getVehicleRequest" name="getVehicleRequest">
 
-         <wsdl:input name="getVehicleGeneralGradeRequest">
+       </wsdl:input>
 
-            <wsdlsoap:body use="literal"/>
+         <wsdl:output message="impl:getVehicleResponse" name="getVehicleResponse">
 
-         </wsdl:input>
-
-         <wsdl:output name="getVehicleGeneralGradeResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="authenticateEmployee">
+      <wsdl:operation name="getRentalsNumber">
 
-         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input message="impl:getRentalsNumberRequest" name="getRentalsNumberRequest">
 
-         <wsdl:input name="authenticateEmployeeRequest">
+       </wsdl:input>
 
-            <wsdlsoap:body use="literal"/>
+         <wsdl:output message="impl:getRentalsNumberResponse" name="getRentalsNumberResponse">
 
-         </wsdl:input>
-
-         <wsdl:output name="authenticateEmployeeResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getVehicleBuyingPrice">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getVehicleBuyingPriceRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getVehicleBuyingPriceResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
 
       <wsdl:operation name="getClientBankBalance">
 
-         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input message="impl:getClientBankBalanceRequest" name="getClientBankBalanceRequest">
 
-         <wsdl:input name="getClientBankBalanceRequest">
+       </wsdl:input>
 
-            <wsdlsoap:body use="literal"/>
+         <wsdl:output message="impl:getClientBankBalanceResponse" name="getClientBankBalanceResponse">
 
-         </wsdl:input>
-
-         <wsdl:output name="getClientBankBalanceResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
 
       <wsdl:operation name="getPurchasedVehicles">
 
-         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input message="impl:getPurchasedVehiclesRequest" name="getPurchasedVehiclesRequest">
 
-         <wsdl:input name="getPurchasedVehiclesRequest">
+       </wsdl:input>
 
-            <wsdlsoap:body use="literal"/>
+         <wsdl:output message="impl:getPurchasedVehiclesResponse" name="getPurchasedVehiclesResponse">
 
-         </wsdl:input>
-
-         <wsdl:output name="getPurchasedVehiclesResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
+       </wsdl:output>
 
       </wsdl:operation>
+
+      <wsdl:operation name="authenticateEmployee">
+
+         <wsdl:input message="impl:authenticateEmployeeRequest" name="authenticateEmployeeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:authenticateEmployeeResponse" name="authenticateEmployeeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDateFormat">
+
+         <wsdl:input message="impl:getDateFormatRequest" name="getDateFormatRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getDateFormatResponse" name="getDateFormatResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="authenticateClient">
+
+         <wsdl:input message="impl:authenticateClientRequest" name="authenticateClientRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:authenticateClientResponse" name="authenticateClientResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="silentlyClose">
+
+         <wsdl:input message="impl:silentlyCloseRequest" name="silentlyCloseRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:silentlyCloseResponse" name="silentlyCloseResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="DataBaseSoapBinding" type="impl:DataBase">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
       <wsdl:operation name="clientExists">
 
@@ -1159,17 +973,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="silentlyClose">
+      <wsdl:operation name="getVehicleRentalPrice">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="silentlyCloseRequest">
+         <wsdl:input name="getVehicleRentalPriceRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="silentlyCloseResponse">
+         <wsdl:output name="getVehicleRentalPriceResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -1177,17 +991,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="vehicleExists">
+      <wsdl:operation name="getVehicleBuyingPrice">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="vehicleExistsRequest">
+         <wsdl:input name="getVehicleBuyingPriceRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="vehicleExistsResponse">
+         <wsdl:output name="getVehicleBuyingPriceResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -1213,35 +1027,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getVehiclesId">
+      <wsdl:operation name="getAllVehicles">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getVehiclesIdRequest">
+         <wsdl:input name="getAllVehiclesRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getVehiclesIdResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getRentalsNumber">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getRentalsNumberRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getRentalsNumberResponse">
+         <wsdl:output name="getAllVehiclesResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -1267,24 +1063,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="authenticateClient">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="authenticateClientRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="authenticateClientResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="registerRental">
 
          <wsdlsoap:operation soapAction=""/>
@@ -1296,24 +1074,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="registerRentalResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="registerPurchase">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="registerPurchaseRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="registerPurchaseResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -1339,6 +1099,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getVehicleModel">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVehicleModelRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVehicleModelResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="debiteClient">
 
          <wsdlsoap:operation soapAction=""/>
@@ -1357,17 +1135,179 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getVehicleModel">
+      <wsdl:operation name="registerPurchase">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getVehicleModelRequest">
+         <wsdl:input name="registerPurchaseRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getVehicleModelResponse">
+         <wsdl:output name="registerPurchaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="vehicleExists">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="vehicleExistsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="vehicleExistsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getVehicle">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVehicleRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getVehicleResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRentalsNumber">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRentalsNumberRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRentalsNumberResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getClientBankBalance">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getClientBankBalanceRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getClientBankBalanceResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPurchasedVehicles">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPurchasedVehiclesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPurchasedVehiclesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="authenticateEmployee">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="authenticateEmployeeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="authenticateEmployeeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDateFormat">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDateFormatRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDateFormatResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="authenticateClient">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="authenticateClientRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="authenticateClientResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="silentlyClose">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="silentlyCloseRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="silentlyCloseResponse">
 
             <wsdlsoap:body use="literal"/>
 

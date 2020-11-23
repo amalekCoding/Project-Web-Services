@@ -5,12 +5,20 @@
   <service name="IfsCarsService" provider="java:RPC" style="wrapped" use="literal">
       <parameter name="wsdlTargetNamespace" value="http://eiffelCorp.uge.fr"/>
       <parameter name="wsdlServiceElement" value="IfsCarsServiceService"/>
-      <parameter name="schemaQualified" value="http://eiffelCorp.uge.fr"/>
+      <parameter name="schemaQualified" value="http://ifsCars.uge.fr,http://eiffelCorp.uge.fr"/>
       <parameter name="wsdlServicePort" value="IfsCarsService"/>
       <parameter name="className" value="fr.uge.eiffelCorp.IfsCarsService"/>
       <parameter name="wsdlPortType" value="IfsCarsService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
       <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="isAvailable" qname="operNS:isAvailable" returnQName="retNS:isAvailableReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" name="setId" qname="operNS:setId" soapAction="">
+        <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://ifsCars.uge.fr" name="getBasket" qname="operNS:getBasket" returnQName="retNS:getBasketReturn" returnType="rtns:Vehicle" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" name="addToBasket" qname="operNS:addToBasket" soapAction="">
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
       <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getBuyingPrice" qname="operNS:getBuyingPrice" returnQName="retNS:getBuyingPriceReturn" returnType="rtns:double" soapAction="">
@@ -22,16 +30,11 @@
         <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:currency" type="tns:string"/>
       </operation>
       <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="purchase" qname="operNS:purchase" returnQName="retNS:purchaseReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
       </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" name="addToBasket" qname="operNS:addToBasket" soapAction="">
-        <parameter xmlns:pns="http://eiffelCorp.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://ifsCars.uge.fr" name="getPurchasedVehicles" qname="operNS:getPurchasedVehicles" returnQName="retNS:getPurchasedVehiclesReturn" returnType="rtns:Vehicle" soapAction="">
       </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehiclesList" qname="operNS:getVehiclesList" returnQName="retNS:getVehiclesListReturn" returnType="rtns:string" soapAction="">
-      </operation>
-      <operation xmlns:operNS="http://eiffelCorp.uge.fr" xmlns:retNS="http://eiffelCorp.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getBasket" qname="operNS:getBasket" returnQName="retNS:getBasketReturn" returnType="rtns:string" soapAction="">
-      </operation>
-      <parameter name="allowedMethods" value="isAvailable getBasket getBuyingPrice getRentalPrice addToBasket getVehiclesList purchase"/>
+      <parameter name="allowedMethods" value="isAvailable getBasket getBuyingPrice getRentalPrice addToBasket purchase setId getPurchasedVehicles"/>
 
+      <typeMapping xmlns:ns="http://ifsCars.uge.fr" qname="ns:Vehicle" type="java:fr.uge.ifsCars.Vehicle" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
   </service>
 </deployment>

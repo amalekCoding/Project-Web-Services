@@ -77,7 +77,8 @@
 			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 				<td>
 					<form method="POST" >
-						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value=<%= vehicle.id %>>
+			   			<input type="hidden" name="buyVehicleId" value=<%= vehicle.id %>>
+						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value="">
 			    	</form> 
 			    </td>
 			</tr>
@@ -116,9 +117,9 @@
 	
 		function confirmBuy() {
 			<%
-			if(request.getParameter("buy-btn") != null) {
-		    	int idVehicle = Integer.valueOf(request.getParameter("buy-btn"));
-				session.setAttribute("buy-btn", idVehicle);
+			if(request.getParameter("buyVehicleId") != null) {
+		    	int idVehicle = Integer.valueOf(request.getParameter("buyVehicleId"));
+				session.setAttribute("buyVehicleId", idVehicle);
 				response.getWriter().write("<script> window.location='buy.jsp'</script>");
 			}
 			%>

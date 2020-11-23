@@ -32,17 +32,22 @@
     
 	DataBase db = new DataBaseServiceLocator().getDataBase();
 	((DataBaseSoapBindingStub) db).setMaintainSession(true);
-<<<<<<< HEAD
-=======
 	
     String type_person = (String)session.getAttribute("type_person");
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 %>
 
 
 
  
 <body>
+	<div class="navigation">
+
+	 <a type="button" class="button button-logout icon"  onclick="window.location='index.jsp';">
+  		<div class="logout">Logout</div>
+  	</a>
+  </div>
+  
+
 	<div class="page">
 	 <h1>My Dashboard</h1>
 	 
@@ -181,16 +186,12 @@
 		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
 				System.out.println(idVehicle);
 				session.setAttribute("rentVehiculeId", idVehicle);
-<<<<<<< HEAD
 				response.getWriter().write("<script> window.location='rent.jsp'</script>");
-=======
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
+
 			}
 			%>
 		}
 		
-<<<<<<< HEAD
-=======
 		
 		<%				
 			String[] lstStrVehiclesBasket = service.getBasket();
@@ -202,7 +203,6 @@
 		output.innerText = "<%= nb %>";
 
 		
->>>>>>> 3ccad07ac9a1e720ef1e346aded5f4b45ec45744
 	</script>
  </body>
 </html>

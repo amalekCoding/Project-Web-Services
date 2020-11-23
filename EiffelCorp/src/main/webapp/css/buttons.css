@@ -35,7 +35,61 @@ input.button-buy {
 input.button-cal {
 	background-image: url(../logo/calendrier.png);
 }
+input.button-sell {
+	background-image: url(../logo/sell.png);
+}
 
+
+a.button-logout {
+	background-image: url(../logo/logout.png);
+	background-repeat: no-repeat;
+	
+	text-decoration: none;
+	float: right;
+  padding: 12px;
+  margin: 15px;
+  color: red;
+
+  transition: width .35s;
+  -webkit-transition: width .35s;
+  overflow: hidden;
+  
+      cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    
+    width: 36px;
+    height: 36px;
+  
+}
+
+
+a.button-logout:hover {
+  width: 100px;
+}
+
+a.button-logout:hover .logout{
+  opacity: .9;
+}
+
+
+
+.navigation {
+  width: 100%;
+  background-color: blue;
+}
+
+.logout {
+  font-size: .8em;
+  font-family: 'Oswald', sans-serif;
+	position: relative;
+  right: -24px;
+  bottom: 6px;
+  overflow: hidden;
+  letter-spacing: 3px;
+  opacity: 0;
+  transition: opacity .45s;
+  -webkit-transition: opacity .35s;
+  
+}
 
 
 input.button-profile,
