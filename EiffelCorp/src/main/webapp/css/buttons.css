@@ -35,7 +35,9 @@ input.button-buy {
 input.button-cal {
 	background-image: url(../logo/calendrier.png);
 }
-
+input.button-sell {
+	background-image: url(../logo/sell.png);
+}
 
 
 input.button-profile,

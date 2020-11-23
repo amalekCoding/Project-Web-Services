@@ -178,6 +178,8 @@
 		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
 				System.out.println(idVehicle);
 				session.setAttribute("rentVehiculeId", idVehicle);
+				response.getWriter().write("<script> window.location='rent.jsp'</script>");
+
 			}
 			%>
 		}

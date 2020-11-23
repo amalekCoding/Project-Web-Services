@@ -66,30 +66,32 @@
 	 </table> 
 	 
 	  <table class="layout profile display cars-table modifycurrency">
-	<form method="POST">
 			<tr>
 				<th>Modify Your Currency</th> 
 			</tr> 
-			<tr><td>
-			    <SELECT name="toCurrency" size="1">
-				    <option value="" selected disabled>To Currency</option>
-				    <OPTION>EUR
-				    <OPTION>USD
-				    <OPTION>GBP
-				    <OPTION>JPY
-			    </SELECT>
-			</td></tr> 
-			<tr> 
-				<td>
-					<input type="submit" onclick='changeCurrency()' class="icon button-cancel" value="" >
-				</td> 
-			</tr>
-	</form>
+			<form method="POST">
+				<tr><td>
+				    <SELECT name="toCurrency" size="1">
+					    <option value="" selected disabled>To Currency</option>
+					    <OPTION>EUR
+					    <OPTION>USD
+					    <OPTION>GBP
+					    <OPTION>JPY
+				    </SELECT>
+				</td></tr> 
+				<tr> 
+					<td>
+						<input type="submit" onclick='changeCurrency()' class="icon button-cancel" value="" >
+					</td> 
+				</tr>
+		  </form>
 	 </table> 
 
 	 </div>
 	 <h1>My assets</h1>
 	 
+	 
+	 <h2>- Rented : </h2>
 	 <table class="layout display cars-table">
 		<thead> 
 			<tr> 
@@ -102,27 +104,11 @@
 			    <th>Cancel</th> 
 			</tr> 
 		</thead> 
-		<tbody> 
-			<tr> 
-			    <td>BMW</td> 
-			    <td>X5</td> 
-			    <td>6</td> 
-			    <td>$150.00</td> 
-			    <td>3</td> 
-
-			    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
-			    <td><input type="button" class="icon button-cancel"></td>
-			</tr>
-			
-			
-			
-			<%
-				
-				System.out.println("-   ici " + db.clientExists(0));
-				long[] lstIdVehicles =  db.getRentedVehicles(0L);
+		<tbody>
+			<%				
+				long[] lstIdVehicles = db.getRentedVehicles(idPerson);
 				if(lstIdVehicles != null) {
 					for(long vehicleId : lstIdVehicles) {
-
 			%>
 					<tr> 
 					    <td><%= db.getVehicleBrand(vehicleId) %></td> 
@@ -133,6 +119,42 @@
 					    
 					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
 					    <td><input type="button" class="icon button-cancel"></td>
+					</tr>
+			<%
+					}
+				}
+			%>
+			
+		</tbody> 
+	</table> 
+	
+	<br>
+	
+	<h2>- Buyed : </h2>
+	 <table class="layout display cars-table">
+		<thead> 
+			<tr> 
+			    <th>Brand</th> 
+			    <th>Model</th> 
+			    <th>Grade</th> 
+			    <th>Price Purchased</th> 
+			    <th>Rented times</th> 
+			    <th>Sell</th> 
+			</tr> 
+		</thead> 
+			<%				
+				lstIdVehicles = db.getPurchasedVehicles(idPerson);
+				if(lstIdVehicles != null) {
+					for(long vehicleId : lstIdVehicles) {
+			%>
+					<tr> 
+					    <td><%= db.getVehicleBrand(vehicleId) %></td> 
+					    <td><%= db.getVehicleModel(vehicleId) %></td> 
+					    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
+					    <td><%= service.getBuyingPrice(vehicleId, currency) %></td> 
+					    <td><%= db.getRentalsNumber(vehicleId) %></td> 
+					    
+					    <td><input type="button" class="icon button-sell"></td>
 					</tr>
 			<%
 					}
@@ -150,11 +172,8 @@
 	
 		function changeCurrency() {
 			<%
-			System.out.println("-1rchangeCurrency()-");
 			if(request.getParameter("toCurrency") != null) {
-				System.out.println("-2changeCurrency()-");
 		    	String toCurrency = request.getParameter("toCurrency");
-				System.out.println(toCurrency);
 				session.setAttribute("currency", toCurrency);
 				response.getWriter().write("<script> window.location='profile.jsp'</script>");
 			}

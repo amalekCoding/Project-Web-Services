@@ -14,9 +14,9 @@ import static fr.uge.database.utils.Utils.DATE_FORMAT;
 
 public class DataBase {
 	// Informations de connexion
-	private final static String SERVER_URL = "localhost/EiffelCorp";
-	private final static String USER = "postgres";
-	private final static String PASSWORD = "postgres";
+	private final static String SERVER_URL = "localhost/amalek_db";
+	private final static String USER = "malek";
+	private final static String PASSWORD = "";
 	
 	// Nom des tables
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
@@ -159,7 +159,7 @@ public class DataBase {
 			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
 		}
 		
-		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, employeeId, vehicleId);
+		var query = String.format("INSERT INTO " + RENTALS_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, vehicleId, employeeId);
 		executeUpdate(query);
 	}
 	
@@ -177,7 +177,7 @@ public class DataBase {
 			throw new IllegalArgumentException("La date doit être au format " + DATE_FORMAT);
 		}
 		
-		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, employee_id) VALUES ('%s', %d, %d);", date, clientId, vehicleId);
+		var query = String.format("INSERT INTO " + PURCHASES_TABLE + " (date, vehicle_id, client_id) VALUES ('%s', %d, %d);", date, vehicleId, clientId);
 		executeUpdate(query);
 	}
 	
@@ -438,13 +438,13 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public long[] getRentedVehicles(long employeeId) throws SQLException {
-		var query = String.format("SELECT DISTINCT vehicle_id FROM " + RENTALS_TABLE + " WHERE employee_id=%d;", employeeId);
+		var query = String.format("SELECT vehicle_id FROM " + RENTALS_TABLE + " WHERE employee_id=%d;", employeeId);
 		var lst = new ArrayList<Long>();
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
 			while (result.next()) {
-				lst.add((long)result.getInt("id"));
+				lst.add((long)result.getInt("vehicle_id"));
 			}
 		}
 		
@@ -463,13 +463,13 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public long[] getPurchasedVehicles(long clientId) throws SQLException {
-		var query = String.format("SELECT DISTINCT vehicle_id FROM " + PURCHASES_TABLE + " WHERE client_id=%d;", clientId);
+		var query = String.format("SELECT vehicle_id FROM " + PURCHASES_TABLE + " WHERE client_id=%d;", clientId);
 		var lst = new ArrayList<Long>();
 		
 		var result = executeQuery(query);
 		if (!Objects.isNull(result)) {
 			while (result.next()) {
-				lst.add((long)result.getInt("id"));
+				lst.add((long)result.getInt("vehicle_id"));
 			}
 		}
 		
