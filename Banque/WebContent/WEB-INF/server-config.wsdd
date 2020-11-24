@@ -31,9 +31,13 @@
  <ns1:service name="BanqueService" provider="java:RPC" style="wrapped" use="literal">
   <ns2:operation name="makePurchase" qname="ns1:makePurchase" returnQName="ns1:makePurchaseReturn" returnType="xsd:boolean" soapAction="" xmlns:ns1="http://banque.uge.fr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
    <ns2:parameter qname="ns1:clientId" type="xsd:long"/>
-   <ns2:parameter qname="ns1:amount" type="xsd:int"/>
+   <ns2:parameter qname="ns1:amount" type="xsd:double"/>
   </ns2:operation>
-  <ns1:parameter name="allowedMethods" value="makePurchase"/>
+  <ns1:operation name="credit" qname="ns2:credit" soapAction="" xmlns:ns2="http://banque.uge.fr">
+   <ns1:parameter qname="ns2:clientId" type="xsd:long" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns2:amount" type="xsd:double" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="credit makePurchase"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="BanqueService"/>
   <ns1:parameter name="className" value="fr.uge.banque.BanqueService"/>

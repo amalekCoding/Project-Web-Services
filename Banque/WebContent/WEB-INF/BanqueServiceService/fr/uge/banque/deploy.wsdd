@@ -12,9 +12,13 @@
       <parameter name="typeMappingVersion" value="1.2"/>
       <operation xmlns:operNS="http://banque.uge.fr" xmlns:retNS="http://banque.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="makePurchase" qname="operNS:makePurchase" returnQName="retNS:makePurchaseReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
-        <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:int"/>
+        <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:double"/>
       </operation>
-      <parameter name="allowedMethods" value="makePurchase"/>
+      <operation xmlns:operNS="http://banque.uge.fr" name="credit" qname="operNS:credit" soapAction="">
+        <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://banque.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:double"/>
+      </operation>
+      <parameter name="allowedMethods" value="credit makePurchase"/>
 
   </service>
 </deployment>

@@ -44,10 +44,16 @@ public class BanqueServiceProxy implements fr.uge.banque.BanqueService {
     return banqueService;
   }
   
-  public boolean makePurchase(long clientId, int amount) throws java.rmi.RemoteException{
+  public boolean makePurchase(long clientId, double amount) throws java.rmi.RemoteException{
     if (banqueService == null)
       _initBanqueServiceProxy();
     return banqueService.makePurchase(clientId, amount);
+  }
+  
+  public void credit(long clientId, double amount) throws java.rmi.RemoteException{
+    if (banqueService == null)
+      _initBanqueServiceProxy();
+    banqueService.credit(clientId, amount);
   }
   
   

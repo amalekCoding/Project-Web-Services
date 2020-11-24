@@ -8,5 +8,6 @@
 package fr.uge.banque;
 
 public interface BanqueService extends java.rmi.Remote {
-    public boolean makePurchase(long clientId, int amount) throws java.rmi.RemoteException;
+    public boolean makePurchase(long clientId, double amount) throws java.rmi.RemoteException;
+    public void credit(long clientId, double amount) throws java.rmi.RemoteException;
 }

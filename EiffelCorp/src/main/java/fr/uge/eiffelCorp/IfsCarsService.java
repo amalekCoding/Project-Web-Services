@@ -212,7 +212,7 @@ public class IfsCarsService {
 	 * 
 	 * @param clientId Le client achetant le véhicule
 	 * @param vehicleId L'identifiant du véhicule acheté
-	 * @throws SQLException Si la connexion avec la base de données a été interrompue
+	 * @throws SQLException 
 	 * @throws RemoteException Si la connexion avec la base de données a été interrompue
 	 */
 	private void registerPurchase(long clientId, long vehicleId) throws SQLException, RemoteException {
@@ -221,5 +221,22 @@ public class IfsCarsService {
 	    String strDate = format.format(now);
 		
 		db.registerPurchase(strDate, clientId, vehicleId);
+	}
+	
+	/**
+	 * Vend un véhicule acheté par le client, et le crédite du même montant que le prix d'achat du véhicule.
+	 * 
+	 * @param vehicleId L'identifiant du véhicule à vendre
+	 * @throws RemoteException Si la connexion avec la base de données ou la banque a été interrompue
+	 * @throws SQLException
+	 * @throws IllegalArgumentException Si le client n'a pas acheté le véhicule qu'il souhaite vendre
+	 */
+	public void sellVehicle(long vehicleId) throws RemoteException, SQLException, IllegalArgumentException {
+		if (!db.hasPurchasedVehicle(clientId, vehicleId)) {
+			throw new IllegalArgumentException("Le client " + clientId + " ne possède pas le véhicule " + vehicleId);
+		}
+		
+		db.removePuchasedVehicle(clientId, vehicleId);
+		bank.credit(clientId, db.getVehicleBuyingPrice(vehicleId));
 	}
 }

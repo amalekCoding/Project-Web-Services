@@ -8,7 +8,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="clientId" type="xsd:long"/>
-      <element name="amount" type="xsd:int"/>
+      <element name="amount" type="xsd:double"/>
      </sequence>
     </complexType>
    </element>
@@ -18,6 +18,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
       <element name="makePurchaseReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
+   </element>
+   <element name="credit">
+    <complexType>
+     <sequence>
+      <element name="clientId" type="xsd:long"/>
+      <element name="amount" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="creditResponse">
+    <complexType/>
    </element>
   </schema>
  </wsdl:types>
@@ -38,6 +49,22 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="creditRequest">
+
+      <wsdl:part element="impl:credit" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="creditResponse">
+
+      <wsdl:part element="impl:creditResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:portType name="BanqueService">
 
       <wsdl:operation name="makePurchase">
@@ -47,6 +74,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:makePurchaseResponse" name="makePurchaseResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="credit">
+
+         <wsdl:input message="impl:creditRequest" name="creditRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:creditResponse" name="creditResponse">
 
        </wsdl:output>
 
@@ -69,6 +108,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="makePurchaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="credit">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="creditRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="creditResponse">
 
             <wsdlsoap:body use="literal"/>
 

@@ -330,7 +330,7 @@ public class DataBase {
 	 * @throws SQLException
 	 * @throws IllegalArgumentException Si l'identifiant du client n'est pas renseigné dans la base
 	 */
-	public int getClientBankBalance(long clientId) throws SQLException, IllegalArgumentException {
+	public double getClientBankBalance(long clientId) throws SQLException, IllegalArgumentException {
 		var query = String.format("SELECT bank_balance FROM " + CLIENTS_TABLE + " WHERE id=%d;", clientId);
 		
 		var result = executeQuery(query);
@@ -339,7 +339,7 @@ public class DataBase {
 				throw new IllegalArgumentException("Le client " + clientId + " n'existe pas dans la base !");
 			}
 			
-			return result.getInt("bank_balance");
+			return result.getDouble("bank_balance");
 		}
 		
 		throw new IllegalStateException();
@@ -353,13 +353,31 @@ public class DataBase {
 	 * @throws SQLException 
 	 * @throws IllegalArgumentException Si l'identifiant du client n'est pas renseigné dans la base, ou si le montant à débiter est négatif
 	 */
-	public void debiteClient(long clientId, int amount) throws IllegalArgumentException, SQLException {
+	public void debiteClient(long clientId, double amount) throws IllegalArgumentException, SQLException {
 		if (amount < 0) {
 			throw new IllegalArgumentException("La somme à débiter doit être positive");
 		}
 		
-		int currentAmount = getClientBankBalance(clientId);
-		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %d WHERE id = %d;", currentAmount - amount, clientId);
+		double currentAmount = getClientBankBalance(clientId);
+		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %f WHERE id = %d;", currentAmount - amount, clientId);
+		executeUpdate(query);
+	}
+	
+	/**
+	 * Crédite le client du montant donné en paramètre.
+	 * 
+	 * @param clientId L'identifiant du client
+	 * @param amount Le montant à créditer
+	 * @throws SQLException 
+	 * @throws IllegalArgumentException Si l'identifiant du client n'est pas renseigné dans la base, ou si le montant à créditer est négatif
+	 */
+	public void creditClient(long clientId, double amount) throws IllegalArgumentException, SQLException {
+		if (amount < 0) {
+			throw new IllegalArgumentException("La somme à créditer doit être positive");
+		}
+		
+		double currentAmount = getClientBankBalance(clientId);
+		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %f WHERE id = %d;", currentAmount + amount, clientId);
 		executeUpdate(query);
 	}
 	
@@ -398,6 +416,38 @@ public class DataBase {
 		}
 		
 		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Détermine si le client a acheté le véhicule donné en paramètre
+	 * 
+	 * @param clientId L'identifiant du client
+	 * @param vehicleId L'identifiant du véhicule
+	 * @return True si le client a acheté le véhicule, False sinon.
+	 * @throws SQLException
+	 */
+	public boolean hasPurchasedVehicle(long clientId, long vehicleId) throws SQLException {
+		var query = String.format("SELECT COUNT(*) FROM " + PURCHASES_TABLE + " WHERE client_id=%d AND vehicle_id=%d;", clientId, vehicleId);
+		
+		var result = executeQuery(query);
+		if (!Objects.isNull(result) && result.next()) {
+			return result.getInt("count") > 0;
+		}
+		
+		throw new IllegalStateException();
+	}
+	
+	/**
+	 * Retire de la table l'achat d'un véhicule par un client.<br/>
+	 * Si le client a acheté plusieurs fois le même véhicule, seul 1 est retiré.
+	 * 
+	 * @param clientId L'identifiant du client
+	 * @param vehicleId L'identifiant du véhicule
+	 * @throws SQLException
+	 */
+	public void removePuchasedVehicle(long clientId, long vehicleId) throws SQLException {
+		var query = String.format("DELETE TOP 1 FROM " + PURCHASES_TABLE + " WHERE client_id=%d AND vehicle_id=%d;", clientId, vehicleId);
+		executeUpdate(query);
 	}
 	
 	/**

@@ -10,65 +10,19 @@
       <parameter name="className" value="fr.uge.database.DataBase"/>
       <parameter name="wsdlPortType" value="DataBase"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="clientExists" qname="operNS:clientExists" returnQName="retNS:clientExistsReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" name="addGrade" qname="operNS:addGrade" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:date" type="tns:string"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleGrade" type="tns:int"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:conditionGrade" type="tns:int"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="employeeExists" qname="operNS:employeeExists" returnQName="retNS:employeeExistsReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
-      </operation>
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicleRentalPrice" qname="operNS:getVehicleRentalPrice" returnQName="retNS:getVehicleRentalPriceReturn" returnType="rtns:double" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicleBuyingPrice" qname="operNS:getVehicleBuyingPrice" returnQName="retNS:getVehicleBuyingPriceReturn" returnType="rtns:double" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="hasRentedVehicle" qname="operNS:hasRentedVehicle" returnQName="retNS:hasRentedVehicleReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getAllVehicles" qname="operNS:getAllVehicles" returnQName="retNS:getAllVehiclesReturn" returnType="rtns:string" soapAction="">
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRentedVehicles" qname="operNS:getRentedVehicles" returnQName="retNS:getRentedVehiclesReturn" returnType="rtns:string" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" name="registerRental" qname="operNS:registerRental" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:date" type="tns:string"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicleBrand" qname="operNS:getVehicleBrand" returnQName="retNS:getVehicleBrandReturn" returnType="rtns:string" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicleModel" qname="operNS:getVehicleModel" returnQName="retNS:getVehicleModelReturn" returnType="rtns:string" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" name="debiteClient" qname="operNS:debiteClient" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:int"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" name="registerPurchase" qname="operNS:registerPurchase" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:date" type="tns:string"/>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="hasPurchasedVehicle" qname="operNS:hasPurchasedVehicle" returnQName="retNS:hasPurchasedVehicleReturn" returnType="rtns:boolean" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="vehicleExists" qname="operNS:vehicleExists" returnQName="retNS:vehicleExistsReturn" returnType="rtns:boolean" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicle" qname="operNS:getVehicle" returnQName="retNS:getVehicleReturn" returnType="rtns:string" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRentalsNumber" qname="operNS:getRentalsNumber" returnQName="retNS:getRentalsNumberReturn" returnType="rtns:int" soapAction="">
-        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
-      </operation>
-      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getClientBankBalance" qname="operNS:getClientBankBalance" returnQName="retNS:getClientBankBalanceReturn" returnType="rtns:int" soapAction="">
+      <operation xmlns:operNS="http://database.uge.fr" name="removePuchasedVehicle" qname="operNS:removePuchasedVehicle" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
       </operation>
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getPurchasedVehicles" qname="operNS:getPurchasedVehicles" returnQName="retNS:getPurchasedVehiclesReturn" returnType="rtns:string" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
@@ -79,13 +33,71 @@
       </operation>
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getDateFormat" qname="operNS:getDateFormat" returnQName="retNS:getDateFormatReturn" returnType="rtns:string" soapAction="">
       </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getClientBankBalance" qname="operNS:getClientBankBalance" returnQName="retNS:getClientBankBalanceReturn" returnType="rtns:double" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" name="silentlyClose" qname="operNS:silentlyClose" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="employeeExists" qname="operNS:employeeExists" returnQName="retNS:employeeExistsReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="vehicleExists" qname="operNS:vehicleExists" returnQName="retNS:vehicleExistsReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" name="registerRental" qname="operNS:registerRental" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:date" type="tns:string"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="clientExists" qname="operNS:clientExists" returnQName="retNS:clientExistsReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" name="addGrade" qname="operNS:addGrade" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:date" type="tns:string"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleGrade" type="tns:int"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:conditionGrade" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" name="registerPurchase" qname="operNS:registerPurchase" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:date" type="tns:string"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getAllVehicles" qname="operNS:getAllVehicles" returnQName="retNS:getAllVehiclesReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="hasRentedVehicle" qname="operNS:hasRentedVehicle" returnQName="retNS:hasRentedVehicleReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRentalsNumber" qname="operNS:getRentalsNumber" returnQName="retNS:getRentalsNumberReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicleBrand" qname="operNS:getVehicleBrand" returnQName="retNS:getVehicleBrandReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicle" qname="operNS:getVehicle" returnQName="retNS:getVehicleReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getVehicleModel" qname="operNS:getVehicleModel" returnQName="retNS:getVehicleModelReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:vehicleId" type="tns:long"/>
+      </operation>
+      <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRentedVehicles" qname="operNS:getRentedVehicles" returnQName="retNS:getRentedVehiclesReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:employeeId" type="tns:long"/>
+      </operation>
       <operation xmlns:operNS="http://database.uge.fr" xmlns:retNS="http://database.uge.fr" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="authenticateClient" qname="operNS:authenticateClient" returnQName="retNS:authenticateClientReturn" returnType="rtns:string" soapAction="">
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:login" type="tns:string"/>
         <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:password" type="tns:string"/>
       </operation>
-      <operation xmlns:operNS="http://database.uge.fr" name="silentlyClose" qname="operNS:silentlyClose" soapAction="">
+      <operation xmlns:operNS="http://database.uge.fr" name="debiteClient" qname="operNS:debiteClient" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:double"/>
       </operation>
-      <parameter name="allowedMethods" value="registerPurchase getVehicleModel getVehicle debiteClient hasRentedVehicle authenticateClient silentlyClose clientExists getVehicleBrand registerRental employeeExists getRentalsNumber vehicleExists getAllVehicles addGrade getRentedVehicles getClientBankBalance getPurchasedVehicles getDateFormat getVehicleRentalPrice getVehicleBuyingPrice authenticateEmployee"/>
+      <operation xmlns:operNS="http://database.uge.fr" name="creditClient" qname="operNS:creditClient" soapAction="">
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:clientId" type="tns:long"/>
+        <parameter xmlns:pns="http://database.uge.fr" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:amount" type="tns:double"/>
+      </operation>
+      <parameter name="allowedMethods" value="creditClient getVehicle debiteClient hasRentedVehicle employeeExists getAllVehicles removePuchasedVehicle getRentedVehicles hasPurchasedVehicle authenticateEmployee registerPurchase getVehicleModel authenticateClient silentlyClose clientExists getVehicleBrand registerRental getRentalsNumber vehicleExists getClientBankBalance addGrade getPurchasedVehicles getDateFormat getVehicleRentalPrice getVehicleBuyingPrice"/>
 
   </service>
 </deployment>
