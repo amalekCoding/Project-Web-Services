@@ -1,4 +1,4 @@
-package fr.uge.ifsCars;
+package fr.uge.objects;
 
 import java.io.Serializable;
 import java.util.Date;

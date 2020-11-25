@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://eiffelCorp.uge.fr" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://eiffelCorp.uge.fr" xmlns:intf="http://eiffelCorp.uge.fr" xmlns:tns1="http://ifsCars.uge.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<wsdl:definitions targetNamespace="http://eiffelCorp.uge.fr" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://eiffelCorp.uge.fr" xmlns:intf="http://eiffelCorp.uge.fr" xmlns:tns1="http://objects.uge.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!--WSDL created by Apache Axis version: 1.4
 Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://eiffelCorp.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
-   <import namespace="http://ifsCars.uge.fr"/>
+   <import namespace="http://objects.uge.fr"/>
    <element name="isAvailable">
     <complexType>
      <sequence>
@@ -29,30 +29,15 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <element name="setIdResponse">
     <complexType/>
    </element>
-   <element name="getPurchasedVehicles">
-    <complexType/>
-   </element>
-   <element name="getPurchasedVehiclesResponse">
-    <complexType>
-     <sequence>
-      <element maxOccurs="unbounded" name="getPurchasedVehiclesReturn" type="tns1:Vehicle"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getRentalPrice">
+   <element name="addToBasket">
     <complexType>
      <sequence>
       <element name="vehicleId" type="xsd:long"/>
-      <element name="currency" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
-   <element name="getRentalPriceResponse">
-    <complexType>
-     <sequence>
-      <element name="getRentalPriceReturn" type="xsd:double"/>
-     </sequence>
-    </complexType>
+   <element name="addToBasketResponse">
+    <complexType/>
    </element>
    <element name="getBasket">
     <complexType/>
@@ -63,31 +48,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
       <element maxOccurs="unbounded" name="getBasketReturn" type="tns1:Vehicle"/>
      </sequence>
     </complexType>
-   </element>
-   <element name="getBuyingPrice">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-      <element name="currency" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="getBuyingPriceResponse">
-    <complexType>
-     <sequence>
-      <element name="getBuyingPriceReturn" type="xsd:double"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addToBasket">
-    <complexType>
-     <sequence>
-      <element name="vehicleId" type="xsd:long"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addToBasketResponse">
-    <complexType/>
    </element>
    <element name="purchase">
     <complexType/>
@@ -109,8 +69,48 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <element name="sellVehicleResponse">
     <complexType/>
    </element>
+   <element name="getRentalPrice">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+      <element name="currency" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getRentalPriceResponse">
+    <complexType>
+     <sequence>
+      <element name="getRentalPriceReturn" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBuyingPrice">
+    <complexType>
+     <sequence>
+      <element name="vehicleId" type="xsd:long"/>
+      <element name="currency" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBuyingPriceResponse">
+    <complexType>
+     <sequence>
+      <element name="getBuyingPriceReturn" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getPurchasedVehicles">
+    <complexType/>
+   </element>
+   <element name="getPurchasedVehiclesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getPurchasedVehiclesReturn" type="tns1:Vehicle"/>
+     </sequence>
+    </complexType>
+   </element>
   </schema>
-  <schema elementFormDefault="qualified" targetNamespace="http://ifsCars.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
+  <schema elementFormDefault="qualified" targetNamespace="http://objects.uge.fr" xmlns="http://www.w3.org/2001/XMLSchema">
    <complexType name="Vehicle">
     <sequence/>
    </complexType>
@@ -229,17 +229,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getPurchasedVehiclesRequest">
+   <wsdl:message name="sellVehicleRequest">
 
-      <wsdl:part element="impl:getPurchasedVehicles" name="parameters">
+      <wsdl:part element="impl:sellVehicle" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="sellVehicleRequest">
+   <wsdl:message name="getPurchasedVehiclesRequest">
 
-      <wsdl:part element="impl:sellVehicle" name="parameters">
+      <wsdl:part element="impl:getPurchasedVehicles" name="parameters">
 
       </wsdl:part>
 
@@ -287,25 +287,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getPurchasedVehicles">
+      <wsdl:operation name="addToBasket">
 
-         <wsdl:input message="impl:getPurchasedVehiclesRequest" name="getPurchasedVehiclesRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getPurchasedVehiclesResponse" name="getPurchasedVehiclesResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getRentalPrice">
-
-         <wsdl:input message="impl:getRentalPriceRequest" name="getRentalPriceRequest">
+         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:getRentalPriceResponse" name="getRentalPriceResponse">
+         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
 
        </wsdl:output>
 
@@ -318,30 +306,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getBasketResponse" name="getBasketResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getBuyingPrice">
-
-         <wsdl:input message="impl:getBuyingPriceRequest" name="getBuyingPriceRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getBuyingPriceResponse" name="getBuyingPriceResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="addToBasket">
-
-         <wsdl:input message="impl:addToBasketRequest" name="addToBasketRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:addToBasketResponse" name="addToBasketResponse">
 
        </wsdl:output>
 
@@ -366,6 +330,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:sellVehicleResponse" name="sellVehicleResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRentalPrice">
+
+         <wsdl:input message="impl:getRentalPriceRequest" name="getRentalPriceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getRentalPriceResponse" name="getRentalPriceResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBuyingPrice">
+
+         <wsdl:input message="impl:getBuyingPriceRequest" name="getBuyingPriceRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getBuyingPriceResponse" name="getBuyingPriceResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPurchasedVehicles">
+
+         <wsdl:input message="impl:getPurchasedVehiclesRequest" name="getPurchasedVehiclesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getPurchasedVehiclesResponse" name="getPurchasedVehiclesResponse">
 
        </wsdl:output>
 
@@ -413,35 +413,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getPurchasedVehicles">
+      <wsdl:operation name="addToBasket">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getPurchasedVehiclesRequest">
+         <wsdl:input name="addToBasketRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getPurchasedVehiclesResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getRentalPrice">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getRentalPriceRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getRentalPriceResponse">
+         <wsdl:output name="addToBasketResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -460,42 +442,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getBasketResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getBuyingPrice">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getBuyingPriceRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getBuyingPriceResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="addToBasket">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="addToBasketRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="addToBasketResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -532,6 +478,60 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="sellVehicleResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRentalPrice">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRentalPriceRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRentalPriceResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBuyingPrice">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getBuyingPriceRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getBuyingPriceResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPurchasedVehicles">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPurchasedVehiclesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPurchasedVehiclesResponse">
 
             <wsdlsoap:body use="literal"/>
 

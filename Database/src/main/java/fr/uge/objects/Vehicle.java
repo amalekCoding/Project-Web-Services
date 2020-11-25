@@ -1,4 +1,4 @@
-package fr.uge.database.utils;
+package fr.uge.objects;
 
 import java.io.Serializable;
 import java.util.Date;

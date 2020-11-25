@@ -4,6 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
+import fr.uge.objects.Vehicle;
+
 public interface IGarage extends Remote {
 	/**
 	 * Tente de louer un véhicule à l'employé, si le véhicule est disponible.

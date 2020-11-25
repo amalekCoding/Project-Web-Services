@@ -17,6 +17,7 @@ import javax.xml.rpc.ServiceException;
 import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
+import fr.uge.objects.Vehicle;
 import fr.uge.utils.Serialization;
 
 public class Garage extends UnicastRemoteObject implements IGarage {
@@ -298,7 +299,9 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		for (int i = 0; i < SerializedVehicles.length; i++) {
 			try {
 				vehicles[i] = (Vehicle) Serialization.deserialize(SerializedVehicles[i]);
+				System.out.println(vehicles[i]);
 			} catch (ClassNotFoundException | IOException e) {
+				System.out.println(e);
 				vehicles[i] = null;
 			}
 		}

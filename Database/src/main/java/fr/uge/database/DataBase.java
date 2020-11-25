@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import fr.uge.database.utils.Serialization;
 import fr.uge.database.utils.Utils;
-import fr.uge.database.utils.Vehicle;
+import fr.uge.objects.Vehicle;
 
 import static fr.uge.database.utils.Utils.DATE_FORMAT;
 

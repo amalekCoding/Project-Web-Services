@@ -21,7 +21,7 @@ import fr.uge.database.DataBase;
 import fr.uge.database.DataBaseServiceLocator;
 import fr.uge.database.DataBaseSoapBindingStub;
 import fr.uge.ifsCars.IGarage;
-import fr.uge.ifsCars.Vehicle;
+import fr.uge.objects.Vehicle;
 import fr.uge.utils.Serialization;
 
 public class IfsCarsService {
