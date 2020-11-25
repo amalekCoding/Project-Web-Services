@@ -589,7 +589,7 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public String[] getPurchasedVehicles(long clientId) throws SQLException {
-		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date"
+		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date" + " "
 				+ "FROM " + VEHICLES_TABLE + ", " + PURCHASES_TABLE + " "
 				+ "WHERE " + VEHICLES_TABLE + ".id = " + PURCHASES_TABLE + ".vehicle_id AND client_id=%d;", clientId);
 		var lst = new ArrayList<Vehicle>();

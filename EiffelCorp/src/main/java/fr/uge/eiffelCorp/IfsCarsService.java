@@ -176,6 +176,10 @@ public class IfsCarsService {
 	 * @throws RemoteException
 	 */
 	public Vehicle[] getPurchasedVehicles() throws RemoteException {
+		if (clientId == -1) {
+			throw new IllegalStateException("L'identifiant du client n'a pas été renseigné. Exectuez d'abord la méthode setId().");
+		}
+		
 		var SerializedVehicles = db.getPurchasedVehicles(clientId);
 		var vehicles = new Vehicle[SerializedVehicles.length];
 		

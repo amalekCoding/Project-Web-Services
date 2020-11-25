@@ -299,9 +299,7 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		for (int i = 0; i < SerializedVehicles.length; i++) {
 			try {
 				vehicles[i] = (Vehicle) Serialization.deserialize(SerializedVehicles[i]);
-				System.out.println(vehicles[i]);
 			} catch (ClassNotFoundException | IOException e) {
-				System.out.println(e);
 				vehicles[i] = null;
 			}
 		}
