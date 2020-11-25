@@ -1,5 +1,5 @@
 --
--- malekQL database dump
+-- PostgreSQL database dump
 --
 
 -- Dumped from database version 12.1
@@ -21,12 +21,12 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: Clients; Type: TABLE; Schema: public; Owner: malek
+-- Name: Clients; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Clients" (
     id integer NOT NULL,
-    bank_balance integer DEFAULT 0,
+    bank_balance double precision DEFAULT 0,
     login character varying(30) NOT NULL,
     password character varying(30) NOT NULL,
     firstname character varying(20) NOT NULL,
@@ -34,31 +34,31 @@ CREATE TABLE public."Clients" (
 );
 
 
-ALTER TABLE public."Clients" OWNER TO malek;
+ALTER TABLE public."Clients" OWNER TO postgres;
 
 --
--- Name: COLUMN "Clients".bank_balance; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Clients".bank_balance; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Clients".bank_balance IS 'Solde bancaire';
 
 
 --
--- Name: COLUMN "Clients".firstname; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Clients".firstname; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Clients".firstname IS 'Prénom';
 
 
 --
--- Name: COLUMN "Clients".lastname; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Clients".lastname; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Clients".lastname IS 'Nom';
 
 
 --
--- Name: Clients_id_seq; Type: SEQUENCE; Schema: public; Owner: malek
+-- Name: Clients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."Clients_id_seq"
@@ -70,17 +70,17 @@ CREATE SEQUENCE public."Clients_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."Clients_id_seq" OWNER TO malek;
+ALTER TABLE public."Clients_id_seq" OWNER TO postgres;
 
 --
--- Name: Clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: malek
+-- Name: Clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."Clients_id_seq" OWNED BY public."Clients".id;
 
 
 --
--- Name: Employees; Type: TABLE; Schema: public; Owner: malek
+-- Name: Employees; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Employees" (
@@ -92,24 +92,24 @@ CREATE TABLE public."Employees" (
 );
 
 
-ALTER TABLE public."Employees" OWNER TO malek;
+ALTER TABLE public."Employees" OWNER TO postgres;
 
 --
--- Name: COLUMN "Employees".firstname; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Employees".firstname; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Employees".firstname IS 'Prénom';
 
 
 --
--- Name: COLUMN "Employees".lastname; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Employees".lastname; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Employees".lastname IS 'Nom';
 
 
 --
--- Name: Employees_id_seq; Type: SEQUENCE; Schema: public; Owner: malek
+-- Name: Employees_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."Employees_id_seq"
@@ -121,17 +121,17 @@ CREATE SEQUENCE public."Employees_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."Employees_id_seq" OWNER TO malek;
+ALTER TABLE public."Employees_id_seq" OWNER TO postgres;
 
 --
--- Name: Employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: malek
+-- Name: Employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."Employees_id_seq" OWNED BY public."Employees".id;
 
 
 --
--- Name: Purchases; Type: TABLE; Schema: public; Owner: malek
+-- Name: Purchases; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Purchases" (
@@ -141,10 +141,10 @@ CREATE TABLE public."Purchases" (
 );
 
 
-ALTER TABLE public."Purchases" OWNER TO malek;
+ALTER TABLE public."Purchases" OWNER TO postgres;
 
 --
--- Name: Rentals; Type: TABLE; Schema: public; Owner: malek
+-- Name: Rentals; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Rentals" (
@@ -156,10 +156,10 @@ CREATE TABLE public."Rentals" (
 );
 
 
-ALTER TABLE public."Rentals" OWNER TO malek;
+ALTER TABLE public."Rentals" OWNER TO postgres;
 
 --
--- Name: Vehicles; Type: TABLE; Schema: public; Owner: malek
+-- Name: Vehicles; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Vehicles" (
@@ -171,38 +171,38 @@ CREATE TABLE public."Vehicles" (
 );
 
 
-ALTER TABLE public."Vehicles" OWNER TO malek;
+ALTER TABLE public."Vehicles" OWNER TO postgres;
 
 --
--- Name: COLUMN "Vehicles".buying_price; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Vehicles".buying_price; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Vehicles".buying_price IS 'Prix d''achat du véhicule (en euros)';
 
 
 --
--- Name: COLUMN "Vehicles".rental_price; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Vehicles".rental_price; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Vehicles".rental_price IS 'Prix de location du véhicule (en euros)';
 
 
 --
--- Name: COLUMN "Vehicles".brand; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Vehicles".brand; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Vehicles".brand IS 'Marque du véhicule';
 
 
 --
--- Name: COLUMN "Vehicles".model; Type: COMMENT; Schema: public; Owner: malek
+-- Name: COLUMN "Vehicles".model; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON COLUMN public."Vehicles".model IS 'Modèle du véhicule';
 
 
 --
--- Name: Vehicles_id_seq; Type: SEQUENCE; Schema: public; Owner: malek
+-- Name: Vehicles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public."Vehicles_id_seq"
@@ -214,90 +214,123 @@ CREATE SEQUENCE public."Vehicles_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."Vehicles_id_seq" OWNER TO malek;
+ALTER TABLE public."Vehicles_id_seq" OWNER TO postgres;
 
 --
--- Name: Vehicles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: malek
+-- Name: Vehicles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."Vehicles_id_seq" OWNED BY public."Vehicles".id;
 
 
 --
--- Name: Clients id; Type: DEFAULT; Schema: public; Owner: malek
+-- Name: Clients id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Clients" ALTER COLUMN id SET DEFAULT nextval('public."Clients_id_seq"'::regclass);
 
 
 --
--- Name: Employees id; Type: DEFAULT; Schema: public; Owner: malek
+-- Name: Employees id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Employees" ALTER COLUMN id SET DEFAULT nextval('public."Employees_id_seq"'::regclass);
 
 
 --
--- Name: Vehicles id; Type: DEFAULT; Schema: public; Owner: malek
+-- Name: Vehicles id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Vehicles" ALTER COLUMN id SET DEFAULT nextval('public."Vehicles_id_seq"'::regclass);
 
 
 --
--- Data for Name: Clients; Type: TABLE DATA; Schema: public; Owner: malek
+-- Data for Name: Clients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public."Clients" VALUES (3, 12500330.25, 'emmanuel.macron@elysee.fr', 'manu2022', 'Emmanuel', 'Macron');
+INSERT INTO public."Clients" VALUES (4, 24000990.5, 'mosalah@liverpool.com', 'pharaon', 'Mohamed', 'Salah');
+INSERT INTO public."Clients" VALUES (5, 1200, 'josephine@yahoo.fr', 'dwarfPower', 'Mimie', 'Mathy');
+INSERT INTO public."Clients" VALUES (6, 320145, 'lee_bruce@gmail.com', 'chingchanchang', 'Bruce', 'Lee');
+INSERT INTO public."Clients" VALUES (7, 54635880.55, 'batman@wayne-enterprises.com', 'IamBatman', 'Bruce', 'Wayne');
+INSERT INTO public."Clients" VALUES (9, 999999999.99, 'mr-shelby@peaky-blinders.com', 'by order of the peaky blinders', 'Thomas', 'Shelby');
+INSERT INTO public."Clients" VALUES (8, 16.54, 'glow-kim@wish.com', 'grosOrteil', 'kim', 'Glow');
+
+
+--
+-- Data for Name: Employees; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public."Employees" VALUES (5, 'heisenberg@puremeth.com', 'C10H15N', 'Walter', 'White');
+INSERT INTO public."Employees" VALUES (6, 'jerry@woohp.com', 'G.L.A.D.I.S.', 'Jerry', 'Lewis');
+INSERT INTO public."Employees" VALUES (7, 'sponge-bob@croustycrab.com', 'carre', 'Bob', 'Eponge');
+INSERT INTO public."Employees" VALUES (8, 'mickey-mouse@disney.com', 'ohoh', 'Mickey', 'Mouse');
+INSERT INTO public."Employees" VALUES (9, 'capitaine-cook@puremeth.com', 'makeMeRich', 'Jesse', 'Pinkman');
+INSERT INTO public."Employees" VALUES (10, 'etchebest@topchef.com', 'aTable', 'Philippe', 'Etchebest');
+
+
+--
+-- Data for Name: Purchases; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 
 
 --
--- Data for Name: Employees; Type: TABLE DATA; Schema: public; Owner: malek
+-- Data for Name: Rentals; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 
 
 --
--- Data for Name: Purchases; Type: TABLE DATA; Schema: public; Owner: malek
+-- Data for Name: Vehicles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-
-
---
--- Data for Name: Rentals; Type: TABLE DATA; Schema: public; Owner: malek
---
-
-
-
---
--- Data for Name: Vehicles; Type: TABLE DATA; Schema: public; Owner: malek
---
-
-INSERT INTO public."Vehicles" VALUES (1, 5000, 0, NULL, NULL);
-
-
---
--- Name: Clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: malek
---
-
-SELECT pg_catalog.setval('public."Clients_id_seq"', 1, true);
-
-
---
--- Name: Employees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: malek
---
-
-SELECT pg_catalog.setval('public."Employees_id_seq"', 3, true);
+INSERT INTO public."Vehicles" VALUES (3, 16000, 550, 'Peugeot', '208');
+INSERT INTO public."Vehicles" VALUES (4, 14450, 510, 'Citroen', 'C3');
+INSERT INTO public."Vehicles" VALUES (5, 13179, 480, 'Renault', 'Clio');
+INSERT INTO public."Vehicles" VALUES (6, 31050, 650, 'Peugeot', '3008');
+INSERT INTO public."Vehicles" VALUES (7, 8290, 465, 'DACIA', 'Sandero');
+INSERT INTO public."Vehicles" VALUES (8, 19150, 670, 'Renault', 'Captur');
+INSERT INTO public."Vehicles" VALUES (9, 22250, 680, 'Peugeot', '2008');
+INSERT INTO public."Vehicles" VALUES (10, 20353, 675, 'Peugeot', '308');
+INSERT INTO public."Vehicles" VALUES (11, 9990, 425, 'Renault', 'Twingo');
+INSERT INTO public."Vehicles" VALUES (12, 12490, 515, 'DACIA', 'Duster');
+INSERT INTO public."Vehicles" VALUES (13, 17140, 590, 'Renault', 'Mégane');
+INSERT INTO public."Vehicles" VALUES (14, 14350, 520, 'Toyota', 'Yaris');
+INSERT INTO public."Vehicles" VALUES (15, 15250, 520, 'Opel', 'Corsa');
+INSERT INTO public."Vehicles" VALUES (16, 14500, 460, 'Ford', 'Fiesta');
+INSERT INTO public."Vehicles" VALUES (17, 15290, 500, 'Fiat', '500');
+INSERT INTO public."Vehicles" VALUES (18, 3000000, 8200, 'Lamborghini', 'Veneno');
+INSERT INTO public."Vehicles" VALUES (19, 3000000, 8100, 'Ferrari', 'Sergio Pininfarina');
+INSERT INTO public."Vehicles" VALUES (20, 2400000, 7550, 'Bugatti', 'Chiron');
+INSERT INTO public."Vehicles" VALUES (21, 2000000, 6850, 'Aston Martin', 'Vulcan');
+INSERT INTO public."Vehicles" VALUES (22, 83200, 1230, 'Maserati', 'Levante');
+INSERT INTO public."Vehicles" VALUES (23, 463980, 4230, 'Rolls-Royce', 'Phantom');
 
 
 --
--- Name: Vehicles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: malek
+-- Name: Clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Vehicles_id_seq"', 1, true);
+SELECT pg_catalog.setval('public."Clients_id_seq"', 9, true);
 
 
 --
--- Name: Clients Clients_login_key; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Employees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Employees_id_seq"', 10, true);
+
+
+--
+-- Name: Vehicles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Vehicles_id_seq"', 23, true);
+
+
+--
+-- Name: Clients Clients_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Clients"
@@ -305,7 +338,7 @@ ALTER TABLE ONLY public."Clients"
 
 
 --
--- Name: Clients Clients_pkey; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Clients Clients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Clients"
@@ -313,7 +346,7 @@ ALTER TABLE ONLY public."Clients"
 
 
 --
--- Name: Employees Employees_login_key; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Employees Employees_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Employees"
@@ -321,7 +354,7 @@ ALTER TABLE ONLY public."Employees"
 
 
 --
--- Name: Employees Employees_pkey; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Employees Employees_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Employees"
@@ -329,7 +362,7 @@ ALTER TABLE ONLY public."Employees"
 
 
 --
--- Name: Purchases Purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Purchases Purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Purchases"
@@ -337,7 +370,7 @@ ALTER TABLE ONLY public."Purchases"
 
 
 --
--- Name: Rentals Rentals_pkey; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Rentals Rentals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Rentals"
@@ -345,7 +378,7 @@ ALTER TABLE ONLY public."Rentals"
 
 
 --
--- Name: Vehicles Vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: malek
+-- Name: Vehicles Vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Vehicles"
@@ -353,7 +386,7 @@ ALTER TABLE ONLY public."Vehicles"
 
 
 --
--- Name: Purchases idClient_fk; Type: FK CONSTRAINT; Schema: public; Owner: malek
+-- Name: Purchases idClient_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Purchases"
@@ -361,7 +394,7 @@ ALTER TABLE ONLY public."Purchases"
 
 
 --
--- Name: Rentals idEmployee_fk; Type: FK CONSTRAINT; Schema: public; Owner: malek
+-- Name: Rentals idEmployee_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Rentals"
@@ -369,7 +402,7 @@ ALTER TABLE ONLY public."Rentals"
 
 
 --
--- Name: Rentals idVehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: malek
+-- Name: Rentals idVehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Rentals"
@@ -377,7 +410,7 @@ ALTER TABLE ONLY public."Rentals"
 
 
 --
--- Name: Purchases idVehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: malek
+-- Name: Purchases idVehicle_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Purchases"
@@ -385,6 +418,6 @@ ALTER TABLE ONLY public."Purchases"
 
 
 --
--- malekQL database dump complete
+-- PostgreSQL database dump complete
 --
 
