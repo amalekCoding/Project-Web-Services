@@ -9,9 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import fr.uge.database.utils.Serialization;
 import fr.uge.database.utils.Utils;
-import fr.uge.ifsCars.Vehicle;
-import fr.uge.utils.Serialization;
+import fr.uge.database.utils.Vehicle;
 
 import static fr.uge.database.utils.Utils.DATE_FORMAT;
 
