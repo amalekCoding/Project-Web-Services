@@ -32,8 +32,8 @@ input.button-rent {
 input.button-buy {
     background-image: url(../logo/buy.png);
 }
-input.button-cal {
-	background-image: url(../logo/calendrier.png);
+input.button-home {
+	background-image: url(../logo/home.png);
 }
 input.button-sell {
 	background-image: url(../logo/sell.png);
@@ -93,7 +93,7 @@ a.button-logout:hover .logout{
 
 
 input.button-profile,
-input.button-cal,
+input.button-home,
 input.button-basket {
 	float: right;
 	padding-right: 5em;

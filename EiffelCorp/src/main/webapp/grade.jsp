@@ -42,7 +42,7 @@
 		
 	<h1>Grade the car : </h1>
 	
-	<input type="button" class="button-cal icon"  onclick="window.location='dashboard.jsp';">
+	<input type="button" class="button-home icon"  onclick="window.location='dashboard.jsp';">
 	
 	 
 	 <table class="layout display cars-table">

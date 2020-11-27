@@ -33,19 +33,26 @@
 	
 		<h1>Shopping Cart</h1>
 		
-	 	<input type="button" class="button-cal icon"  onclick="window.location='dashboard.jsp';">
+	 	<input type="button" class="button-home icon"  onclick="window.location='dashboard.jsp';">
 		
 	 
-		 <table class="layout display cars-table">
+		<table class="layout display cars-table">
 			<thead> 
 				<tr>
+					<th colspan = 5></th>	
+					<th>VALIDATE</th>
+				</tr>
+			</thead>
+			<thead> 
+				<th> Vehicle 1 :</th>
+				<td colspan= 5></td>
 				
-				    <th>Brand</th> 
+				<tr>
+					<th>Brand</th> 
 				    <th>Model</th> 
 				    <th>Grade</th> 
-				    <th>Price</th> 
 				    <th>Rented times</th> 
-				    <th>Buy</th> 
+				    <th>Price</th> 
 				</tr> 
 			</thead> 
 			<tbody> 
@@ -53,38 +60,62 @@
 				    <td>BMW</td> 
 				    <td>X5</td> 
 				    <td>6</td> 
-				    <td>$15 000.00</td> 
 				    <td>6</td>
+				    <td>$15 000.00</td> 
 	
-				    <td><input type="button" class="icon button-buy"   onclick="window.location='buy.jsp';"></td>
-				</tr> 
+				</tr>
 			
+
+			</tbody>
+		 
+
 		 
 		 
 		 
-		 
-		 
-			<%
-				String[] lstStrVehicles = service.getBasket();
-				for(String strVehicle : lstStrVehicles) {
-					Vehicle vehicle = (Vehicle) Serialization.deserialize(strVehicle);
+			<%	
+				double totalPrice = 0;
+				int vehicleCount = 1;
+				Vehicle[] lstStrVehicles = service.getBasket();
+				for(Vehicle vehicle : lstStrVehicles) {
 			%>
+			
+			<thead>
+				<tr>
+					<th> Vehicle <%= vehicleCount %> : </th>
+					<td colspan= 5></td>
+				</tr>
+				<tr>
+					<th>Brand</th> 
+				    <th>Model</th> 
+				    <th>Grade</th> 
+				    <th>Rented times</th> 
+				    <th>Price</th> 
+				</tr> 
+			</thead> 
 			<tr> 
 			    <td><%= vehicle.brand %></td> 
 			    <td><%= vehicle.model %></td> 
-			    <td><%= vehicle.generalGrade %></td> 
-			    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+			    <td><%= vehicle.generalGrade %></td>
 			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
+			    <td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+				
+			    
+			</tr>
+			<%
+					totalPrice += service.getBuyingPrice(vehicle.id, "EUR");
+					vehicleCount++;
+				}
+			%>
+			<tr>
+				<th colspan=4> TOTAL :</th>
+				<td> <%= totalPrice %> </td>
 				<td>
 					<form method="POST" >
-			   			<input type="hidden" name="buyVehicleId" value=<%= vehicle.id %>>
+			   			<input type="hidden" name="buyVehicleId" value=<%= 2 %> >
 						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value="">
 			    	</form> 
 			    </td>
-			</tr>
-			<%
-				}
-			%>
+			 </tr>		 
 		 </tbody> 
 		 </table> 
 		 

@@ -26,8 +26,8 @@
     		System.out.println("nullllllllllll");
     	}
     	
-		int vehicleId = (Integer)session.getAttribute("buyVehicleId");
-		Vehicle vehicle = garage.getVehicle(vehicleId);
+		// int vehicleId = (Integer)session.getAttribute("buyVehicleId");
+		//Vehicle vehicle = garage.getVehicle(vehicleId);
 		
 		
 		DataBase db = new DataBaseServiceLocator().getDataBase();
@@ -52,23 +52,33 @@
 					<th>Brand</th>
 					<th>Model</th>
 					<th>Grade</th>
-					<th>Price</th>
 					<th>Rented times</th>
-					<th>Quantity</th>
+					<th>Price</th>
 
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td><%= vehicle.brand %></td> 
-				    <td><%= vehicle.model %></td> 
-				    <td><%= vehicle.generalGrade %></td> 
-				    <td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    	<td><%= db.getRentalsNumber(vehicle.id) %></td> 
-					<td><input type="number" id="tentacles" name="tentacles"
-						value="1" min="1" max="100"></td>
+			
+			
+			<%	
+				double totalPrice = 0;
+				Vehicle[] lstVehicles = service.getBasket();
+				for(Vehicle vehicle : lstVehicles) {
+			%>
+
+			<tr> 
+			    <td><%= vehicle.brand %></td> 
+			    <td><%= vehicle.model %></td> 
+			    <td><%= vehicle.generalGrade %></td> 
+			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
+			  	<td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
 			    
-				</tr>
+			</tr>
+			<%
+				totalPrice += service.getBuyingPrice(vehicle.id, "EUR"); 
+				}
+			%>
+			
 			</tbody>
 		</table>
 		
@@ -89,10 +99,10 @@
 					<td><strong>Account balance :</strong> <%= db.getClientBankBalance(idPerson) %> EUR</td>
 				</tr>
 				<tr>
-					<td><strong>Deduction :</strong> - <%= service.getBuyingPrice(vehicle.id, "EUR") %> EUR</td>
+					<td><strong>Deduction :</strong> - <%= totalPrice %> EUR</td>
 				</tr>
 				<tr>
-					<td><strong>After purchase :</strong>   <%= db.getClientBankBalance(idPerson) -  service.getBuyingPrice(vehicle.id, "EUR") %> EUR</td>
+					<td><strong>After purchase :</strong>   <%= db.getClientBankBalance(idPerson) -  totalPrice %> EUR</td>
 				</tr>
 			</tbody>
 		</table>
@@ -101,7 +111,7 @@
 		<div>
 			<form method="POST">
 	  			<input type="hidden" name="buyidPerson" value=<%= idPerson %>>
-	  			<input type="hidden" name="buyVehiculeId" value=<%= vehicle.id %>>
+	  			<input type="hidden" name="buyVehiculeId" value=<%= -1 %>>
 	   			<button type="submit" name="confirmBuyBtn" onclick='buy()' > Validate </button>
 			</form>
 		</div>
@@ -113,13 +123,14 @@
 		function buy() {
 			<%
 				if (request.getParameter("confirmBuyBtn") != null) {
-					if(!service.purchaseVehicle(idPerson, vehicleId)){
+					if(!service.purchase()){
 						response.getWriter().write("<script> window.location='failedPayment.jsp'</script>");
 					}
 					else{
 						response.getWriter().write("<script> window.location='buyValidate.jsp'</script>");
 					}
 				}
+			
 			%>
 		}
 		</script>

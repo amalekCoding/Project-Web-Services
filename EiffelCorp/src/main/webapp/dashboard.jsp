@@ -87,9 +87,8 @@
 			
 			
 			<%
-				String[] lstStrVehicles = service.getVehiclesList();
-				for(String strVehicle : lstStrVehicles) {
-					Vehicle vehicle = (Vehicle) Serialization.deserialize(strVehicle);
+				Vehicle[] lstVehicles = garage.getVehiclesList();
+				for(Vehicle vehicle : lstVehicles) {
 			%>
 			<tr> 
 			    <td><%= vehicle.brand %></td> 
@@ -135,9 +134,8 @@
 
 
 			<%
-				lstStrVehicles = service.getVehiclesList();
-				for(String strVehicle : lstStrVehicles) {
-					Vehicle vehicle = (Vehicle) Serialization.deserialize(strVehicle);
+				lstVehicles = garage.getVehiclesList();
+				for(Vehicle vehicle : lstVehicles) {
 			%>
 			<tr> 
 			    <td><%= vehicle.brand %></td> 
@@ -194,7 +192,7 @@
 		
 		
 		<%				
-			String[] lstStrVehiclesBasket = service.getBasket();
+			Vehicle[] lstStrVehiclesBasket = service.getBasket();
 			int nb = lstStrVehiclesBasket.length;
 		%>
 		

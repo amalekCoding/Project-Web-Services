@@ -87,9 +87,7 @@
 		    	}
 		    	
 		    	if (authentificated) {
-			    	IfsCarsService service = new IfsCarsService();
 				    IGarage garage = (IGarage) Naming.lookup("Garage");
-				    session.setAttribute("service", service);
 				    session.setAttribute("garage", garage);
 				    
 				    session.setAttribute("idPerson", personInfo[0]);
@@ -99,6 +97,9 @@
 				    session.setAttribute("type_person", type);
 				    
 					session.setAttribute("currency", "EUR");
+			    	IfsCarsService service = new IfsCarsService();
+			    	service.setId(Long.valueOf(personInfo[0]));
+				    session.setAttribute("service", service);
 
 					response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
 			    }

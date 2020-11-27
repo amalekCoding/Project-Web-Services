@@ -1,6 +1,7 @@
 <%@page import="fr.uge.database.DataBase"%>
 <%@page import="fr.uge.database.DataBaseServiceLocator"%>
 <%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
+<%@page import="fr.uge.eiffelCorp.Employee"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.objects.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
@@ -41,7 +42,7 @@
 	
 	 <h1>My Profile</h1>
 	 
-	 <input type="button" class="button-cal icon"  onclick="window.location='dashboard.jsp';">
+	 <input type="button" class="button-home icon"  onclick="window.location='dashboard.jsp';">
 	 
 	 <div class="currency-tab" >
 	 <table class="layout profile display cars-table">
@@ -60,7 +61,8 @@
 			<tr> 
 			    <th>Amount in Bank</th> 
 			    <td><%= 
-			    		String.format("%.2f", service.convertPrice(currency, db.getClientBankBalance(idPerson)))
+			    		-1 
+			    		//String.format("%.2f", service.convertPrice(currency, db.getClientBankBalance(idPerson)))
 			    	%></td>
 			</tr> 
 	 </table> 
@@ -105,17 +107,19 @@
 			</tr> 
 		</thead> 
 		<tbody>
-			<%				
-				long[] lstIdVehicles = db.getRentedVehicles(idPerson);
-				if(lstIdVehicles != null) {
-					for(long vehicleId : lstIdVehicles) {
+			<%	
+				Employee e = Employee.getEmployee(idPerson);
+				Vehicle[] lstVehicles = garage.getRentingVehicles(e);
+				if(lstVehicles != null) {
+					for(Vehicle vehicle : lstVehicles) {
 			%>
 					<tr> 
-					    <td><%= db.getVehicleBrand(vehicleId) %></td> 
-					    <td><%= db.getVehicleModel(vehicleId) %></td> 
-					    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
-					    <td><%= service.getRentalPrice(vehicleId, currency) %></td> 
-					    <td><%= db.getRentalsNumber(vehicleId) %></td> 
+					    <td><%= vehicle.brand %></td> 
+					    <td><%= vehicle.model %></td> 
+					    <td><%= vehicle.generalGrade %></td> 
+					    <td><%= service.getRentalPrice(vehicle.id, currency) %></td> 
+					    <td><%= -1 %></td> 
+					    <% //service.getRentalsNumber(vehicle.id) %>
 					    
 					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
 					    <td><input type="button" class="icon button-cancel"></td>
@@ -143,16 +147,17 @@
 			</tr> 
 		</thead> 
 			<%				
-				lstIdVehicles = db.getPurchasedVehicles(idPerson);
-				if(lstIdVehicles != null) {
-					for(long vehicleId : lstIdVehicles) {
+				lstVehicles = service.getPurchasedVehicles();
+				if(lstVehicles != null) {
+					for(Vehicle vehicle : lstVehicles) {
 			%>
 					<tr> 
-					    <td><%= db.getVehicleBrand(vehicleId) %></td> 
-					    <td><%= db.getVehicleModel(vehicleId) %></td> 
-					    <td><%= db.getVehicleConditionGrade(vehicleId) %></td> 
-					    <td><%= service.getBuyingPrice(vehicleId, currency) %></td> 
-					    <td><%= db.getRentalsNumber(vehicleId) %></td> 
+					    <td><%= vehicle.brand %></td> 
+					    <td><%= vehicle.model %></td> 
+					    <td><%= vehicle.generalGrade %></td> 
+					    <td><%= service.getBuyingPrice(vehicle.id, currency) %></td> 
+					    <td><%= -1 %></td> 
+					    <% //service.getRentalsNumber(vehicle.id) %>
 					    
 					    <td><input type="button" class="icon button-sell"></td>
 					</tr>
