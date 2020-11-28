@@ -17,9 +17,9 @@ import static fr.uge.database.utils.Utils.DATE_FORMAT;
 
 public class DataBase {
 	// Informations de connexion
-	private final static String SERVER_URL = "localhost/EiffelCorp";
-	private final static String USER = "postgres";
-	private final static String PASSWORD = "postgres";
+	private final static String SERVER_URL = "localhost/DBLAMRI";
+	private final static String USER = "lamrikouidrat";
+	private final static String PASSWORD = "242919";
 	
 	// Nom des tables
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";

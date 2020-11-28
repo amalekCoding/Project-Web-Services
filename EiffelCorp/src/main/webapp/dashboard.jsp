@@ -1,4 +1,6 @@
 <%@page import="fr.uge.database.DataBase"%>
+<%@page import="fr.uge.eiffelCorp.Employee"%>
+
 <%@page import="fr.uge.database.DataBaseServiceLocator"%>
 <%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
@@ -34,6 +36,9 @@
 	((DataBaseSoapBindingStub) db).setMaintainSession(true);
 	
     String type_person = (String)session.getAttribute("type_person");
+	int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
+
+
 %>
 
 
@@ -108,7 +113,14 @@
 			    	
 			    <% } else { %>
 			    	<td><img class="icon check-logo" src="logo/cross.png"/></td>
-			    	<td><input type="button" onclick="msgAddedToWaitingLst()" class="icon button-rent"></td>
+			    <td>
+			    	<form method="POST">
+			   			<input type="hidden" name="rentVehiculeId" value=<%= vehicle.id %>>
+			   			<input type="submit" name="confirmRentBtn" class="icon button-rent" onclick='addToWaitingLst()' value="" >
+			   		</form>
+			   		</td>
+			    
+			    
 			    <% } %> 
 			</tr>
 			<%
@@ -174,6 +186,20 @@
 			}
 			%>		
 		}
+		
+		function addToWaitingLst() {
+			msgAddedToWaitingLst();
+			<%
+			if(request.getParameter("rentVehiculeId") != null) {
+	    	int idVehicle2 = Integer.valueOf(request.getParameter("rentVehiculeId"));
+			Employee employee = Employee.getEmployee(idPerson);
+
+			garage.rent(employee, idVehicle2);
+			}
+			%>	
+		
+		}
+
 		
 		
 		function confirmRent() {

@@ -115,7 +115,7 @@
 	<script>
 	function rent() {
 		<%
-			Employee employee = new Employee(idPerson);
+			Employee employee = Employee.getEmployee(idPerson);
 			if (request.getParameter("confirmRentBtn") != null) {
 						
 				System.out.println("entrer dans buy rent");

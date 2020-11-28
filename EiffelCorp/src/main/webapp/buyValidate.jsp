@@ -2,7 +2,6 @@
 <%@page import="fr.uge.database.DataBaseServiceLocator"%>
 <%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
-<%@page import="fr.uge.ifsCars.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
 <%@page import="fr.uge.utils.Serialization"%>
 <%@page import="java.rmi.Naming"%>

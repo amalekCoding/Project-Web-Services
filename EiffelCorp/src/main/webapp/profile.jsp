@@ -108,6 +108,7 @@
 		</thead> 
 		<tbody>
 			<%	
+			System.out.println("ideperson : " + idPerson);
 				Employee e = Employee.getEmployee(idPerson);
 				Vehicle[] lstVehicles = garage.getRentingVehicles(e);
 				if(lstVehicles != null) {

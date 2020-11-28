@@ -5,6 +5,11 @@
 <%@page import="fr.uge.objects.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
 <%@page import="fr.uge.utils.Serialization"%>
+<%@page import="java.util.ArrayList"%>
+
+
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -128,6 +133,20 @@
 				<tr> 
 				    <th>Brand</th><th>Model</th><th>Grade</th><th>Rental Price</th><th>Rented times</th><th>Cancel</th> 
 				</tr> 
+				
+				
+				
+				<%
+				Vehicle[] list = garage.getVehiclesList();
+				ArrayList<Vehicle> aList = new ArrayList<Vehicle>();
+				for(Vehicle v:list){
+					if(garage.isRented(v.id)){
+						aList.add(v);
+					}
+					
+				}
+				
+				%>
 			</thead> 
 			<tbody> 
 				<tr> 
