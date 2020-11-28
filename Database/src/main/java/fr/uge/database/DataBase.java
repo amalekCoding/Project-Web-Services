@@ -359,7 +359,8 @@ public class DataBase {
 		}
 		
 		double currentAmount = getClientBankBalance(clientId);
-		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %f WHERE id = %d;", currentAmount - amount, clientId);
+		var newAmount = String.valueOf(currentAmount - amount).replace(',', '.'); // Remplacement des virgules par des points pour l'injecter avec jdbc
+		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %s WHERE id = %d;", newAmount, clientId);
 		executeUpdate(query);
 	}
 	
@@ -377,7 +378,8 @@ public class DataBase {
 		}
 		
 		double currentAmount = getClientBankBalance(clientId);
-		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %f WHERE id = %d;", currentAmount + amount, clientId);
+		var newAmount = String.valueOf(currentAmount + amount).replace(',', '.'); // Remplacement des virgules par des points pour l'injecter avec jdbc
+		String query = String.format("UPDATE " + CLIENTS_TABLE + " SET bank_balance = %s WHERE id = %d;", newAmount, clientId);
 		executeUpdate(query);
 	}
 	
