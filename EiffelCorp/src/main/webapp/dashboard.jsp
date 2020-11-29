@@ -47,7 +47,7 @@
 <body>
 	<div class="navigation">
 
-	 <a type="button" class="button button-logout icon"  onclick="window.location='index.jsp';">
+	 <a type="button" class="button button-logout icon"  onclick="window.location='logout.jsp';">
   		<div class="logout">Logout</div>
   	</a>
   </div>
@@ -103,7 +103,7 @@
 			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
 			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 			    <% if(!garage.isRented(vehicle.id)) { 
-			    	System.out.println("pas loué = " + vehicle.id);
+			    	//System.out.println("pas loué = " + vehicle.id);
 			    %>
 			    
 			    	<td><img class="icon check-logo" src="logo/check.png"/></td>
@@ -164,7 +164,7 @@
 			   	<td>
 			   	<form method="POST">
 			   		<input type="hidden" name="addToCartId" value=<%= vehicle.id %>>
-			   		<input type="submit" name="addToCartBtn" onclick='addToBasket()' id='addcart' class="icon button-addbasket" value="" >
+			   		<input type="submit" name="addToCartBtn" id='addcart' onclick="addToBasket(event)" class="icon button-addbasket" value="" >
 			   	</form>
 			   	</td>
 
@@ -179,17 +179,46 @@
 
 	</div>
 	
+	
+	
+	
+	
+	
 	<script>
 	
-		function addToBasket() {
+		<%				
+			Vehicle[] lstVehiclesCart = service.getBasket();
+			int nb = lstVehiclesCart.length;
+		%>
+		var cartCount = document.getElementById("cartCount")
+		cartCount.innerText = "<%= nb %>";
+
+		
+		
+		function addToBasket(e) {
+		
 			<%
 			if(request.getParameter("addToCartId") != null) {
-				System.out.println("-addToBasket()-");
 		    	int vehicleId = Integer.valueOf(request.getParameter("addToCartId"));
-		    	service.addToBasket(vehicleId);
-				response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
+		    	
+				boolean alreadyInBasket = false;
+				for(Vehicle vehicle : lstVehiclesCart) {
+					if (vehicleId == vehicle.id) {
+						alreadyInBasket = true;
+						break;
+					}
+				}
+				if(alreadyInBasket) {
+				%>
+				  	alert("This vehicle is already in your basket !");
+				<%
+				} else {
+		    		service.addToBasket(vehicleId);
+					response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
+				}
 			}
-			%>		
+			%>	
+	        
 		}
 
 	    
@@ -197,18 +226,19 @@
 		
 		function confirmRent() {
 			<%
-			System.out.println("-1rent-btn()-");
+			//System.out.println("-1rent-btn()-");
 			if(request.getParameter("rentVehiculeId") != null) {
 				System.out.println("-2rent-btn()-");
 		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
 				System.out.println(idVehicle);
 				
 				if(!garage.isRented(idVehicle)) {
-					session.setAttribute("rentVehiculeId", idVehicle);
+					Vehicle vehicle = garage.getVehicle(idVehicle);
+					session.setAttribute("rentVehicle", vehicle);
 					response.getWriter().write("<script> window.location='rent.jsp'</script>");
 				} else {
 				%>
-				  	alert("This car is not available.\n You're on the list.");
+				  	alert("This vehicle is not available.\n You're added on the waiting list.");
 				<%
 					Employee employee = Employee.getEmployee(idPerson);
 					garage.rent(employee, idVehicle);
@@ -218,19 +248,9 @@
 			}
 			%>
 		}
-		
-		
-		<%				
-			Vehicle[] lstStrVehiclesBasket = service.getBasket();
-			int nb = lstStrVehiclesBasket.length;
-		%>
-		
-		var output = document.getElementById("cartCount")
-
-		output.innerText = "<%= nb %>";
-
-		
 	</script>
+	
+	
  </body>
 </html>
 

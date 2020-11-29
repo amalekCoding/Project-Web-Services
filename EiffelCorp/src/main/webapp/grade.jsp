@@ -1,6 +1,7 @@
 <%@page import="fr.uge.database.DataBase"%>
 <%@page import="fr.uge.database.DataBaseServiceLocator"%>
 <%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
+<%@page import="fr.uge.eiffelCorp.Employee"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
 <%@page import="fr.uge.objects.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
@@ -29,7 +30,9 @@
 	((DataBaseSoapBindingStub) db).setMaintainSession(true);
 		
 	int employeeId = Integer.valueOf((String)session.getAttribute("idPerson"));
-	System.out.println("employeeId ici :test"+ employeeId);
+	
+	Vehicle vehicle = (Vehicle) session.getAttribute("vehicleToGrade");
+	String vehicleRentedDate = ((String) session.getAttribute("vehicleRentedDate"));
 %>
 	
 
@@ -74,8 +77,8 @@
 			    <th>Your Grade</th>
 			</tr> 
 		</thead> 
+	<form method="POST">
 		<tbody> 
-		
 			<tr> 
 			    <td>Avis</td> 
 			    <td>
@@ -91,11 +94,13 @@
 			<tr>
 			    <td></td>
 			    <td>
-					<button type="submit" name="confirmBuyBtn" id="confirmBuyBtn" onclick="addGrade()">
-								Validate</button>
+						<input type="submit" name="confirmGradeBtn" id="confirmGradeBtn" onclick="addGrade()" value="Validate">
 				</td>
 			</tr> 
 		</tbody> 
+	
+	</form>
+		
 	 </table> 
 		
 		
@@ -104,21 +109,27 @@
 	
 	
 		<script>
-		function addGrade() {
-			var vehiculeGrade = document.getElementById("VGrade").value;
-			var conditionGrade = document.getElementById("CGrade").value;
-			<%
 
-			if (request.getParameter("confirmBuyBtn") != null) {
-				System.out.println("apres le if ");
-			
-				int vehiculeGrade = Integer.valueOf(request.getParameter("VGrade"));
-				int conditionGrade = Integer.valueOf(request.getParameter("CGrade"));
-				
-			}
-		   %>
 		
-		}
+		
+		function addGrade() {
+
+            <%
+            System.out.println("avant le if ");
+
+            if (request.getParameter("confirmGradeBtn") != null) {
+                System.out.println("apres le if ");
+
+                int vehicleGrade = Integer.valueOf(request.getParameter("VGrade"));
+                int conditionGrade = Integer.valueOf(request.getParameter("CGrade"));
+                System.out.println("date :  " + vehicle.date);
+                
+                garage.grade(vehicleRentedDate, Employee.getEmployee(employeeId), vehicle.id, vehicleGrade, conditionGrade);
+                response.getWriter().write("<script> window.location='dashboard.jsp'</script>");
+            }
+           %>
+
+        }
 	</script>
 	
 

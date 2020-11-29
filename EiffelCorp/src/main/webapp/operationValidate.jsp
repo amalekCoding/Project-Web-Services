@@ -1,10 +1,3 @@
-<%@page import="fr.uge.database.DataBase"%>
-<%@page import="fr.uge.database.DataBaseServiceLocator"%>
-<%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
-<%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
-<%@page import="fr.uge.ifsCars.IGarage"%>
-<%@page import="fr.uge.utils.Serialization"%>
-<%@page import="java.rmi.Naming"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,7 +9,7 @@
 </head>
 <body>
 
-	<h1><center> The operation is validated. Nous vous remercions de votre confiance</center></h1>
+	<h1><center> The operation is validated. We thank you for your trust.</center></h1>
 	<center>
 		<button type="submit" name="confirmBuyBtn"onclick="window.location='profile.jsp';">
 		Voir mes commandes</button>

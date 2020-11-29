@@ -33,7 +33,7 @@
 	<div class="page">
 
 
-		<h1>Recapitulatif</h1>
+		<h1>Order summary</h1>
 		<input type="button" class="icon button-cancel"  onclick="window.location='mybasket.jsp';">
 	
 
@@ -102,9 +102,7 @@
 		
 		<div>
 			<form method="POST">
-	  			<input type="hidden" name="buyidPerson" value=<%= idPerson %>>
-	  			<input type="hidden" name="buyVehiculeId" value=<%= -1 %>>
-	   			<button type="submit" name="confirmBuyBtn" onclick='buy()' > Validate </button>
+	  			<button type="submit" name="confirmBuyBtn" onclick='buy()' > Validate </button>
 			</form>
 		</div>
 

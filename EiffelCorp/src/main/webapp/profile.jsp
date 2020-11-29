@@ -42,7 +42,8 @@
 	
 	 <h1>My Profile</h1>
 	 
-	 <input type="button" class="button-home icon"  onclick="window.location='dashboard.jsp';">
+	 <input type="button" class="button-home icon" onclick="window.location='dashboard.jsp';">
+	 <input type="button" class="button-history icon" onclick="window.location='history.jsp';">
 	 
 	 <div class="currency-tab" >
 	 <table class="layout profile display cars-table">
@@ -102,15 +103,13 @@
 			    <th>Grade</th> 
 			    <th>Price Rented</th> 
 			    <th>Rented times</th> 
-			    <th>Grade</th> 
 			    <th>Cancel</th> 
 			</tr> 
 		</thead> 
 		<tbody>
 			<%	
-			System.out.println("ideperson : " + idPerson);
-				Employee e = Employee.getEmployee(idPerson);
-				Vehicle[] lstVehicles = garage.getRentingVehicles(e);
+				Employee employee = Employee.getEmployee(idPerson);
+				Vehicle[] lstVehicles = garage.getRentingVehicles(employee);
 				if(lstVehicles != null) {
 					for(Vehicle vehicle : lstVehicles) {
 			%>
@@ -120,9 +119,7 @@
 					    <td><%= vehicle.generalGrade %></td> 
 					    <td><%= service.getRentalPrice(vehicle.id, currency) %></td> 
 					    <td><%= db.getRentalsNumber(vehicle.id)  %></td> 
-					    <% //%>
-					    
-					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>					    
+
 					    <td>
 					    	<form method="POST">
                     			<input type="hidden" name="cancelVehicleId" value=<%= vehicle.id %>>
@@ -153,9 +150,25 @@
 			</tr> 
 		</thead> 
 
+			<%				
+				lstVehicles = service.getPurchasedVehicles();
+				if(lstVehicles != null) {
+					for(Vehicle vehicle : lstVehicles) {
+			%>
+				<tr> 
+					<td><%= vehicle.brand %></td> 
+				 	<td><%= vehicle.model %></td> 
+				  	<td><%= vehicle.generalGrade %></td> 
+					<td><%= service.getBuyingPrice(vehicle.id, currency) %></td> 
+				    <td><%= -1 %></td> 
+					<% //service.getRentalsNumber(vehicle.id) %>
 			
-			
-			
+			 		<td><input type="button" class="icon button-sell"></td>
+				</tr>
+			<%
+					}
+				}
+			%>
 		</tbody> 
 	 </table> 
 	</div>
@@ -182,6 +195,19 @@
                 response.getWriter().write("<script> window.location='profile.jsp'</script>");
             }
          %>
+		}
+		
+		
+		function gradeVehicle() {
+	       	<%
+	            if (request.getParameter("gradeVehicle") != null) {
+	                System.out.println("gradeVehicleId");
+	                long gradeVehicleId = Long.valueOf(request.getParameter("gradeVehicleId"));
+					Vehicle vehicle = garage.getVehicle(gradeVehicleId);
+	                session.setAttribute("vehicleToGrade", vehicle);
+	                response.getWriter().write("<script> window.location='grade.jsp'</script>");
+	            }
+	        %>
 		}
 		
 	</script>

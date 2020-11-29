@@ -84,8 +84,8 @@
 			<%	
 				double totalPrice = 0;
 				int vehicleCount = 1;
-				Vehicle[] lstStrVehicles = service.getBasket();
-				for(Vehicle vehicle : lstStrVehicles) {
+				Vehicle[] lstVehicles = service.getBasket();
+				for(Vehicle vehicle : lstVehicles) {
 			%>
 			
 			<thead>

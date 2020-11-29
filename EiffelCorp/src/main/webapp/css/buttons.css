@@ -35,6 +35,9 @@ input.button-buy {
 input.button-home {
 	background-image: url(../logo/home.png);
 }
+input.button-history {
+	background-image: url(../logo/history.png);
+}
 input.button-sell {
 	background-image: url(../logo/sell.png);
 }
@@ -92,6 +95,7 @@ a.button-logout:hover .logout{
 }
 
 
+input.button-history,
 input.button-profile,
 input.button-home,
 input.button-basket {

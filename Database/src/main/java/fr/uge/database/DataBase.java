@@ -144,7 +144,7 @@ public class DataBase {
 		
 		var query = String.format("UPDATE " + RENTALS_TABLE
 								+ " SET vehicle_grade = %d, condition_grade = %d"
-								+ "WHERE date = %s AND vehicle_id = %d AND employee_id = %d;", vehicleGrade, conditionGrade, date, vehicleId, employeeId);
+								+ " WHERE date = '%s' AND vehicle_id = %d AND employee_id = %d;", vehicleGrade, conditionGrade, date, vehicleId, employeeId);
 		executeUpdate(query);
 	}
 	
@@ -547,7 +547,7 @@ public class DataBase {
 	 */
 	public String[] getRentedVehicles(long employeeId) throws SQLException {
 		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date"
-				+ "FROM " + VEHICLES_TABLE + ", " + RENTALS_TABLE + " "
+				+ " FROM " + VEHICLES_TABLE + ", " + RENTALS_TABLE + " "
 				+ "WHERE " + VEHICLES_TABLE + ".id = " + RENTALS_TABLE + ".vehicle_id AND employee_id=%d;", employeeId);
 		var lst = new ArrayList<Vehicle>();
 		

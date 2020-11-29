@@ -95,7 +95,7 @@
 				    session.setAttribute("lastname", personInfo[2]);
 				    
 				    session.setAttribute("type_person", type);
-				    
+
 					session.setAttribute("currency", "EUR");
 			    	IfsCarsService service = new IfsCarsService();
 			    	service.setId(Long.valueOf(personInfo[0]));
