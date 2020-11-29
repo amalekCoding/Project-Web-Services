@@ -323,8 +323,6 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		return vehicles;
 	}
 	
-	
-
 	@Override
     public Vehicle[] getPendingsVehicles(Tenant tenant) throws RemoteException {
         var vehicles = new ArrayList<Vehicle>();

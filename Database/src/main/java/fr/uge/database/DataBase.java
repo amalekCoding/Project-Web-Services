@@ -17,9 +17,9 @@ import static fr.uge.database.utils.Utils.DATE_FORMAT;
 
 public class DataBase {
 	// Informations de connexion
-	private final static String SERVER_URL = "localhost/amalek_db";
-	private final static String USER = "malek";
-	private final static String PASSWORD = "";
+	private final static String SERVER_URL = "localhost/EiffelCorp";
+	private final static String USER = "postgres";
+	private final static String PASSWORD = "postgres";
 	
 	// Nom des tables
 	private final static String EMPLOYEES_TABLE = "public.\"Employees\"";
@@ -548,8 +548,8 @@ public class DataBase {
 	 * @throws SQLException
 	 */
 	public String[] getRentedVehicles(long employeeId) throws SQLException {
-		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date"
-				+ " FROM " + VEHICLES_TABLE + ", " + RENTALS_TABLE + " "
+		var query = String.format("SELECT id, buying_price, rental_price, brand, model, date "
+				+ "FROM " + VEHICLES_TABLE + ", " + RENTALS_TABLE + " "
 				+ "WHERE " + VEHICLES_TABLE + ".id = " + RENTALS_TABLE + ".vehicle_id AND employee_id=%d;", employeeId);
 		var lst = new ArrayList<Vehicle>();
 		

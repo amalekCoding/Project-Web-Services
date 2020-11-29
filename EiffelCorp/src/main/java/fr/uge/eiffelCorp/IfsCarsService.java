@@ -183,8 +183,8 @@ public class IfsCarsService {
 		
 		var SerializedVehicles = db.getPurchasedVehicles(clientId);
 		if (Objects.isNull(SerializedVehicles)) {
-            return new Vehicle[0];
-        }		
+			return new Vehicle[0];
+		}
 		
 		var vehicles = new Vehicle[SerializedVehicles.length];
 		

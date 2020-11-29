@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.currencysystem.webservices.currencyserver"},{"l":"fr.uge.banque"},{"l":"fr.uge.database"},{"l":"fr.uge.eiffelCorp"},{"l":"fr.uge.ifsCars"},{"l":"fr.uge.objects"},{"l":"fr.uge.utils"}]
