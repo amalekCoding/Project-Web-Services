@@ -447,12 +447,12 @@ public class DataBase {
 	 * @param vehicleId L'identifiant du véhicule
 	 * @throws SQLException
 	 */
-	 public void removePuchasedVehicle(long clientId, long vehicleId) throws SQLException {
-		 var query = String.format("DELETE FROM " + PURCHASES_TABLE + " "
-	                + "WHERE ctid IN "
-	                + "( SELECT ctid FROM " + PURCHASES_TABLE + " WHERE client_id=%d AND vehicle_id=%d LIMIT 1);", clientId, vehicleId);
-	        executeUpdate(query);
-	    }
+	public void removePuchasedVehicle(long clientId, long vehicleId) throws SQLException {
+		var query = String.format("DELETE FROM " + PURCHASES_TABLE + " "
+				+ "WHERE ctid IN "
+				+ "( SELECT ctid FROM " + PURCHASES_TABLE + " WHERE client_id=%d AND vehicle_id=%d LIMIT 1);", clientId, vehicleId);
+		executeUpdate(query);
+	}
 	
 	/**
 	 * Récupère toutes les caractéristiques d'un véhicule depuis la base de données et renvoie l'ensemble sous forme d'un objet Vehicle sérialisé.
