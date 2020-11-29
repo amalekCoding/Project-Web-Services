@@ -82,9 +82,9 @@
 					    <OPTION>JPY
 				    </SELECT>
 				</td></tr> 
-				<tr> 
+				<tr>
 					<td>
-						<input type="submit" onclick='changeCurrency()' class="icon button-cancel" value="" >
+						<input type="submit" onclick='changeCurrency()' style="background: url(logo/check.png)" class="icon check-logo" value="" >
 					</td> 
 				</tr>
 		  </form>
@@ -100,7 +100,8 @@
 			<tr> 
 			    <th>Brand</th> 
 			    <th>Model</th> 
-			    <th>Grade</th> 
+			    <th>General Grade</th> 
+			    <th>Condition Grade</th> 
 			    <th>Price Rented</th> 
 			    <th>Rented times</th> 
 			    <th>Cancel</th> 
@@ -116,7 +117,8 @@
 					<tr> 
 					    <td><%= vehicle.brand %></td> 
 					    <td><%= vehicle.model %></td> 
-					    <td><%= vehicle.generalGrade %></td> 
+					    <td><%= vehicle.generalGrade %> / 10</td> 
+						<td><%= vehicle.conditionGrade %> / 10</td> 
 					    <td><%= service.getRentalPrice(vehicle.id, currency) %></td> 
 					    <td><%= db.getRentalsNumber(vehicle.id)  %></td> 
 
@@ -143,28 +145,28 @@
 			<tr> 
 			    <th>Brand</th> 
 			    <th>Model</th> 
-			    <th>Grade</th> 
+			    <th>General Grade</th> 
+			    <th>Condition Grade</th> 
 			    <th>Price Purchased</th> 
 			    <th>Rented times</th> 
 			    <th>Sell</th> 
 			</tr> 
 		</thead> 
 
-			<%				
-				lstVehicles = service.getPurchasedVehicles();
+			<%	lstVehicles = service.getPurchasedVehicles();
 				if(lstVehicles != null) {
-					for(Vehicle vehicle : lstVehicles) {
-			%>
-				<tr> 
-					<td><%= vehicle.brand %></td> 
-				 	<td><%= vehicle.model %></td> 
-				  	<td><%= vehicle.generalGrade %></td> 
-					<td><%= service.getBuyingPrice(vehicle.id, currency) %></td> 
-				    <td><%= -1 %></td> 
-					<% //service.getRentalsNumber(vehicle.id) %>
-			
-			 		<td><input type="button" class="icon button-sell"></td>
-				</tr>
+					for(Vehicle vehicle : lstVehicles) { %>
+						<tr> 
+							<td><%= vehicle.brand %></td> 
+						 	<td><%= vehicle.model %></td> 
+						  	<td><%= vehicle.generalGrade %> / 10</td> 
+						  	<td><%= vehicle.conditionGrade %> / 10</td> 
+							<td><%= service.getBuyingPrice(vehicle.id, currency) %></td> 
+						    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
+							
+					
+					 		<td><input type="button" class="icon button-sell"></td>
+						</tr>
 			<%
 					}
 				}
@@ -174,8 +176,10 @@
 	</div>
 
 
+
+
+
 	<script>
-	
 		function changeCurrency() {
 			<%
 			if(request.getParameter("toCurrency") != null) {
@@ -189,7 +193,6 @@
 		function cancelRent() {
        	<%
             if (request.getParameter("cancelVehicleId") != null) {
-                System.out.println("cancelRent");
                 int idVehicle = Integer.valueOf(request.getParameter("cancelVehicleId"));
                 garage.endRent(idVehicle);
                 response.getWriter().write("<script> window.location='profile.jsp'</script>");
@@ -201,7 +204,6 @@
 		function gradeVehicle() {
 	       	<%
 	            if (request.getParameter("gradeVehicle") != null) {
-	                System.out.println("gradeVehicleId");
 	                long gradeVehicleId = Long.valueOf(request.getParameter("gradeVehicleId"));
 					Vehicle vehicle = garage.getVehicle(gradeVehicleId);
 	                session.setAttribute("vehicleToGrade", vehicle);
@@ -209,7 +211,6 @@
 	            }
 	        %>
 		}
-		
 	</script>
 	
 </body>

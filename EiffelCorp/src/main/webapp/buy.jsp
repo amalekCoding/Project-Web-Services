@@ -53,21 +53,22 @@
 			
 			
 			<%	
-				double totalPrice = 0;
 				Vehicle[] lstVehicles = service.getBasket();
-				for(Vehicle vehicle : lstVehicles) {
-			%>
-
-			<tr> 
-			    <td><%= vehicle.brand %></td> 
-			    <td><%= vehicle.model %></td> 
-			    <td><%= vehicle.generalGrade %></td> 
-			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
-			  	<td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    
-			</tr>
+				double totalPrice = 0;
+				if(lstVehicles.length == 0) {
+					
+				} else {
+					for(Vehicle vehicle : lstVehicles) { %>
+						<tr> 
+						    <td><%= vehicle.brand %></td> 
+						    <td><%= vehicle.model %></td> 
+						    <td><%= vehicle.generalGrade %></td> 
+						    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
+						  	<td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+						</tr>
 			<%
-				totalPrice += service.getBuyingPrice(vehicle.id, "EUR"); 
+						totalPrice += service.getBuyingPrice(vehicle.id, "EUR"); 
+					}
 				}
 			%>
 			

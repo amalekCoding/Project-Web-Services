@@ -14,9 +14,9 @@
 	<h1><center> Operation declined. Insuffisant fund.</center></h1>
 	<center>
 		<button type="submit" name="confirmBuyBtn"onclick="window.location='profile.jsp';">
-			Voir mes commandes</button>
+		See my orders</button>
 		<button type="submit" name="confirbuyValidate.jspmBuyBtn" onclick="window.location='dashboard.jsp';">
-			Retourner sur le dashboard</button>
+		Back to dashboard</button>
 	</center>
 
 

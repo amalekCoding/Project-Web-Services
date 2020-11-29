@@ -50,7 +50,6 @@
 			<tr> 
 			    <th>Brand</th> 
 			    <th>Model</th> 
-			    <th>Grade</th> 
 			    <th>Price Rented</th> 
 			    <th>Rented times</th> 
 			    <th>Grade</th> 
@@ -66,7 +65,6 @@
 					<tr> 
 					    <td><%= vehicle.brand %></td> 
 					    <td><%= vehicle.model %></td> 
-					    <td><%= vehicle.generalGrade %></td> 
 					    <td><%= service.getRentalPrice(vehicle.id, currency) %></td> 
 					    <td><%= db.getRentalsNumber(vehicle.id)  %></td> 
 					    <% String[] strDateHour = vehicle.date.toString().split(" "); %>

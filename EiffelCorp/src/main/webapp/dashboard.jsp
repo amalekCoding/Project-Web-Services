@@ -71,7 +71,8 @@
 			<tr> 
 			    <th>Brand</th> 
 			    <th>Model</th> 
-			    <th>Grade</th> 
+			    <th>General Grade</th> 
+			    <th>Condition Grade</th> 
 			    <th>Rental Price</th> 
 			    <th>Rented times</th> 
 			    <th>Availability</th> 
@@ -80,18 +81,7 @@
 		</thead> 
 		<tbody> 
 
-			<tr> 
-			    <td>Audi</td> 
-			    <td>A5</td> 
-			    <td>8</td> 
-			    <td>$100.00</td> 
-			    <td>2</td>
-			    
-			    <td><img class="icon check-logo"  src="logo/cross.png"/></td>
-			    <td><input type="button" onclick="msgAddedToWaitingLst()" class="icon button-rent"></td>
-			</tr>
-			
-			
+					
 			<%
 				Vehicle[] lstVehicles = garage.getVehiclesList();
 				for(Vehicle vehicle : lstVehicles) {
@@ -99,7 +89,8 @@
 			<tr> 
 			    <td><%= vehicle.brand %></td> 
 			    <td><%= vehicle.model %></td> 
-			    <td><%= vehicle.generalGrade %></td> 
+			    <td><%= vehicle.generalGrade %> / 10</td> 
+			    <td><%= vehicle.conditionGrade %> / 10</td> 
 			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
 			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 			    <% if(!garage.isRented(vehicle.id)) { 
@@ -141,7 +132,8 @@
 			<tr> 
 			    <th>Brand</th> 
 			    <th>Model</th> 
-			    <th>Grade</th> 
+			    <th>General Grade</th> 
+			    <th>Condition Grade</th> 
 			    <th>Price</th> 
 			    <th>Rented times</th> 
 			    <th>Add to Basket</th> 
@@ -153,24 +145,27 @@
 			<%
 				lstVehicles = garage.getVehiclesList();
 				for(Vehicle vehicle : lstVehicles) {
+					if(service.isAvailable(vehicle.id)) {
 			%>
-			<tr> 
-			    <td><%= vehicle.brand %></td> 
-			    <td><%= vehicle.model %></td> 
-			    <td><%= vehicle.generalGrade %></td> 
-			   	<td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
-			    
-			   	<td>
-			   	<form method="POST">
-			   		<input type="hidden" name="addToCartId" value=<%= vehicle.id %>>
-			   		<input type="submit" name="addToCartBtn" id='addcart' onclick="addToBasket(event)" class="icon button-addbasket" value="" >
-			   	</form>
-			   	</td>
-
-			</tr>
+					<tr> 
+					    <td><%= vehicle.brand %></td> 
+					    <td><%= vehicle.model %></td> 
+					    <td><%= vehicle.generalGrade %> / 10</td> 
+					    <td><%= vehicle.conditionGrade %> / 10</td> 
+					   	<td><%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+					    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
+					    
+					   	<td>
+						   	<form method="POST">
+						   		<input type="hidden" name="addToCartId" value=<%= vehicle.id %>>
+						   		<input type="submit" name="addToCartBtn" id='addcart' onclick="addToBasket(event)" class="icon button-addbasket" value="" >
+						   	</form>
+					   	</td>
+		
+					</tr>
 			<%
 				}
+			}
 			%>
 			
 

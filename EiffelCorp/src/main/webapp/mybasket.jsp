@@ -7,12 +7,9 @@
 <%@page import="fr.uge.ifsCars.IGarage"%>
 <%@page import="fr.uge.utils.Serialization"%>
 <%@page import="java.util.ArrayList"%>
-
-
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,39 +45,11 @@
 		<table class="layout display cars-table">
 			<thead> 
 				<tr>
-					<th colspan = 5></th>	
+					<th colspan = 6></th>	
 					<th>VALIDATE</th>
 				</tr>
 			</thead>
-			<thead> 
-				<th> Vehicle 1 :</th>
-				<td colspan= 5></td>
-				
-				<tr>
-					<th>Brand</th> 
-				    <th>Model</th> 
-				    <th>Grade</th> 
-				    <th>Rented times</th> 
-				    <th>Price</th> 
-				</tr> 
-			</thead> 
-			<tbody> 
-				<tr> 
-				    <td>BMW</td> 
-				    <td>X5</td> 
-				    <td>6</td> 
-				    <td>6</td>
-				    <td>$15 000.00</td> 
-	
-				</tr>
-			
-
-			</tbody>
-		 
-
-		 
-		 
-		 
+		 		 
 			<%	
 				double totalPrice = 0;
 				int vehicleCount = 1;
@@ -91,20 +60,22 @@
 			<thead>
 				<tr>
 					<th> Vehicle <%= vehicleCount %> : </th>
-					<td colspan= 5></td>
+					<td colspan= 6></td>
 				</tr>
 				<tr>
 					<th>Brand</th> 
 				    <th>Model</th> 
-				    <th>Grade</th> 
-				    <th>Rented times</th> 
+			   	    <th>General Grade</th> 
+			   	   	<th>Condition Grade</th> 
+			       	<th>Rented times</th> 
 				    <th>Price</th> 
 				</tr> 
 			</thead> 
 			<tr> 
 			    <td><%= vehicle.brand %></td> 
 			    <td><%= vehicle.model %></td> 
-			    <td><%= vehicle.generalGrade %></td>
+			    <td><%= vehicle.generalGrade %> / 10</td>
+			    <td><%= vehicle.conditionGrade %> / 10</td>
 			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 			    <td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
 				
@@ -116,12 +87,16 @@
 				}
 			%>
 			<tr>
-				<th colspan=4> TOTAL :</th>
+				<th colspan=5> TOTAL :</th>
 				<td> <%= totalPrice %> </td>
 				<td>
 					<form method="POST" >
 			   			<input type="hidden" name="buyVehicleId" value=<%= 2 %> >
-						<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value="">
+						<% if(lstVehicles.length == 0) { %>
+								<input id="buy-btn" name="buy-btn" type="button" class="icon button-buy" value="">
+						<% } else { %>
+								<input id="buy-btn" name="buy-btn" type="submit" class="icon button-buy" onclick="confirmBuy()" value="">
+						<% } %>	
 			    	</form> 
 			    </td>
 			 </tr>		 
@@ -135,7 +110,7 @@
 		 <table class="layout display cars-table">
 			<thead> 
 				<tr> 
-				    <th>Brand</th><th>Model</th><th>Grade</th><th>Rented times</th><th>Rental Price</th><th>Cancel</th> 
+				    <th>Brand</th><th>Model</th><th>General Grade<th>Condition Grade</th><th>Rented times</th><th>Rental Price</th><th>Cancel</th> 
 				</tr> 
 				
 				
@@ -144,31 +119,29 @@
 				Vehicle[] vList = garage.getPendingsVehicles(Employee.getEmployee(idPerson));
 				for(Vehicle vehicle: vList){
 					%>
-					
+				<tr>
 				    <td><%= vehicle.brand %></td> 
 				    <td><%= vehicle.model %></td> 
-				    <td><%= vehicle.generalGrade %></td>
+				    <td><%= vehicle.generalGrade %> / 10</td>
+				    <td><%= vehicle.conditionGrade %> / 10</td>
 				    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 				    <td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
-			    
-					
+			    	<td>
+				    	<form method="POST">
+	                        <input type="hidden" name="cancelWaitingVehicleId"
+	                            value=<%= vehicle.id %>> 
+	
+	                        <input type="submit"
+	                            name="cancelWaiting" id="cancelWaiting"
+	                            onclick='cancelWaitingRent()' class="icon button-cancel" value="">
+	                    </form>
+	               </td>
+			</tr>
 					<%
 				}
 				
 				%>
 			</thead> 
-			
-			<tbody> 
-				<tr> 
-				    <td>BMW</td> 
-				    <td>X5</td> 
-				    <td>6</td> 
-				    <td>6</td>
-				    <td>$150.00</td> 
-	
-				    <td><input type="button" class="icon button-cancel"></td>
-				</tr> 
-			</tbody> 
 			
 		 </table>
 
@@ -185,6 +158,22 @@
 			}
 			%>
 		}
+		
+		
+		
+		function cancelWaitingRent(){
+            <%
+            if (request.getParameter("cancelWaiting") != null) {
+                System.out.println("CancelWaitingRent");
+                int idVehicle = Integer.valueOf(request.getParameter("cancelWaitingVehicleId"));
+                garage.removeFromQueue(Employee.getEmployee(idPerson), idVehicle);
+
+                response.getWriter().write("<script> window.location='mybasket.jsp'</script>");
+
+            }%>
+       	}
+		
+		
 	</script>
 	
 	

@@ -53,18 +53,19 @@
 			<tr> 
 			    <th>Brand</th> 
 			    <th>Model</th> 
-			    <th>Grade</th> 
-			    <th>Rental Price</th> 
+			    <th>General Grade</th> 
+			    <th>Condition Grade</th> 
 			    <th>Rented times</th> 
 			</tr> 
 		</thead> 
 		<tbody> 
 			<tr> 
-			    <td>BMW</td> 
-			    <td>X5</td> 
-			    <td>6</td> 
-			    <td>$150.00</td> 
-			    <td>6</td>
+		
+			    <td><%= vehicle.brand %></td> 
+			    <td><%= vehicle.model %></td> 
+			    <td><%= vehicle.generalGrade %> / 10</td>
+			    <td><%= vehicle.conditionGrade %> / 10</td>
+			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 				
 			</tr> 
 		</tbody> 
 	 </table> 
@@ -77,16 +78,16 @@
 			    <th>Your Grade</th>
 			</tr> 
 		</thead> 
-	<form method="POST">
+		<form method="POST">
 		<tbody> 
 			<tr> 
-			    <td>Avis</td> 
+			    <td>General Grade</td> 
 			    <td>
 			    <input type="number" name="VGrade" id="VGrade" value="0" min="0" max="10">
 			    </td>
 			</tr>
 			<tr>
-			    <td>Etat</td>
+			    <td>Condition Grade</td>
 			    <td>
 					<input type="number" name="CGrade" id="CGrade" value="0" min="0" max="10">
 			    </td>

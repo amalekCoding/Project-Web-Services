@@ -45,7 +45,8 @@
 
 					<th>Brand</th>
 					<th>Model</th>
-					<th>Grade</th>
+					<th>General Grade</th>
+					<th>Condition Grade</th>
 					<th>Renting Price</th>
 					<th>Rented times</th>
 				</tr>
@@ -54,7 +55,8 @@
 				<tr>
 					<td><%= vehicle.brand %></td> 
 				    <td><%= vehicle.model %></td> 
-				    <td><%= vehicle.generalGrade %></td> 
+				    <td><%= vehicle.generalGrade %> / 10</td> 
+				    <td><%= vehicle.conditionGrade %> / 10</td> 
 				    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
 			    	<td><%= db.getRentalsNumber(vehicle.id) %></td>
 			    

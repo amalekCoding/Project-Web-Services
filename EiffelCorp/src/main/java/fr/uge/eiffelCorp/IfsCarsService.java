@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.rpc.ServiceException;
@@ -181,6 +182,10 @@ public class IfsCarsService {
 		}
 		
 		var SerializedVehicles = db.getPurchasedVehicles(clientId);
+		if (Objects.isNull(SerializedVehicles)) {
+            return new Vehicle[0];
+        }		
+		
 		var vehicles = new Vehicle[SerializedVehicles.length];
 		
 		for (int i = 0; i < SerializedVehicles.length; i++) {
