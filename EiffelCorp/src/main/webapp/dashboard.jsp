@@ -61,10 +61,11 @@
 	 <input type="button" class="button-basket icon"  onclick="window.location='mybasket.jsp';">
    	 <span class='badge-warning' id='cartCount'> 0 </span>
 
-
+	<!-- ------------------------------------------------------------------ -->	
+	<!-- ------------------------------------------------------------------ -->	
+	<!-- ------------------------------------------------------------------ -->	
 	 <h2>To Rent : </h2>
-
-
+	<!-- ------------------------------------------------------------------ -->	
 	 <table class="layout display cars-table">
 		<thead> 
 			<tr> 
@@ -101,27 +102,26 @@
 			    <td><%= vehicle.generalGrade %></td> 
 			    <td><%= service.getRentalPrice(vehicle.id, "EUR") %></td> 
 			    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
-			    <% if(!garage.isRented(vehicle.id)) { %>
+			    <% if(!garage.isRented(vehicle.id)) { 
+			    	System.out.println("pas loué = " + vehicle.id);
+			    %>
+			    
 			    	<td><img class="icon check-logo" src="logo/check.png"/></td>
-			    	<td>
 			    	
+			    	<%
+			    	} else {
+			    	%>
+			    		<td><img class="icon check-logo" src="logo/cross.png"/></td>
+			    	
+			    	<% } %>
+			    <td>
 			    	<form method="POST">
 			   			<input type="hidden" name="rentVehiculeId" value=<%= vehicle.id %>>
 			   			<input type="submit" name="confirmRentBtn" class="icon button-rent" onclick='confirmRent()' value="" >
 			   		</form>
-			   				    	
-			    	
-			    <% } else { %>
-			    	<td><img class="icon check-logo" src="logo/cross.png"/></td>
-			    <td>
-			    	<form method="POST">
-			   			<input type="hidden" name="rentVehiculeId" value=<%= vehicle.id %>>
-			   			<input type="submit" name="confirmRentBtn" class="icon button-rent" onclick='addToWaitingLst()' value="" >
-			   		</form>
-			   		</td>
+			   	</td>
+			   		
 			    
-			    
-			    <% } %> 
 			</tr>
 			<%
 				}
@@ -130,7 +130,12 @@
 	 </table> 
 
 
+	<!-- ------------------------------------------------------------------ -->	
+	<!-- ------------------------------------------------------------------ -->	
+	<!-- ------------------------------------------------------------------ -->	
+	<!-- ------------------------------------------------------------------ -->	
 	 <h2>To buy : </h2>
+	<!-- ------------------------------------------------------------------ -->	
 	 <table class="layout display cars-table">
 		<thead> 
 			<tr> 
@@ -186,21 +191,9 @@
 			}
 			%>		
 		}
-		
-		function addToWaitingLst() {
-			msgAddedToWaitingLst();
-			<%
-			if(request.getParameter("rentVehiculeId") != null) {
-	    	int idVehicle2 = Integer.valueOf(request.getParameter("rentVehiculeId"));
-			Employee employee = Employee.getEmployee(idPerson);
 
-			garage.rent(employee, idVehicle2);
-			}
-			%>	
-		
-		}
-
-		
+	    
+	   		
 		
 		function confirmRent() {
 			<%
@@ -209,9 +202,19 @@
 				System.out.println("-2rent-btn()-");
 		    	int idVehicle = Integer.valueOf(request.getParameter("rentVehiculeId"));
 				System.out.println(idVehicle);
-				session.setAttribute("rentVehiculeId", idVehicle);
-				response.getWriter().write("<script> window.location='rent.jsp'</script>");
-
+				
+				if(!garage.isRented(idVehicle)) {
+					session.setAttribute("rentVehiculeId", idVehicle);
+					response.getWriter().write("<script> window.location='rent.jsp'</script>");
+				} else {
+				%>
+				  	alert("This car is not available.\n You're on the list.");
+				<%
+					Employee employee = Employee.getEmployee(idPerson);
+					garage.rent(employee, idVehicle);
+					// ? 
+				}
+					
 			}
 			%>
 		}

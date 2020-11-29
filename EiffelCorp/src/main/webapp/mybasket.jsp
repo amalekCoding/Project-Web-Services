@@ -2,6 +2,7 @@
 <%@page import="fr.uge.database.DataBaseServiceLocator"%>
 <%@page import="fr.uge.database.DataBaseSoapBindingStub"%>
 <%@page import="fr.uge.eiffelCorp.IfsCarsService"%>
+<%@page import="fr.uge.eiffelCorp.Employee"%>
 <%@page import="fr.uge.objects.Vehicle"%>
 <%@page import="fr.uge.ifsCars.IGarage"%>
 <%@page import="fr.uge.utils.Serialization"%>
@@ -29,6 +30,9 @@
     	
     	DataBase db = new DataBaseServiceLocator().getDataBase();
     	((DataBaseSoapBindingStub) db).setMaintainSession(true);
+    	
+    	int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
+
     %>
 	  
 	
@@ -131,34 +135,41 @@
 		 <table class="layout display cars-table">
 			<thead> 
 				<tr> 
-				    <th>Brand</th><th>Model</th><th>Grade</th><th>Rental Price</th><th>Rented times</th><th>Cancel</th> 
+				    <th>Brand</th><th>Model</th><th>Grade</th><th>Rented times</th><th>Rental Price</th><th>Cancel</th> 
 				</tr> 
 				
 				
 				
 				<%
-				Vehicle[] list = garage.getVehiclesList();
-				ArrayList<Vehicle> aList = new ArrayList<Vehicle>();
-				for(Vehicle v:list){
-					if(garage.isRented(v.id)){
-						aList.add(v);
-					}
+				Vehicle[] vList = garage.getPendingsVehicles(Employee.getEmployee(idPerson));
+				for(Vehicle vehicle: vList){
+					%>
 					
+				    <td><%= vehicle.brand %></td> 
+				    <td><%= vehicle.model %></td> 
+				    <td><%= vehicle.generalGrade %></td>
+				    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
+				    <td>$ <%= service.getBuyingPrice(vehicle.id, "EUR") %></td> 
+			    
+					
+					<%
 				}
 				
 				%>
 			</thead> 
+			
 			<tbody> 
 				<tr> 
 				    <td>BMW</td> 
 				    <td>X5</td> 
 				    <td>6</td> 
-				    <td>$150.00</td> 
 				    <td>6</td>
+				    <td>$150.00</td> 
 	
 				    <td><input type="button" class="icon button-cancel"></td>
 				</tr> 
 			</tbody> 
+			
 		 </table>
 
 

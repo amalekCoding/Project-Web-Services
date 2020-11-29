@@ -322,4 +322,24 @@ public class Garage extends UnicastRemoteObject implements IGarage {
 		
 		return vehicles;
 	}
+	
+	
+
+	@Override
+    public Vehicle[] getPendingsVehicles(Tenant tenant) throws RemoteException {
+        var vehicles = new ArrayList<Vehicle>();
+
+        for (var vehicleId : rentalsQueues.keySet()) {
+            if (isInQueue(tenant, vehicleId)) {
+                vehicles.add(getVehicle(vehicleId));
+            }
+        }
+
+        var array = new Vehicle[vehicles.size()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = vehicles.get(i);
+        }
+
+        return array;
+    }
 }

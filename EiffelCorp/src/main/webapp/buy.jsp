@@ -19,17 +19,9 @@
 
 
 	<%
-			System.out.println("---- je suis dans buy -----");
 	    IfsCarsService service = (IfsCarsService)session.getAttribute("service");
     	IGarage garage = (IGarage)session.getAttribute("garage");
-    	if(session.getAttribute("buy-btn") == null) {
-    		System.out.println("nullllllllllll");
-    	}
     	
-		// int vehicleId = (Integer)session.getAttribute("buyVehicleId");
-		//Vehicle vehicle = garage.getVehicle(vehicleId);
-		
-		
 		DataBase db = new DataBaseServiceLocator().getDataBase();
 		((DataBaseSoapBindingStub) db).setMaintainSession(true);
 		
@@ -127,7 +119,7 @@
 						response.getWriter().write("<script> window.location='failedPayment.jsp'</script>");
 					}
 					else{
-						response.getWriter().write("<script> window.location='buyValidate.jsp'</script>");
+						response.getWriter().write("<script> window.location='operationValidate.jsp'</script>");
 					}
 				}
 			

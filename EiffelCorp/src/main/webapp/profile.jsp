@@ -119,11 +119,16 @@
 					    <td><%= vehicle.model %></td> 
 					    <td><%= vehicle.generalGrade %></td> 
 					    <td><%= service.getRentalPrice(vehicle.id, currency) %></td> 
-					    <td><%= -1 %></td> 
-					    <% //service.getRentalsNumber(vehicle.id) %>
+					    <td><%= db.getRentalsNumber(vehicle.id)  %></td> 
+					    <% //%>
 					    
-					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>
-					    <td><input type="button" class="icon button-cancel"></td>
+					    <td><input type="button" class="icon button-grade" onclick="window.location='grade.jsp';"></td>					    
+					    <td>
+					    	<form method="POST">
+                    			<input type="hidden" name="cancelVehicleId" value=<%= vehicle.id %>>
+                       			<input type="submit" name="cancelRent" id="cancelRent" onclick='cancelRent()' class="icon button-cancel" value="" >
+                        	</form>
+                        </td>
 					</tr>
 			<%
 					}
@@ -147,25 +152,7 @@
 			    <th>Sell</th> 
 			</tr> 
 		</thead> 
-			<%				
-				lstVehicles = service.getPurchasedVehicles();
-				if(lstVehicles != null) {
-					for(Vehicle vehicle : lstVehicles) {
-			%>
-					<tr> 
-					    <td><%= vehicle.brand %></td> 
-					    <td><%= vehicle.model %></td> 
-					    <td><%= vehicle.generalGrade %></td> 
-					    <td><%= service.getBuyingPrice(vehicle.id, currency) %></td> 
-					    <td><%= -1 %></td> 
-					    <% //service.getRentalsNumber(vehicle.id) %>
-					    
-					    <td><input type="button" class="icon button-sell"></td>
-					</tr>
-			<%
-					}
-				}
-			%>
+
 			
 			
 			
@@ -185,6 +172,18 @@
 			}
 			%>
 		}
+		
+		function cancelRent() {
+       	<%
+            if (request.getParameter("cancelVehicleId") != null) {
+                System.out.println("cancelRent");
+                int idVehicle = Integer.valueOf(request.getParameter("cancelVehicleId"));
+                garage.endRent(idVehicle);
+                response.getWriter().write("<script> window.location='profile.jsp'</script>");
+            }
+         %>
+		}
+		
 	</script>
 	
 </body>

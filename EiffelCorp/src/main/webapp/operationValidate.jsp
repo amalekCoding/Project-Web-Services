@@ -12,15 +12,17 @@
 <head>
 <meta charset="UTF-8">
 <link href="css/buy.css" rel="stylesheet">
-<title>Achat validé</title>
+<title> Operation validated : </title>
 </head>
 <body>
 
-	<h1><center> Achat validé. Nous vous remercions de votre confiance</center></h1>
-	<center><button type="submit" name="confirmBuyBtn"onclick="window.location='profile.jsp';">
+	<h1><center> The operation is validated. Nous vous remercions de votre confiance</center></h1>
+	<center>
+		<button type="submit" name="confirmBuyBtn"onclick="window.location='profile.jsp';">
 		Voir mes commandes</button>
 		<button type="submit" name="confirbuyValidate.jspmBuyBtn" onclick="window.location='dashboard.jsp';">
-		Retourner sur le dashboard</button></center>
+		Retourner sur le dashboard</button>
+	</center>
 
 
 </body>

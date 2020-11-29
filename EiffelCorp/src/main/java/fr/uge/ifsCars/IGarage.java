@@ -103,4 +103,15 @@ public interface IGarage extends Remote {
 	 * @throws RemoteException 
 	 */
 	public Vehicle[] getRentedVehicles(Tenant tenant) throws SQLException, RemoteException;
+
+
+	/**
+     * Détermine l’ensemble des véhicules pour lesquels l’employé est dans la file d’attente.
+     * 
+     * @param tenant L'employé dont il faut récupérer la liste des véhicules en attente
+     * @return La liste des véhicules dont l’employé se situe dans la file d’attente
+     * @throws RemoteException Si un des employés des files d'attente est déconnecté
+     */
+	public Vehicle[] getPendingsVehicles(Tenant tenant) throws RemoteException;
+
 }

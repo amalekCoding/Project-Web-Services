@@ -123,7 +123,7 @@
 					response.getWriter().write("<script> window.location='failedPayment.jsp'</script>");
 				}
 				else{
-					response.getWriter().write("<script> window.location='buyValidate.jsp'</script>");
+					response.getWriter().write("<script> window.location='operationValidate.jsp'</script>");
 				}
 			}
 		%>
