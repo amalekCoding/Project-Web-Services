@@ -32,6 +32,9 @@
 	String firstname = (String)session.getAttribute("firstname");
 	String lastname = (String)session.getAttribute("lastname");
 	String currency = (String)session.getAttribute("currency");
+    
+	String type_person = (String)session.getAttribute("type_person");
+
 %>
    
 <body>
@@ -43,7 +46,10 @@
 	 <h1>My Profile</h1>
 	 
 	 <input type="button" class="button-home icon" onclick="window.location='dashboard.jsp';">
-	 <input type="button" class="button-history icon" onclick="window.location='history.jsp';">
+
+	 <% if(type_person.equals("employee")) { %> 
+	 	<input type="button" class="button-history icon" onclick="window.location='history.jsp';">
+	<% } %>
 	 
 	 <div class="currency-tab" >
 	 <table class="layout profile display cars-table">
@@ -93,7 +99,7 @@
 	 </div>
 	 <h1>My assets</h1>
 	 
-	 
+	 <% if(type_person.equals("employee")) { %> 
 	 <h2>- Rented : </h2>
 	 <table class="layout display cars-table">
 		<thead> 
@@ -104,7 +110,7 @@
 			    <th>Condition Grade</th> 
 			    <th>Price Rented</th> 
 			    <th>Rented times</th> 
-			    <th>Cancel</th> 
+			    <th>End</th> 
 			</tr> 
 		</thead> 
 		<tbody>
@@ -136,8 +142,11 @@
 			
 		</tbody> 
 	</table> 
-	
 	<br>
+	<%
+	}
+	%>
+	
 	
 	<h2>- Buyed : </h2>
 	 <table class="layout display cars-table">
@@ -153,7 +162,8 @@
 			</tr> 
 		</thead> 
 
-			<%	lstVehicles = service.getPurchasedVehicles();
+			<%	
+				Vehicle[] lstVehicles = service.getPurchasedVehicles();
 				if(lstVehicles != null) {
 					for(Vehicle vehicle : lstVehicles) { %>
 						<tr> 
@@ -165,7 +175,12 @@
 						    <td><%= db.getRentalsNumber(vehicle.id) %></td> 
 							
 					
-					 		<td><input type="button" class="icon button-sell"></td>
+					 		<td>
+						 		<form method="POST">
+	                    			<input type="hidden" name="sellVehicleId" value=<%= vehicle.id %>>
+	                       			<input type="submit" name="sellVehicle" id="sellVehicle" onclick='sellVehicle()' class="icon button-sell" value="" >
+	                        	</form>
+                        	</td>
 						</tr>
 			<%
 					}
@@ -208,6 +223,17 @@
 					Vehicle vehicle = garage.getVehicle(gradeVehicleId);
 	                session.setAttribute("vehicleToGrade", vehicle);
 	                response.getWriter().write("<script> window.location='grade.jsp'</script>");
+	            }
+	        %>
+		}
+		
+		function sellVehicle() {
+	       	<%
+	            if (request.getParameter("sellVehicle") != null) {
+	                long sellVehicleId = Long.valueOf(request.getParameter("sellVehicleId"));
+					Vehicle vehicle = garage.getVehicle(sellVehicleId);
+	                session.setAttribute("vehicleToSell", vehicle);
+	                response.getWriter().write("<script> window.location='sell.jsp'</script>");
 	            }
 	        %>
 		}

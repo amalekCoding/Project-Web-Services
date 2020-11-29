@@ -35,7 +35,7 @@
 	DataBase db = new DataBaseServiceLocator().getDataBase();
 	((DataBaseSoapBindingStub) db).setMaintainSession(true);
 	
-    String type_person = (String)session.getAttribute("type_person");
+    String type_person = (String) session.getAttribute("type_person");
 	int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
 
 
@@ -61,7 +61,8 @@
 	 <input type="button" class="button-basket icon"  onclick="window.location='mybasket.jsp';">
    	 <span class='badge-warning' id='cartCount'> 0 </span>
 
-	<!-- ------------------------------------------------------------------ -->	
+
+	<% if(type_person.equals("employee")) { %> 
 	<!-- ------------------------------------------------------------------ -->	
 	<!-- ------------------------------------------------------------------ -->	
 	 <h2>To Rent : </h2>
@@ -120,7 +121,9 @@
 		</tbody> 
 	 </table> 
 
-
+		<%
+			}
+		%>
 	<!-- ------------------------------------------------------------------ -->	
 	<!-- ------------------------------------------------------------------ -->	
 	<!-- ------------------------------------------------------------------ -->	
@@ -143,7 +146,7 @@
 
 
 			<%
-				lstVehicles = garage.getVehiclesList();
+				Vehicle[] lstVehicles = garage.getVehiclesList();
 				for(Vehicle vehicle : lstVehicles) {
 					if(service.isAvailable(vehicle.id)) {
 			%>

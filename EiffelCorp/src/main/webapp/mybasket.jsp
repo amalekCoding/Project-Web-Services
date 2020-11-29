@@ -29,7 +29,7 @@
     	((DataBaseSoapBindingStub) db).setMaintainSession(true);
     	
     	int idPerson = Integer.valueOf((String)session.getAttribute("idPerson"));
-
+    	String type_person = (String)session.getAttribute("type_person");
     %>
 	  
 	
@@ -102,9 +102,10 @@
 			 </tr>		 
 		 </tbody> 
 		 </table> 
-		 
-		 
 		 <br>
+		
+		
+		 <% if(type_person.equals("employee")) { %>  
 		 <h2>My Waiting List : </h2>
 		 
 		 <table class="layout display cars-table">
@@ -137,14 +138,15 @@
 	                    </form>
 	               </td>
 			</tr>
-					<%
+			<%
 				}
-				
-				%>
+			%>
 			</thead> 
 			
 		 </table>
-
+	<%
+		}
+	%>
 
 
 	<script>
